@@ -86,6 +86,16 @@ typedef struct s_my_cave {
     int left;
 }s_my_cave_t;
 
+typedef struct s_mob {
+    sfVector2f pos_mob;
+    sfIntRect rect_mob;
+    sfClock *clock_mob;
+
+    sfSprite *sprite_mob;
+    sfTexture *text_mob;
+}s_mob_t;
+
+
 typedef struct s_my_game {
     sfEvent event_g;
     sfMusic *click_g;

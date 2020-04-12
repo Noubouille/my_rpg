@@ -286,7 +286,6 @@ int my_game(sfRenderWindow* window)
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230)) {
             s_perso = cave(window, s_perso);
             if (s_perso->ret == 1) {
-                printf("sexe\n");
                 s_perso->pos_perso.x = 1715;
                 s_perso->pos_perso.y = 300;
             }

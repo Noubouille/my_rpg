@@ -7,6 +7,13 @@
 
 #include "my.h"
 
+s_mob_t *init_mob()
+{
+    s_mob_t *s_mob = malloc(sizeof(s_mob_t));
+    // s_mob->
+    return s_mob;
+}
+
 s_my_cave_t *init_cave()
 {
     s_my_cave_t *struct_cave = malloc(sizeof(s_my_cave_t));
