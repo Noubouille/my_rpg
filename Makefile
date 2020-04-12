@@ -1,6 +1,6 @@
 NAME	= my_rpg
 
-CC	= gcc
+CC	= gcc -g3
 
 RM	= rm -f
 

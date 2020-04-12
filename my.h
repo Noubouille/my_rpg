@@ -120,6 +120,15 @@ typedef struct s_mob {
     sfTexture *text_mob_r;
 }s_mob_t;
 
+typedef struct s_villager {
+    sfVector2f pos_villager;
+    sfIntRect rect_villager;
+    sfClock *clock_villager;
+
+    sfSprite *sprite_villager;
+    sfTexture *text_villager;
+}s_villager_t;
+
 
 typedef struct s_my_game {
     sfEvent event_g;
