@@ -10,7 +10,7 @@
 s_mob_t *init_mob()
 {
     s_mob_t *s_mob = malloc(sizeof(s_mob_t));
-    s_mob->pos_mob.x = 1600;
+    s_mob->pos_mob.x = 1400;
     s_mob->pos_mob.y = 500;
     s_mob->clock_mob = sfClock_create();
     s_mob->clock_mov = sfClock_create();
@@ -49,27 +49,6 @@ s_my_cave_t *init_cave()
     return struct_cave;
 }
 
-// s_perso_t *movement_perso_c(s_perso_t *perso)
-// {
-//     if (perso->up == 1 && perso->pos_perso.y >= 350) {
-//         perso->pos_perso.y -= 15;
-//     }
-//     if (perso->down == 1 && perso->pos_perso.y < 936) {
-//         perso->pos_perso.y += 15;
-//     }
-//     if (perso->right == 1 && perso->pos_perso.x < 1700) {
-//         perso->pos_perso.x += 15;
-//     }
-//     if (perso->left == 1 && perso->pos_perso.x > 1100) {
-//         perso->pos_perso.x -= 15;
-//     }
-//     perso->up = 0;
-//     perso->right = 0;
-//     perso->left = 0;
-//     perso->down = 0;
-//     return perso;
-// }
-
 s_mob_t *movement_mob(s_mob_t *s_mob, sfRenderWindow* window)
 {
     if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mob)) > 150) {
@@ -77,11 +56,11 @@ s_mob_t *movement_mob(s_mob_t *s_mob, sfRenderWindow* window)
         if (s_mob->rect_mob.left >= 150) s_mob->rect_mob.left = 0;
         sfClock_restart(s_mob->clock_mob);
     }
-    if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mov)) < 500) {
+    if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mov)) <= 500) {
         sfSprite_setTexture(s_mob->sprite_mob, s_mob->text_mob_l, sfTrue);
         s_mob->pos_mob.x -= 1;
     }
-    if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mov)) > 500)  {
+    if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mov)) > 500) {
         sfSprite_setTexture(s_mob->sprite_mob, s_mob->text_mob_r, sfTrue);
          s_mob->pos_mob.x += 1;
     }
@@ -126,6 +105,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
     s_mob_t *s_mob = init_mob();
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
+    sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);

@@ -10,10 +10,10 @@
 s_villager_t *init_villager(void)
 {
     s_villager_t *struct_villager = malloc(sizeof(s_villager_t));
-    struct_villager->text_villager = sfTexture_createFromFile("Image/villager_r.png", NULL);
+    struct_villager->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
     struct_villager->sprite_villager = sfSprite_create();
-    struct_villager->rect_villager.height = 33;
-    struct_villager->rect_villager.width = 96;
+    struct_villager->rect_villager.height = 32;
+    struct_villager->rect_villager.width = 32;
     sfSprite_setTexture(struct_villager->sprite_villager, struct_villager->text_villager, sfTrue);
     sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
     struct_villager->pos_villager.x = 1780;
@@ -337,11 +337,14 @@ int my_game(sfRenderWindow* window)
             if (s_perso->player_rect.left >= 288) s_perso->player_rect.left = 0;
             sfClock_restart(s_perso->player_clock);
         }
-        if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_villager)) > 200) {
-            struct_villager->rect_villager.left += (96 / 3);
-            if (struct_villager->rect_villager.left >= 96) struct_villager->rect_villager.left = 0;
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_villager)) > 150) {
+            struct_villager->rect_villager.left += (94 / 3);
+            if (struct_villager->rect_villager.left >= 90) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
+        sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
+        sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
+        sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
         //fin du rect du perso
         //tous les draws
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
@@ -352,9 +355,6 @@ int my_game(sfRenderWindow* window)
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
         sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
-        sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
-        sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
-        sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
         //l'arbre en rect
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_object->horloge_tree)) > 200) {
             s_object->tree_rect.left += (1024 / 8);
