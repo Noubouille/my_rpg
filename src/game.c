@@ -75,17 +75,39 @@ s_perso_t *init_perso(void)
     sfText_setCharacterSize(struct_perso->texte_int, 50);
     sfText_setPosition(struct_perso->texte_obj, (sfVector2f) {1400, 0});
     sfText_setPosition(struct_perso->texte_int, (sfVector2f) {1750, 0});
-
+    struct_perso->next = NULL;
     return struct_perso;
 }
 
-s_inventory_t *init_invent()
+void init_perso2(s_perso_t *s_perso, sfRenderWindow* window)
+{
+    s_perso_t *struct_perso2 = s_perso;
+    for(; struct_perso2->next != NULL; struct_perso2 = struct_perso2->next);
+    struct_perso2->next = malloc(sizeof(s_perso_t));
+
+    struct_perso2->next->pos_perso.x = 200;
+    struct_perso2->next->pos_perso.y = 200;
+    struct_perso2->next->player_clock = sfClock_create();
+    struct_perso2->next->text_perso = sfTexture_createFromFile("Image/vamp2/vamp.png", NULL);
+    struct_perso2->next->text_perso_l = sfTexture_createFromFile("Image/vamp2/vamp_l.png", NULL);
+    struct_perso2->next->text_perso_up = sfTexture_createFromFile("Image/vamp2/vamp_up.png", NULL);
+    struct_perso2->next->text_perso_do = sfTexture_createFromFile("Image/vamp2/vamp_do.png", NULL);
+    struct_perso2->next->sprite_perso = sfSprite_create();
+    sfSprite_setTexture(struct_perso2->next->sprite_perso, struct_perso2->next->text_perso, sfTrue);
+    struct_perso2->next->player_rect.height = 143;
+    struct_perso2->next->player_rect.width = 855 / 3;
+    sfSprite_setTextureRect(struct_perso2->next->sprite_perso, struct_perso2->next->player_rect);
+    sfSprite_setPosition(struct_perso2->next->sprite_perso ,struct_perso2->next->pos_perso);
+    struct_perso2->next->next = NULL;
+}
+
+s_inventory_t *init_invent(s_perso_t *s_perso)
 {
     s_inventory_t *s_invent = malloc(sizeof(s_inventory_t));
     s_invent->text_invent = sfTexture_createFromFile("Image/invent.png", NULL);
     s_invent->sprite_invent = sfSprite_create();
     sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
-    sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {100, 100});
+    sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {70, 40});
     return s_invent;
 }
 
@@ -230,7 +252,7 @@ int my_game(sfRenderWindow* window)
     s_cursor_t *cursor = init_cursor();
     s_perso_t *s_perso = init_perso();
     s_object_t *s_object = init_objects();
-    s_inventory_t *s_invent = init_invent();
+    s_inventory_t *s_invent = init_invent(s_perso);
     struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
     sfMusic_setLoop(struct_game->music, sfTrue);
     sfMusic_play(struct_game->music);
@@ -298,7 +320,6 @@ int my_game(sfRenderWindow* window)
             sfClock_restart(s_perso->player_clock);
         }
         //fin du rect du perso
-        s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         //tous les draws
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
@@ -318,8 +339,31 @@ int my_game(sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
-        if (invent_int == 1)
+        if (invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            init_perso2(s_perso, window);
+            if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
+                s_perso->next->player_rect.left += (855 / 3);
+            if (s_perso->next->player_rect.left >= 855) s_perso->next->player_rect.left = 0;
+                sfClock_restart(s_perso->next->player_clock);
+            }
+            if (s_perso->left == 1) {
+                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_l, sfTrue);
+            }
+            if (s_perso->right == 1) {
+                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso, sfTrue);
+            }
+            if (s_perso->up == 1) {
+                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_do, sfTrue);
+            }
+            if (s_perso->down == 1) {
+                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_up, sfTrue);
+            }
+            sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
+            sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
+            sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
+        }
+        s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
     }
     //les destroys
     sfSprite_destroy(cursor->cursorsprite);

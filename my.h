@@ -67,7 +67,30 @@ typedef struct s_perso {
     int right;
     int left;
     int object;
+    struct s_perso *next;
 }s_perso_t;
+
+// typedef struct s_perso2 {
+//     sfVector2f pos_perso;
+//     sfIntRect player_rect;
+//     sfClock *player_clock;
+//     sfSprite *sprite_perso;
+//     sfTexture *text_perso;
+//     sfTexture *text_perso_l;
+//     sfTexture *text_perso_up;
+//     sfTexture *text_perso_do;
+//     sfSprite *sprite_house1;
+//     sfFont* font_obj;
+//     sfText* texte_obj;
+//     sfText* texte_int;
+//     int item;
+//     int ret;
+//     int up;
+//     int down;
+//     int right;
+//     int left;
+//     int object;
+// }s_perso2_t;
 
 typedef struct s_my_cave {
     sfVector2f pos_cave;
@@ -90,9 +113,11 @@ typedef struct s_mob {
     sfVector2f pos_mob;
     sfIntRect rect_mob;
     sfClock *clock_mob;
+    sfClock *clock_mov;
 
     sfSprite *sprite_mob;
-    sfTexture *text_mob;
+    sfTexture *text_mob_l;
+    sfTexture *text_mob_r;
 }s_mob_t;
 
 
