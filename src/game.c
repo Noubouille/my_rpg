@@ -277,6 +277,7 @@ int my_game(sfRenderWindow* window)
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
     int invent_int = 0;
+    init_perso2(s_perso, window);
 
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
@@ -366,7 +367,6 @@ int my_game(sfRenderWindow* window)
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
         if (invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            init_perso2(s_perso, window);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
             if (s_perso->next->player_rect.left >= 855) s_perso->next->player_rect.left = 0;
