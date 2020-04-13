@@ -77,15 +77,26 @@ typedef struct s_my_cave {
     sfSprite *sprite_bg_gc;
     sfTexture *text_bg_gc;
     sfClock *cave_horloge;
-
+    sfClock *fight_clock;
+    sfClock *tap;
     sfSprite *sprite_bubble_gc;
     sfTexture *text_bubble_gc;
 
+    int fig_int;
+    int go_in;
+    int nb_touch;
     int up;
     int down;
     int right;
     int left;
 }s_my_cave_t;
+
+typedef struct s_cave_font {
+    sfFont* font_fight;
+    sfText* texte_fight;
+    sfText* texte_fight_nb;
+    int nb;
+}s_cave_font_t;
 
 typedef struct s_mob {
     sfVector2f pos_mob;
@@ -96,6 +107,7 @@ typedef struct s_mob {
     sfSprite *sprite_mob;
     sfTexture *text_mob_l;
     sfTexture *text_mob_r;
+    int mov_mob;
 }s_mob_t;
 
 typedef struct s_villager {
