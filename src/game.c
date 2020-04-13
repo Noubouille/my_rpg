@@ -12,12 +12,12 @@ s_villager_t *init_villager(void)
     s_villager_t *struct_villager = malloc(sizeof(s_villager_t));
     struct_villager->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
     struct_villager->sprite_villager = sfSprite_create();
-    struct_villager->rect_villager.height = 96;
-    struct_villager->rect_villager.width = 288;
+    struct_villager->rect_villager.height = 64;
+    struct_villager->rect_villager.width = 64;
     sfSprite_setTexture(struct_villager->sprite_villager, struct_villager->text_villager, sfTrue);
     sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
-    struct_villager->pos_villager.x = 1780;
-    struct_villager->pos_villager.y = 895;
+    struct_villager->pos_villager.x = 1180;
+    struct_villager->pos_villager.y = 805;
     sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
     struct_villager->clock_villager = sfClock_create();
     return struct_villager;
@@ -51,6 +51,11 @@ s_object_t *init_objects(void)
     struct_object->sprite_bubble = sfSprite_create();
     sfSprite_setTexture(struct_object->sprite_bubble, struct_object->text_bubble, sfTrue);
     sfSprite_setPosition(struct_object->sprite_bubble ,(sfVector2f) {1805, 135});
+
+    struct_object->text_bubble_v = sfTexture_createFromFile("Image/bubble_v.png", NULL);
+    struct_object->sprite_bubble_v = sfSprite_create();
+    sfSprite_setTexture(struct_object->sprite_bubble_v, struct_object->text_bubble_v, sfTrue);
+    sfSprite_setPosition(struct_object->sprite_bubble_v, (sfVector2f) {1200, 700});
     return struct_object;
 }
 
@@ -211,13 +216,21 @@ s_perso_t *movement_perso(s_perso_t *perso)
 void print_bubble(s_object_t *s_object, s_perso_t *s_perso, sfRenderWindow* window)
 {
     int i = 0;
+    int l = 0;
     if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350) {
         i = 1;
     } else {
         i = 0;
     }
+    if (s_perso->pos_perso.x >= 1100 && s_perso->pos_perso.x <= 1300 && s_perso->pos_perso.y >= 750) {
+        l = 1;
+    } else {
+        l = 0;
+    }
     if (i == 1) {
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble, NULL);
+    } else if (l == 1) {
+        sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v, NULL);
     }
 }
 
@@ -338,8 +351,8 @@ int my_game(sfRenderWindow* window)
             sfClock_restart(s_perso->player_clock);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_villager)) > 150) {
-            struct_villager->rect_villager.left += (94 / 3);
-            if (struct_villager->rect_villager.left >= 90) struct_villager->rect_villager.left = 0;
+            struct_villager->rect_villager.left += (192 / 3);
+            if (struct_villager->rect_villager.left >= 192) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
