@@ -12,8 +12,8 @@ s_villager_t *init_villager(void)
     s_villager_t *struct_villager = malloc(sizeof(s_villager_t));
     struct_villager->text_villager = sfTexture_createFromFile("Image/villager_r.png", NULL);
     struct_villager->sprite_villager = sfSprite_create();
-    struct_villager->rect_villager.height = 33;
-    struct_villager->rect_villager.width = 96;
+    struct_villager->rect_villager.height = 96;
+    struct_villager->rect_villager.width = 288;
     sfSprite_setTexture(struct_villager->sprite_villager, struct_villager->text_villager, sfTrue);
     sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
     struct_villager->pos_villager.x = 1780;
