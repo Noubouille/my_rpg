@@ -20,6 +20,12 @@ s_villager_t *init_villager(void)
     struct_villager->pos_villager.y = 805;
     sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
     struct_villager->clock_villager = sfClock_create();
+    struct_villager->text_quest = sfTexture_createFromFile("Image/gui_v.png", NULL);
+    struct_villager->sprite_quest = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_quest, struct_villager->text_quest, sfTrue);
+    struct_villager->pos_quest.x = 0;
+    struct_villager->pos_quest.y = 0;
+    sfSprite_setPosition(struct_villager->sprite_quest, (sfVector2f) {0, 0});
     return struct_villager;
 }
 
@@ -222,7 +228,7 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, sfRenderWindow* wind
     } else {
         i = 0;
     }
-    if (s_perso->pos_perso.x >= 1100 && s_perso->pos_perso.x <= 1300 && s_perso->pos_perso.y >= 750) {
+    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720) {
         l = 1;
     } else {
         l = 0;
@@ -290,6 +296,7 @@ int my_game(sfRenderWindow* window)
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
     int invent_int = 0;
+    struct_villager->quest_state = 0;
     init_perso2(s_perso, window);
 
     while (sfRenderWindow_isOpen(window)) {
@@ -300,6 +307,9 @@ int my_game(sfRenderWindow* window)
             if (struct_game->event_g.type == sfEvtMouseMoved) {
                 sfVector2f cursor1 = sourissprite(sfMouse_getPositionRenderWindow(window));
                 sfSprite_setPosition(cursor->cursorsprite, cursor1);
+            }
+            if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE)) {
+                struct_villager->quest_state = 1;
             }
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
                 struct_game->pause = 1;
@@ -345,6 +355,10 @@ int my_game(sfRenderWindow* window)
             else break;
         }
         // rect du perso
+        if (struct_villager->quest_state == 1) {
+
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_quest, NULL);
+        }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->player_clock)) > 200) {
             s_perso->player_rect.left += (288 / 3);
             if (s_perso->player_rect.left >= 288) s_perso->player_rect.left = 0;
@@ -378,6 +392,8 @@ int my_game(sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
+
+
         if (invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
