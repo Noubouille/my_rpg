@@ -122,6 +122,8 @@ typedef struct s_mob {
 
 typedef struct s_villager {
     int quest_state;
+    int quest_accepted;
+    int yannis;
     sfVector2f pos_villager;
     sfIntRect rect_villager;
     sfClock *clock_villager;
@@ -138,6 +140,10 @@ typedef struct s_villager {
     sfTexture *text_no_button;
     sfVector2f pos_yes_button;
     sfVector2f pos_no_button;
+    sfVector2f pos_achievement;
+    sfSprite *sprite_achievement;
+    sfTexture *text_achievement;
+    sfClock *clock_achievement;
 }s_villager_t;
 
 
