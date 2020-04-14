@@ -152,7 +152,7 @@ int menu_game(sfRenderWindow* window)
     sfRenderWindow_setIcon(window, 61, 46, sfImage_getPixelsPtr(sfImage_createFromFile("Image/icon.png")));
     sfWindow_setMouseCursorVisible((sfWindow *) window, sfFalse);
     while (sfRenderWindow_isOpen(window)) {
-        // sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
+        sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
         while (sfRenderWindow_pollEvent(window, &struct_mg->event)) {
             if (struct_mg->event.type == sfEvtClosed)
                 sfRenderWindow_close(window);
