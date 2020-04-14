@@ -151,7 +151,7 @@ s_my_cave_t *movement_perso_cc(s_my_cave_t *struct_cave, s_mob_t *s_mob)
     return struct_cave;
 }
 
-int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, int supp)
+int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, s_menu_game_t *struct_menu, int supp)
 {
     if (struct_cave->pos_cave.y >= 720 && struct_cave->go_in == 0) {
         struct_cave->fig_int = 1;
@@ -170,7 +170,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     if (struct_cave->fig_int == 1) {
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp < 8) {
             printf("you lose\n");
-            my_game(window);
+            my_game(struct_menu, window);
             return 12;
         }
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp >= 8) {
@@ -181,7 +181,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     return 0;
 }
 
-s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
+s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu)
 {
     s_my_cave_t *struct_cave = init_cave();
     s_cursor_t *cursor = init_cursor();
@@ -246,7 +246,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
             sfClock_restart(s_perso->player_clock);
         }
         s_mob = movement_mob(s_mob, window);
-        if (fight(window, struct_cave, s_mob, s_font, supp) == 12) {
+        if (fight(window, struct_cave, s_mob, s_font, struct_menu, supp) == 12) {
             sfSprite_destroy(struct_cave->sprite_bg_gc);
             sfRenderWindow_close(window);
             return s_perso;

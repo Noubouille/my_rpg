@@ -136,6 +136,7 @@ int menu_game(sfRenderWindow* window)
     sfMusic_setVolume(struct_mg->music, 20);
     // sfVideoMode mode = {1920, 1080, 32};
     int launch_game = 0;
+    struct_mg->music_state = 1;
     setpanel->pos_button_h.x = 20;
     setpanel->pos_button_h.y = 470;
     setpanel->pos_button2_h.x = 20;
@@ -233,6 +234,7 @@ int menu_game(sfRenderWindow* window)
                     sfMusic_stop(struct_mg->click);
                     sfMusic_play(struct_mg->click);
                     sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_off, sfTrue);
+                    struct_mg->music_state = 0;
                     setpanel->k = 1;
                     sfMusic_stop(struct_mg->music);
                 } else if (((mouse.x > sfSprite_getPosition(setpanel->sprite_audio).x && mouse.x <= sfSprite_getPosition(setpanel->sprite_audio).x + 400) &&
@@ -251,9 +253,10 @@ int menu_game(sfRenderWindow* window)
                 }
                 if (mouse.x > sfSprite_getPosition(setpanel->sprite_audio).x && mouse.x <= sfSprite_getPosition(setpanel->sprite_audio).x + 400 &&
                     (mouse.y > sfSprite_getPosition(setpanel->sprite_audio).y && mouse.y <= sfSprite_getPosition(setpanel->sprite_audio).y + 98 && setpanel->i == 1 && setpanel->k == 0)) {
-                    sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
                     sfMusic_stop(struct_mg->click);
                     sfMusic_play(struct_mg->click);
+                    sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
+                    struct_mg->music_state = 1;
                     setpanel->k = 0;
                     sfMusic_play(struct_mg->music);
                 }
@@ -305,7 +308,7 @@ int menu_game(sfRenderWindow* window)
             }
             if (sfTime_asSeconds(sfClock_getElapsedTime(struct_mg->horloge)) >= 1) {
                 sfMusic_stop(struct_mg->music);
-                my_game(window);
+                my_game(struct_mg, window);
             }
         }
         // main draw (ou on drop tout)
