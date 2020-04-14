@@ -144,6 +144,7 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
 {
     s_inventory_t *s_invent = malloc(sizeof(s_inventory_t));
     s_invent->text_invent = sfTexture_createFromFile("Image/invent.png", NULL);
+    s_invent->text_invent_key = sfTexture_createFromFile("Image/invent_key.png", NULL);
     s_invent->sprite_invent = sfSprite_create();
     sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
     sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {70, 40});
@@ -273,20 +274,19 @@ s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s
             if (s_perso->player_rect.left >= 288) s_perso->player_rect.left = 0;
             sfClock_restart(s_perso->player_clock);
         }
-            sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
-            sfRenderWindow_display(window);
-            sfRenderWindow_clear(window, sfBlack);
-            sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
+        sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
+        sfRenderWindow_display(window);
+        sfRenderWindow_clear(window, sfBlack);
+        sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
 
-            sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
-            sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
-            sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
-            //l'arbre en rect
-            if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_object->horloge_tree)) > 200) {
-                s_object->tree_rect.left += (1024 / 8);
-                if (s_object->tree_rect.left >= 1024) s_object->tree_rect.left = 0;
-                sfClock_restart(s_object->horloge_tree);
-            }
+        sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
+        sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
+        sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_object->horloge_tree)) > 200) {
+            s_object->tree_rect.left += (1024 / 8);
+            if (s_object->tree_rect.left >= 1024) s_object->tree_rect.left = 0;
+            sfClock_restart(s_object->horloge_tree);
+        }
         sfSprite_setTextureRect(s_object->sprite_tree, s_object->tree_rect);
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
     }
@@ -406,8 +406,9 @@ int my_game(sfRenderWindow* window)
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
 
-
         if (invent_int == 1) {
+            if (s_perso->object == 1)
+                sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
