@@ -106,6 +106,13 @@ typedef struct s_cave_font {
     sfVector2f pos_l;
     sfIntRect rect_l;
 
+    sfSprite *sprite_l2;//la heal bar
+    sfTexture *text_l2;
+    sfVector2f pos_l2;
+    sfIntRect rect_l2;
+
+    sfSprite *sprite_vs;
+    sfTexture *text_vs;
 }s_cave_font_t;
 
 typedef struct s_mob {
@@ -159,6 +166,7 @@ typedef struct s_my_game {
 typedef struct s_inventory {
     sfSprite *sprite_invent;
     sfTexture *text_invent;
+    sfTexture *text_invent_key;
 }s_inventory_t;
 
 

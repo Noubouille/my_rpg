@@ -103,9 +103,25 @@ s_cave_font_t *init_font()
     struct_cave_2->rect_l.width = 584;
     sfSprite_setTexture(struct_cave_2->sprite_l, struct_cave_2->text_l, sfTrue);
     sfSprite_setTextureRect(struct_cave_2->sprite_l, struct_cave_2->rect_l);
-    struct_cave_2->pos_l.x = 500;
-    struct_cave_2->pos_l.y = 100;
+    struct_cave_2->pos_l.x = 200;
+    struct_cave_2->pos_l.y = 400;
     sfSprite_setPosition(struct_cave_2->sprite_l, struct_cave_2->pos_l);
+
+    struct_cave_2->text_l2 = sfTexture_createFromFile("Image/barhealus.png", NULL);
+    struct_cave_2->sprite_l2 = sfSprite_create();
+    struct_cave_2->rect_l2.height = 112;
+    struct_cave_2->rect_l2.width = 584;
+    sfSprite_setTexture(struct_cave_2->sprite_l2, struct_cave_2->text_l2, sfTrue);
+    sfSprite_setTextureRect(struct_cave_2->sprite_l2, struct_cave_2->rect_l2);
+    struct_cave_2->pos_l2.x = 600;
+    struct_cave_2->pos_l2.y = 480;
+    sfSprite_setPosition(struct_cave_2->sprite_l2, struct_cave_2->pos_l2);
+
+    struct_cave_2->text_vs = sfTexture_createFromFile("Image/vs.png", NULL);
+    struct_cave_2->sprite_vs = sfSprite_create();
+    sfSprite_setTexture(struct_cave_2->sprite_vs, struct_cave_2->text_vs, sfTrue);
+    sfSprite_setPosition(struct_cave_2->sprite_vs , (sfVector2f) {10, 100});
+
     return struct_cave_2;
 }
 
@@ -147,16 +163,19 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     }
     if (struct_cave->healb == 1) {
         sfRenderWindow_drawSprite(window, s_font->sprite_l, NULL);
+        sfRenderWindow_drawSprite(window, s_font->sprite_l2, NULL);
+        sfRenderWindow_drawSprite(window, s_font->sprite_vs, NULL);
     }
 
     if (struct_cave->fig_int == 1) {
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && supp < 8) {
+        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp < 8) {
             printf("you lose\n");
-            menu_game(window);
+            my_game(window);
             return 12;
         }
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && supp >= 8) {
+        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp >= 8) {
             s_mob->pos_mob.y = - 1000;
+            s_font->pos_l2.y = - 1000;
         }
     }
     return 0;
