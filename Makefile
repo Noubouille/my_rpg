@@ -1,13 +1,13 @@
 NAME	= my_rpg
 
-CC	= gcc -g3
+CC	= gcc
 
 RM	= rm -f
 
 SRCS	= ./src/main.c	\
 		  ./src/game.c \
 		  ./src/cave.c \
-		  ./src/nb_tochar.c 
+		  ./src/nb_tochar.c
 
 OBJS	= $(SRCS:.c=.o)
 

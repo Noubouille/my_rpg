@@ -38,6 +38,14 @@ s_villager_t *init_villager(void)
     struct_villager->pos_no_button.x = 1250;
     struct_villager->pos_no_button.y = 650;
     sfSprite_setPosition(struct_villager->sprite_no_button, struct_villager->pos_no_button);
+    struct_villager->sprite_achievement = sfSprite_create();
+    struct_villager->text_achievement = sfTexture_createFromFile("Image/achivement.png", NULL);
+    sfSprite_setTexture(struct_villager->sprite_achievement, struct_villager->text_achievement, sfTrue);
+    struct_villager->pos_achievement.x = 1600;
+    struct_villager->pos_achievement.y = 0;
+    sfSprite_setPosition(struct_villager->sprite_achievement, struct_villager->pos_achievement);
+    struct_villager->clock_achievement = sfClock_create();
+    struct_villager->yannis = 0;
     return struct_villager;
 }
 
@@ -232,7 +240,7 @@ s_perso_t *movement_perso(s_perso_t *perso)
     return perso;
 }
 
-void print_bubble(s_object_t *s_object, s_perso_t *s_perso, sfRenderWindow* window)
+void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct_villager, sfRenderWindow* window)
 {
     int i = 0;
     int l = 0;
@@ -241,7 +249,7 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, sfRenderWindow* wind
     } else {
         i = 0;
     }
-    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720) {
+    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && struct_villager->quest_accepted != 1) {
         l = 1;
     } else {
         l = 0;
@@ -309,6 +317,7 @@ int my_game(sfRenderWindow* window)
     sfClock *invent_clock = sfClock_create();
     int invent_int = 0;
     struct_villager->quest_state = 0;
+    struct_villager->quest_accepted = 0;
     init_perso2(s_perso, window);
 
     while (sfRenderWindow_isOpen(window)) {
@@ -319,6 +328,19 @@ int my_game(sfRenderWindow* window)
             if (struct_game->event_g.type == sfEvtMouseMoved) {
                 sfVector2f cursor1 = sourissprite(sfMouse_getPositionRenderWindow(window));
                 sfSprite_setPosition(cursor->cursorsprite, cursor1);
+            }
+            if (struct_game->event_g.type == sfEvtMouseButtonPressed) {
+                if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_yes_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_yes_button).x + 142) &&
+                (mouse.y > sfSprite_getPosition(struct_villager->sprite_yes_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_yes_button).y + 58) && struct_villager->quest_state == 1) {
+                    printf("coucou la zone");
+                    struct_villager->quest_state = 0;
+                    struct_villager->quest_accepted = 1;
+                }
+                if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_no_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_no_button).x + 142) &&
+                (mouse.y > sfSprite_getPosition(struct_villager->sprite_no_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_no_button).y + 58) && struct_villager->quest_state == 1) {
+                    printf("izefezfpij");
+                    struct_villager->quest_state = 0;
+                }
             }
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE)) {
                 struct_villager->quest_state = 1;
@@ -357,7 +379,7 @@ int my_game(sfRenderWindow* window)
             struct_game = print_inventory(window, struct_game, s_perso, cursor, s_object);
             sfClock_restart(pause_clock);
         }
-        print_bubble(s_object, s_perso, window);
+        print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230)) {
             s_perso = cave(window, s_perso);
             if (s_perso->ret == 1) {
@@ -371,6 +393,14 @@ int my_game(sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_quest, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
+        }
+        if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
+            sfClock_restart(struct_villager->clock_achievement);
+            struct_villager->yannis = 1;
+        }
+        if ((sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_achievement)) < 3000) && struct_villager->quest_accepted == 1) {
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_achievement, NULL);
+            //struct_villager->pos_achievement.y = -1000;
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->player_clock)) > 200) {
             s_perso->player_rect.left += (288 / 3);
