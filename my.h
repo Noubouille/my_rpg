@@ -45,6 +45,9 @@ typedef struct s_object {
 
     sfSprite *sprite_bubble;
     sfTexture *text_bubble;
+
+    sfSprite *sprite_bubble_v;
+    sfTexture *text_bubble_v;
 }s_object_t;
 
 typedef struct s_perso {
@@ -118,12 +121,17 @@ typedef struct s_mob {
 }s_mob_t;
 
 typedef struct s_villager {
+    int quest_state;
     sfVector2f pos_villager;
     sfIntRect rect_villager;
     sfClock *clock_villager;
 
     sfSprite *sprite_villager;
     sfTexture *text_villager;
+
+    sfSprite *sprite_quest;
+    sfTexture *text_quest;
+    sfVector2f pos_quest;
 }s_villager_t;
 
 
