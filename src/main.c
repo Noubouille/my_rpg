@@ -124,7 +124,7 @@ s_set_panel_t *init_panel(void)
     return setpanel;
 }
 
-int menu_game(int ac, char **av, sfRenderWindow* window)
+int menu_game(sfRenderWindow* window)
 {
     s_menu_game_t *struct_mg = init_mg_struct();
     s_cursor_t *cursor = init_cursor();
@@ -148,7 +148,6 @@ int menu_game(int ac, char **av, sfRenderWindow* window)
     setpanel->pos_but_howtoplay_h.y = 360;
     setpanel->pos_close_h.x = 1430;
     setpanel->pos_close_h.y = 570;
-
     window = sfRenderWindow_create((sfVideoMode) {1920, 1080, 32}, "Error_404", 7 | sfClose, NULL);
     sfRenderWindow_setIcon(window, 61, 46, sfImage_getPixelsPtr(sfImage_createFromFile("Image/icon.png")));
     sfWindow_setMouseCursorVisible((sfWindow *) window, sfFalse);
@@ -355,6 +354,6 @@ int main(int ac, char **av)
     }
 
     sfRenderWindow* window;
-    menu_game(ac, av, window);
+    menu_game(window);
     return 0;
 }

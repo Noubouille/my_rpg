@@ -45,6 +45,7 @@ s_my_cave_t *init_cave()
     sfSprite_setTexture(struct_cave->sprite_bubble_gc, struct_cave->text_bubble_gc, sfTrue);
     sfSprite_setPosition(struct_cave->sprite_bubble_gc , (sfVector2f) {1590, 590});
 
+    struct_cave->healb = 0;
     struct_cave->go_in = 0;
     struct_cave->nb_touch = 0;
     struct_cave->fig_int = 0;
@@ -94,7 +95,17 @@ s_cave_font_t *init_font()
     sfText_setCharacterSize(struct_cave_2->texte_fight, 50);
     sfText_setCharacterSize(struct_cave_2->texte_fight_nb, 50);
     sfText_setPosition(struct_cave_2->texte_fight, (sfVector2f) {50, 0});
-    sfText_setPosition(struct_cave_2->texte_fight_nb, (sfVector2f) {450, 0});
+    sfText_setPosition(struct_cave_2->texte_fight_nb, (sfVector2f) {650, 0});
+    //other
+    struct_cave_2->text_l = sfTexture_createFromFile("Image/heal.png", NULL);
+    struct_cave_2->sprite_l = sfSprite_create();
+    struct_cave_2->rect_l.height = 112;
+    struct_cave_2->rect_l.width = 584;
+    sfSprite_setTexture(struct_cave_2->sprite_l, struct_cave_2->text_l, sfTrue);
+    sfSprite_setTextureRect(struct_cave_2->sprite_l, struct_cave_2->rect_l);
+    struct_cave_2->pos_l.x = 500;
+    struct_cave_2->pos_l.y = 100;
+    sfSprite_setPosition(struct_cave_2->sprite_l, struct_cave_2->pos_l);
     return struct_cave_2;
 }
 
@@ -124,20 +135,28 @@ s_my_cave_t *movement_perso_cc(s_my_cave_t *struct_cave, s_mob_t *s_mob)
     return struct_cave;
 }
 
-int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob)
+int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, int supp)
 {
     if (struct_cave->pos_cave.y >= 720 && struct_cave->go_in == 0) {
         struct_cave->fig_int = 1;
         struct_cave->go_in = 1;
+        struct_cave->healb = 1;
         s_mob->mov_mob = 2;
         printf("j'suis al\n");
         sfClock_restart(struct_cave->fight_clock);
     }
+    if (struct_cave->healb == 1) {
+        sfRenderWindow_drawSprite(window, s_font->sprite_l, NULL);
+    }
+
     if (struct_cave->fig_int == 1) {
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && struct_cave->nb_touch <= 25)
+        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && supp < 8) {
             printf("you lose\n");
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && struct_cave->nb_touch > 25) {
-            printf("you win\n");
+            menu_game(window);
+            return 12;
+        }
+        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 10) && supp >= 8) {
+            s_mob->pos_mob.y = - 1000;
         }
     }
     return 0;
@@ -153,6 +172,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
     s_perso->pos_perso.y = 900;
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
+    int supp = 0;
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
         while (sfRenderWindow_pollEvent(window, &struct_cave->event_gc)) {
@@ -166,6 +186,11 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
                 struct_cave->nb_touch++;
                 printf("je fight la %d\n", struct_cave->nb_touch);
                 s_font->nb++;
+                if (s_font->nb % 5 == 0 && supp < 8) {
+                    s_font->rect_l.width -= 73;
+                    supp++;
+                    sfSprite_setTextureRect(s_font->sprite_l, s_font->rect_l);
+                }
                 sfClock_restart(struct_cave->tap);
             }
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
@@ -202,7 +227,11 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso)
             sfClock_restart(s_perso->player_clock);
         }
         s_mob = movement_mob(s_mob, window);
-        fight(window, struct_cave, s_mob);
+        if (fight(window, struct_cave, s_mob, s_font, supp) == 12) {
+            sfSprite_destroy(struct_cave->sprite_bg_gc);
+            sfRenderWindow_close(window);
+            return s_perso;
+        }
         //lemob
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);

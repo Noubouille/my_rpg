@@ -83,6 +83,7 @@ typedef struct s_my_cave {
     sfTexture *text_bubble_gc;
 
     int fig_int;
+    int healb;
     int go_in;
     int nb_touch;
     int up;
@@ -96,6 +97,12 @@ typedef struct s_cave_font {
     sfText* texte_fight;
     sfText* texte_fight_nb;
     int nb;
+
+    sfSprite *sprite_l;//la heal bar
+    sfTexture *text_l;
+    sfVector2f pos_l;
+    sfIntRect rect_l;
+
 }s_cave_font_t;
 
 typedef struct s_mob {
@@ -191,7 +198,7 @@ s_cursor_t *init_cursor(void);
 s_perso_t *init_perso(void);
 
 int my_game(sfRenderWindow* window);
-int menu_game(int ac, char **av, sfRenderWindow* window);
+int menu_game(sfRenderWindow* window);
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso);
 
 #endif /* !MY_H_ */
