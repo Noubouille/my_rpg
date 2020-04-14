@@ -25,7 +25,19 @@ s_villager_t *init_villager(void)
     sfSprite_setTexture(struct_villager->sprite_quest, struct_villager->text_quest, sfTrue);
     struct_villager->pos_quest.x = 0;
     struct_villager->pos_quest.y = 0;
-    sfSprite_setPosition(struct_villager->sprite_quest, (sfVector2f) {0, 0});
+    sfSprite_setPosition(struct_villager->sprite_quest, struct_villager->pos_quest);
+    struct_villager->text_yes_button = sfTexture_createFromFile("Image/yes_quest.png", NULL);
+    struct_villager->sprite_yes_button = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_yes_button, struct_villager->text_yes_button, sfTrue);
+    struct_villager->pos_yes_button.x = 1420;
+    struct_villager->pos_yes_button.y = 650;
+    sfSprite_setPosition(struct_villager->sprite_yes_button, struct_villager->pos_yes_button);
+    struct_villager->text_no_button = sfTexture_createFromFile("Image/no_quest.png", NULL);
+    struct_villager->sprite_no_button = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_no_button, struct_villager->text_no_button, sfTrue);
+    struct_villager->pos_no_button.x = 1250;
+    struct_villager->pos_no_button.y = 650;
+    sfSprite_setPosition(struct_villager->sprite_no_button, struct_villager->pos_no_button);
     return struct_villager;
 }
 
@@ -356,8 +368,9 @@ int my_game(sfRenderWindow* window)
         }
         // rect du perso
         if (struct_villager->quest_state == 1) {
-
             sfRenderWindow_drawSprite(window, struct_villager->sprite_quest, NULL);
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->player_clock)) > 200) {
             s_perso->player_rect.left += (288 / 3);

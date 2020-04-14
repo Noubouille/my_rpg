@@ -125,6 +125,12 @@ typedef struct s_villager {
     sfSprite *sprite_quest;
     sfTexture *text_quest;
     sfVector2f pos_quest;
+    sfSprite *sprite_yes_button;
+    sfSprite *sprite_no_button;
+    sfTexture *text_yes_button;
+    sfTexture *text_no_button;
+    sfVector2f pos_yes_button;
+    sfVector2f pos_no_button;
 }s_villager_t;
 
 
