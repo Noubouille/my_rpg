@@ -113,6 +113,8 @@ typedef struct s_cave_font {
 
     sfSprite *sprite_vs;
     sfTexture *text_vs;
+    sfVector2f pos_vs;
+
 }s_cave_font_t;
 
 typedef struct s_mob {
@@ -120,6 +122,7 @@ typedef struct s_mob {
     sfIntRect rect_mob;
     sfClock *clock_mob;
     sfClock *clock_mov;
+    sfClock *clock_heal;//us clock
 
     sfSprite *sprite_mob;
     sfTexture *text_mob_l;

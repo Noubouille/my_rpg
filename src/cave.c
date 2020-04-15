@@ -12,6 +12,7 @@ s_mob_t *init_mob()
     s_mob_t *s_mob = malloc(sizeof(s_mob_t));
     s_mob->pos_mob.x = 1400;
     s_mob->pos_mob.y = 500;
+    s_mob->clock_heal = sfClock_create();
     s_mob->clock_mob = sfClock_create();
     s_mob->clock_mov = sfClock_create();
     s_mob->sprite_mob = sfSprite_create();
@@ -103,8 +104,8 @@ s_cave_font_t *init_font()
     struct_cave_2->rect_l.width = 584;
     sfSprite_setTexture(struct_cave_2->sprite_l, struct_cave_2->text_l, sfTrue);
     sfSprite_setTextureRect(struct_cave_2->sprite_l, struct_cave_2->rect_l);
-    struct_cave_2->pos_l.x = 200;
-    struct_cave_2->pos_l.y = 400;
+    struct_cave_2->pos_l.x = 50;
+    struct_cave_2->pos_l.y = 500;
     sfSprite_setPosition(struct_cave_2->sprite_l, struct_cave_2->pos_l);
 
     struct_cave_2->text_l2 = sfTexture_createFromFile("Image/barhealus.png", NULL);
@@ -113,15 +114,16 @@ s_cave_font_t *init_font()
     struct_cave_2->rect_l2.width = 584;
     sfSprite_setTexture(struct_cave_2->sprite_l2, struct_cave_2->text_l2, sfTrue);
     sfSprite_setTextureRect(struct_cave_2->sprite_l2, struct_cave_2->rect_l2);
-    struct_cave_2->pos_l2.x = 600;
-    struct_cave_2->pos_l2.y = 480;
+    struct_cave_2->pos_l2.x = 800;
+    struct_cave_2->pos_l2.y = 500;
     sfSprite_setPosition(struct_cave_2->sprite_l2, struct_cave_2->pos_l2);
 
+    struct_cave_2->pos_vs.x = 10;
+    struct_cave_2->pos_vs.y = 30;
     struct_cave_2->text_vs = sfTexture_createFromFile("Image/vs.png", NULL);
     struct_cave_2->sprite_vs = sfSprite_create();
     sfSprite_setTexture(struct_cave_2->sprite_vs, struct_cave_2->text_vs, sfTrue);
-    sfSprite_setPosition(struct_cave_2->sprite_vs , (sfVector2f) {10, 100});
-
+    sfSprite_setPosition(struct_cave_2->sprite_vs , struct_cave_2->pos_vs);
     return struct_cave_2;
 }
 
@@ -153,18 +155,23 @@ s_my_cave_t *movement_perso_cc(s_my_cave_t *struct_cave, s_mob_t *s_mob)
 
 int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, int supp)
 {
-    if (struct_cave->pos_cave.y >= 720 && struct_cave->go_in == 0) {
+    if (struct_cave->pos_cave.y >= 730 && struct_cave->go_in == 0) {
         struct_cave->fig_int = 1;
         struct_cave->go_in = 1;
         struct_cave->healb = 1;
         s_mob->mov_mob = 2;
-        printf("j'suis al\n");
         sfClock_restart(struct_cave->fight_clock);
+        sfClock_restart(s_mob->clock_heal);
     }
     if (struct_cave->healb == 1) {
         sfRenderWindow_drawSprite(window, s_font->sprite_l, NULL);
         sfRenderWindow_drawSprite(window, s_font->sprite_l2, NULL);
         sfRenderWindow_drawSprite(window, s_font->sprite_vs, NULL);
+    }
+    if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_heal)) >= 1000) && struct_cave->go_in == 1) {
+        s_font->rect_l2.width -= 73;
+        sfSprite_setTextureRect(s_font->sprite_l2, s_font->rect_l2);
+        sfClock_restart(s_mob->clock_heal);
     }
 
     if (struct_cave->fig_int == 1) {
@@ -173,9 +180,14 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
             my_game(window);
             return 12;
         }
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp >= 8) {
+        if (((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp >= 8)) {
             s_mob->pos_mob.y = - 1000;
             s_font->pos_l2.y = - 1000;
+            s_font->pos_l.y = - 1000;
+            s_font->pos_vs.y = - 1000;
+            sfSprite_setPosition(s_font->sprite_vs , s_font->pos_vs);
+            sfSprite_setPosition(s_font->sprite_l2 , s_font->pos_l2);
+            sfSprite_setPosition(s_font->sprite_l , s_font->pos_l);
         }
     }
     return 0;
