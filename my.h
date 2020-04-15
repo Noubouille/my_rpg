@@ -33,6 +33,12 @@ typedef struct s_menu_game {
     sfMusic *music;
 }s_menu_game_t;
 
+typedef struct s_pause_game {
+    sfSprite *sprite_pause;
+    sfTexture *text_pause;
+    sfVector2f pos_pause;
+}s_pause_game_t;
+
 typedef struct s_object {
     sfSprite *sprite_tree;
     sfTexture *text_tree;
