@@ -130,10 +130,10 @@ s_perso_t *init_perso(void)
     sfText_setString(struct_perso->texte_int, nb_tochar(struct_perso->object));
     sfText_setFont(struct_perso->texte_obj, struct_perso->font_obj);
     sfText_setFont(struct_perso->texte_int, struct_perso->font_obj);
-    sfText_setCharacterSize(struct_perso->texte_obj, 50);
-    sfText_setCharacterSize(struct_perso->texte_int, 50);
-    sfText_setPosition(struct_perso->texte_obj, (sfVector2f) {1400, 0});
-    sfText_setPosition(struct_perso->texte_int, (sfVector2f) {1750, 0});
+    sfText_setCharacterSize(struct_perso->texte_obj, 30);
+    sfText_setCharacterSize(struct_perso->texte_int, 30);
+    sfText_setPosition(struct_perso->texte_obj, (sfVector2f) {1300, 0});
+    sfText_setPosition(struct_perso->texte_int, (sfVector2f) {1650, 0});
     struct_perso->next = NULL;
     return struct_perso;
 }
