@@ -49,6 +49,18 @@ s_villager_t *init_villager(void)
     return struct_villager;
 }
 
+s_pause_game_t *init_pause(void)
+{
+    s_pause_game_t *struct_pause = malloc(sizeof(s_pause_game_t));
+    struct_pause->sprite_pause = sfSprite_create();
+    struct_pause->text_pause = sfTexture_createFromFile("Image/menupause_g.png", NULL);
+    sfSprite_setTexture(struct_pause->sprite_pause, struct_pause->text_pause, sfTrue);
+    struct_pause->pos_pause.x = 1000;
+    struct_pause->pos_pause.y = 600;
+    sfSprite_setPosition(struct_pause->sprite_pause, struct_pause->pos_pause);
+    return struct_pause;
+}
+
 s_my_game_t *init_g_struct(void)
 {
     s_my_game_t *struct_game = malloc(sizeof(s_my_game_t));
@@ -309,6 +321,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_object_t *s_object = init_objects();
     s_inventory_t *s_invent = init_invent(s_perso);
     s_villager_t *struct_villager = init_villager();
+    s_pause_game_t *struct_pause = init_pause();
     if (struct_menu->music_state == 1) {
     struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
     sfMusic_setLoop(struct_game->music, sfTrue);
@@ -334,13 +347,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_game->event_g.type == sfEvtMouseButtonPressed) {
                 if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_yes_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_yes_button).x + 142) &&
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_yes_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_yes_button).y + 58) && struct_villager->quest_state == 1) {
-                    printf("coucou la zone");
                     struct_villager->quest_state = 0;
                     struct_villager->quest_accepted = 1;
                 }
                 if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_no_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_no_button).x + 142) &&
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_no_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_no_button).y + 58) && struct_villager->quest_state == 1) {
-                    printf("izefezfpij");
                     struct_villager->quest_state = 0;
                 }
             }
@@ -381,6 +392,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             struct_game = print_inventory(window, struct_game, s_perso, cursor, s_object);
             sfClock_restart(pause_clock);
         }
+
+        // if (struct_game->pause == 1) {
+        //     sfRenderWindow_drawSprite(window, struct_pause->sprite_pause, NULL);
+        // }
+
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230)) {
             s_perso = cave(window, s_perso, struct_menu);
@@ -414,9 +430,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_villager->rect_villager.left >= 192) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
+        //if (struct_game->pause != 1) {
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
+        //}
         //fin du rect du perso
         //tous les draws
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
