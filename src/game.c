@@ -301,7 +301,7 @@ s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s
     return struct_game;
 }
 
-int my_game(sfRenderWindow* window)
+int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 {
     s_my_game_t *struct_game = init_g_struct();
     s_cursor_t *cursor = init_cursor();
@@ -309,10 +309,12 @@ int my_game(sfRenderWindow* window)
     s_object_t *s_object = init_objects();
     s_inventory_t *s_invent = init_invent(s_perso);
     s_villager_t *struct_villager = init_villager();
+    if (struct_menu->music_state == 1) {
     struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
     sfMusic_setLoop(struct_game->music, sfTrue);
     sfMusic_play(struct_game->music);
     sfMusic_setVolume(struct_game->music, 20);
+    }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
     int invent_int = 0;
@@ -381,7 +383,7 @@ int my_game(sfRenderWindow* window)
         }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230)) {
-            s_perso = cave(window, s_perso);
+            s_perso = cave(window, s_perso, struct_menu);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
                 s_perso->pos_perso.y = 300;
@@ -468,6 +470,8 @@ int my_game(sfRenderWindow* window)
     sfSprite_destroy(struct_game->sprite_bg_g);
     sfSprite_destroy(s_perso->sprite_perso);
     sfMusic_destroy(struct_game->click_g);
+    if (struct_menu->music_state == 1) {
     sfMusic_destroy(struct_game->music);
+    }
     return (0);
 }

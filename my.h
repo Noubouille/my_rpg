@@ -18,6 +18,7 @@ sfVector2f sourissprite(sfVector2i vect2i);
 char *nb_tochar(int i);
 
 typedef struct s_menu_game {
+    int music_state;
     sfEvent event;
     sfMusic *click;
     sfSprite *sprite_bg;
@@ -228,9 +229,9 @@ s_perso_t *movement_perso(s_perso_t *perso);
 s_cursor_t *init_cursor(void);
 s_perso_t *init_perso(void);
 
-int my_game(sfRenderWindow* window);
+int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window);
 int menu_game(sfRenderWindow* window);
-s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso);
+s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu);
 
 #endif /* !MY_H_ */
 
