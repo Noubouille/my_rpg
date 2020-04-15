@@ -83,7 +83,7 @@ typedef struct s_perso {
 typedef struct s_my_cave {
     sfVector2f pos_cave;
     sfEvent event_gc;
-    sfMusic *click_gc;
+    sfMusic *music;
     sfSprite *sprite_bg_gc;
     sfTexture *text_bg_gc;
     sfClock *cave_horloge;

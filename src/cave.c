@@ -201,6 +201,13 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     s_cave_font_t *s_font = init_font();
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
+    struct_cave->music = sfMusic_createFromFile("Music/cave_water.ogg");
+
+    if (struct_menu->music_state == 1) {
+        sfMusic_setLoop(struct_menu->music_state, sfTrue);
+        sfMusic_play(struct_cave->music);
+        sfMusic_setVolume(struct_cave->music, 20);
+    }
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
     int supp = 0;
@@ -283,5 +290,9 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         sfText_setString(s_font->texte_fight_nb, nb_tochar(s_font->nb));
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
+
+    if (struct_menu->music_state == 1) {
+        sfMusic_destroy(struct_cave->music);
+    }
     return s_perso;
 }
