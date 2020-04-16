@@ -291,5 +291,9 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
 
+    if (struct_menu->music_state == 1) {
+        sfMusic_destroy(struct_cave->music);
+    }
+
     return s_perso;
 }
