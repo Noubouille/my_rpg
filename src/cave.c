@@ -20,7 +20,7 @@ s_mob_t *init_mob()
     s_mob->text_mob_r = sfTexture_createFromFile("Image/mouse_r.png", NULL);
     sfSprite_setPosition(s_mob->sprite_mob , s_mob->pos_mob);
     s_mob->rect_mob.height = 41;
-    s_mob->rect_mob.width = 150 / 3;
+    s_mob->rect_mob.width = 50;
     sfSprite_setTexture(s_mob->sprite_mob, s_mob->text_mob_l, sfTrue);
     sfSprite_setTextureRect(s_mob->sprite_mob, s_mob->rect_mob);
     s_mob->mov_mob = 1;
@@ -61,7 +61,7 @@ s_my_cave_t *init_cave()
 s_mob_t *movement_mob(s_mob_t *s_mob, sfRenderWindow* window)
 {
     if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_mob)) > 150) {
-        s_mob->rect_mob.left += (150 / 3);
+        s_mob->rect_mob.left += 50;
         if (s_mob->rect_mob.left >= 150) s_mob->rect_mob.left = 0;
         sfClock_restart(s_mob->clock_mob);
     }
@@ -239,16 +239,14 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso, sfTrue);
                 struct_cave->right = 1;
-            }
-            else if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
+            } else if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_l, sfTrue);
                 struct_cave->left = 1;
             }
             if (sfKeyboard_isKeyPressed(sfKeyUp)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_do, sfTrue);
                 struct_cave->up = 1;
-            }
-            else if (sfKeyboard_isKeyPressed(sfKeyDown)) {
+            } else if (sfKeyboard_isKeyPressed(sfKeyDown)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_up, sfTrue);
                 struct_cave->down = 1;
             }
@@ -304,7 +302,6 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         sfText_setString(s_font->texte_fight_nb, nb_tochar(s_font->nb));
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
-
     if (struct_menu->music_state == 1) sfMusic_destroy(struct_cave->music);
 
     return s_perso;
