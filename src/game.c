@@ -421,7 +421,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         if ((sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_achievement)) < 3000) && struct_villager->quest_accepted == 1) {
             sfRenderWindow_drawSprite(window, struct_villager->sprite_achievement, NULL);
-            //struct_villager->pos_achievement.y = -1000;
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->player_clock)) > 200) {
             s_perso->player_rect.left += (288 / 3);
@@ -492,7 +491,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     sfSprite_destroy(s_perso->sprite_perso);
     sfMusic_destroy(struct_game->click_g);
     if (struct_menu->music_state == 1) {
-    sfMusic_destroy(struct_game->music);
+        sfMusic_destroy(struct_game->music);
     }
     return (0);
 }

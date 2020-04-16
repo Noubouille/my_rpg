@@ -45,6 +45,7 @@ s_my_cave_t *init_cave()
     struct_cave->sprite_bubble_gc = sfSprite_create();
     sfSprite_setTexture(struct_cave->sprite_bubble_gc, struct_cave->text_bubble_gc, sfTrue);
     sfSprite_setPosition(struct_cave->sprite_bubble_gc , (sfVector2f) {1590, 590});
+    struct_cave->music = sfMusic_createFromFile("Music/cave_water.ogg");
 
     struct_cave->healb = 0;
     struct_cave->go_in = 0;
@@ -121,6 +122,7 @@ s_cave_font_t *init_font()
     struct_cave_2->pos_vs.x = 10;
     struct_cave_2->pos_vs.y = 30;
     struct_cave_2->text_vs = sfTexture_createFromFile("Image/vs.png", NULL);
+    struct_cave_2->text_vs_red = sfTexture_createFromFile("Image/vs_red.png", NULL);
     struct_cave_2->sprite_vs = sfSprite_create();
     sfSprite_setTexture(struct_cave_2->sprite_vs, struct_cave_2->text_vs, sfTrue);
     sfSprite_setPosition(struct_cave_2->sprite_vs , struct_cave_2->pos_vs);
@@ -169,6 +171,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
         sfRenderWindow_drawSprite(window, s_font->sprite_vs, NULL);
     }
     if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_heal)) >= 1000) && struct_cave->go_in == 1) {
+        sfSprite_setTexture(s_font->sprite_vs, s_font->text_vs, sfTrue);
         s_font->rect_l2.width -= 73;
         sfSprite_setTextureRect(s_font->sprite_l2, s_font->rect_l2);
         sfClock_restart(s_mob->clock_heal);
@@ -177,6 +180,8 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     if (struct_cave->fig_int == 1) {
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp < 8) {
             printf("you lose\n");
+            if (struct_menu->music_state == 1)
+                sfMusic_destroy(struct_cave->music);
             my_game(struct_menu, window);
             return 12;
         }
@@ -201,8 +206,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     s_cave_font_t *s_font = init_font();
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
-    struct_cave->music = sfMusic_createFromFile("Music/cave_water.ogg");
-
+    sfClock *red = sfClock_create();
     if (struct_menu->music_state == 1) {
         sfMusic_setLoop(struct_cave->music, sfTrue);
         sfMusic_play(struct_cave->music);
@@ -229,6 +233,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                     supp++;
                     sfSprite_setTextureRect(s_font->sprite_l, s_font->rect_l);
                 }
+                sfClock_restart(red);
                 sfClock_restart(struct_cave->tap);
             }
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
@@ -248,6 +253,15 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 struct_cave->down = 1;
             }
         }
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_cave->tap)) < 80) {
+            sfSprite_setTexture(s_font->sprite_vs, s_font->text_vs_red, sfTrue);
+            s_font->pos_l.y = 495;
+        } else {
+            sfSprite_setTexture(s_font->sprite_vs, s_font->text_vs, sfTrue);
+            s_font->pos_l.y = 500;
+        }
+        sfSprite_setPosition(s_font->sprite_l, s_font->pos_l);
+
         if (struct_cave->pos_cave.y >= 700 && struct_cave->pos_cave.y <= 800)
             sfRenderWindow_drawSprite(window, struct_cave->sprite_bubble_gc, NULL);
         if ((struct_cave->pos_cave.y >= 790)) {
@@ -291,9 +305,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
 
-    if (struct_menu->music_state == 1) {
-        sfMusic_destroy(struct_cave->music);
-    }
+    if (struct_menu->music_state == 1) sfMusic_destroy(struct_cave->music);
 
     return s_perso;
 }
