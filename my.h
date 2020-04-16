@@ -223,6 +223,7 @@ typedef struct s_button {
     sfVector2f pos_button_h;
     sfVector2f pos_button2;
     sfVector2f pos_button3;
+    sfVector2f pos_button3_h;
     sfSprite *sprite_button;
     sfSprite *sprite_button2;
     sfSprite *sprite_button3;
