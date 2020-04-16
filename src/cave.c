@@ -204,7 +204,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     struct_cave->music = sfMusic_createFromFile("Music/cave_water.ogg");
 
     if (struct_menu->music_state == 1) {
-        sfMusic_setLoop(struct_menu->music_state, sfTrue);
+        sfMusic_setLoop(struct_cave->music, sfTrue);
         sfMusic_play(struct_cave->music);
         sfMusic_setVolume(struct_cave->music, 20);
     }
