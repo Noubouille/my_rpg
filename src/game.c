@@ -63,6 +63,22 @@ s_villager_t *init_villager(void)
     return struct_villager;
 }
 
+s_villager1_t *init_villager1(void)
+{
+    s_villager1_t *struct_villager1 = malloc(sizeof(s_villager1_t));
+    struct_villager1->sprite_villager = sfSprite_create();
+    struct_villager1->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
+    struct_villager1->clock_villager = sfClock_create();
+    sfSprite_setTexture(struct_villager1->sprite_villager, struct_villager1->text_villager, sfTrue);
+    struct_villager1->rect_villager.height = 64;
+    struct_villager1->rect_villager.width = 64;
+    sfSprite_setTextureRect(struct_villager1->sprite_villager, struct_villager1->rect_villager);
+    struct_villager1->pos_villager.x = 1400;
+    struct_villager1->pos_villager.y = 350;
+    sfSprite_setPosition(struct_villager1->sprite_villager, struct_villager1->pos_villager);
+    return struct_villager1;
+}
+
 s_pause_game_t *init_pause(void)
 {
     s_pause_game_t *struct_pause = malloc(sizeof(s_pause_game_t));
@@ -108,6 +124,11 @@ s_object_t *init_objects(void)
     struct_object->sprite_bubble_v = sfSprite_create();
     sfSprite_setTexture(struct_object->sprite_bubble_v, struct_object->text_bubble_v, sfTrue);
     sfSprite_setPosition(struct_object->sprite_bubble_v, (sfVector2f) {1200, 700});
+
+    struct_object->text_bubble_v1 = sfTexture_createFromFile("Image/wtf.png", NULL);
+    struct_object->sprite_bubble_v1 = sfSprite_create();
+    sfSprite_setTexture(struct_object->sprite_bubble_v1, struct_object->text_bubble_v1, sfTrue);
+    sfSprite_setPosition(struct_object->sprite_bubble_v1, (sfVector2f) {1400, 300});
     return struct_object;
 }
 
@@ -273,6 +294,7 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct
 {
     int i = 0;
     int l = 0;
+    int m = 0;
     if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350) {
         i = 1;
     } else {
@@ -283,10 +305,17 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct
     } else {
         l = 0;
     }
+    if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300) {
+        m = 1;
+    } else {
+        m = 0;
+    }
     if (i == 1) {
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble, NULL);
     } else if (l == 1) {
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v, NULL);
+    } else if (m == 1) {
+        sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v1, NULL);
     }
 }
 
@@ -355,6 +384,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_inventory_t *s_invent = init_invent(s_perso);
     s_villager_t *struct_villager = init_villager();
     s_button_t *struct_buttons = init_buttons();
+    s_villager1_t *struct_villager1 = init_villager1();
     // s_pause_game_t *struct_pause = init_pause();
     if (struct_menu->music_state == 1) {
     struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
@@ -460,10 +490,18 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_villager->rect_villager.left >= 192) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager1->clock_villager)) > 150) {
+            struct_villager1->rect_villager.left += (192 / 3);
+            if (struct_villager1->rect_villager.left >= 192) struct_villager1->rect_villager.left = 0;
+            sfClock_restart(struct_villager1->clock_villager);
+        }
         //if (struct_game->pause != 1) {
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
+        sfSprite_setTextureRect(struct_villager1->sprite_villager, struct_villager1->rect_villager);
+        sfSprite_setPosition(struct_villager1->sprite_villager, struct_villager1->pos_villager);
+        sfRenderWindow_drawSprite(window, struct_villager1->sprite_villager, NULL);
         //}
         //fin du rect du perso
         //tous les draws
