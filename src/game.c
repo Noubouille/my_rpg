@@ -18,6 +18,12 @@ s_button_t *init_buttons(void)
     struct_buttons->pos_button3_h.x = 710;
     struct_buttons->pos_button3_h.y = 610;
     sfSprite_setPosition(struct_buttons->sprite_button3, struct_buttons->pos_button3);
+    struct_buttons->sprite_button4 = sfSprite_create();
+    struct_buttons->text_button4 = sfTexture_createFromFile("Image/but_menu.png", NULL);
+    sfSprite_setTexture(struct_buttons->sprite_button4, struct_buttons->text_button4, sfTrue);
+    struct_buttons->pos_button4.x = 710;
+    struct_buttons->pos_button4.y = 400;
+    sfSprite_setPosition(struct_buttons->sprite_button4, struct_buttons->pos_button4);
     return struct_buttons;
 }
 
@@ -374,6 +380,12 @@ s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s
                 (mouse.y > sfSprite_getPosition(s_buttons->sprite_button3).y && mouse.y <= sfSprite_getPosition(s_buttons->sprite_button3).y + 127)) {
                     sfRenderWindow_close(window);
                 }
+                if ((mouse.x > sfSprite_getPosition(s_buttons->sprite_button4).x && mouse.x <= sfSprite_getPosition(s_buttons->sprite_button4).x + 512) &&
+                (mouse.y > sfSprite_getPosition(s_buttons->sprite_button4).y && mouse.y <= sfSprite_getPosition(s_buttons->sprite_button4).y + 127)) {
+                    sfRenderWindow_close(window);
+                    sfMusic_stop(struct_game->music);
+                    menu_game(window);
+                }
             }
             if (sfKeyboard_isKeyPressed(sfKeyEscape)) {
                 struct_game->pause = 0;
@@ -402,6 +414,7 @@ s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
         sfRenderWindow_drawSprite(window, s_pause->sprite_pause, NULL);
         sfRenderWindow_drawSprite(window, struct_buttons->sprite_button3, NULL);
+        sfRenderWindow_drawSprite(window, struct_buttons->sprite_button4, NULL);
     }
     return struct_game;
 }

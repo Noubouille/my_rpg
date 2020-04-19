@@ -245,6 +245,7 @@ typedef struct s_button {
     sfVector2f pos_button_h;
     sfVector2f pos_button2;
     sfVector2f pos_button3;
+    sfVector2f pos_button4;
     sfVector2f pos_button3_h;
     sfSprite *sprite_button;
     sfSprite *sprite_button2;
@@ -253,6 +254,7 @@ typedef struct s_button {
     sfTexture *text_button;
     sfTexture *text_button2;
     sfTexture *text_button3;
+    sfTexture *text_button4;
 }s_button_t;
 
 s_perso_t *movement_perso(s_perso_t *perso);
