@@ -570,7 +570,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
-            if (s_perso->next->player_rect.left >= 855) s_perso->next->player_rect.left = 0;
+                if (s_perso->next->player_rect.left >= 855)
+                    s_perso->next->player_rect.left = 0;
                 sfClock_restart(s_perso->next->player_clock);
             }
             if (s_perso->left == 1) {
