@@ -431,11 +431,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_villager->rect_villager.left >= 192) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
-        //if (struct_game->pause != 1) {
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
-        //}
         //fin du rect du perso
         //tous les draws
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
@@ -463,7 +461,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
-            if (s_perso->next->player_rect.left >= 855) s_perso->next->player_rect.left = 0;
+                if (s_perso->next->player_rect.left >= 855)
+                    s_perso->next->player_rect.left = 0;
                 sfClock_restart(s_perso->next->player_clock);
             }
             if (s_perso->left == 1) {
