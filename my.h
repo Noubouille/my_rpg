@@ -55,6 +55,9 @@ typedef struct s_object {
 
     sfSprite *sprite_bubble_v;
     sfTexture *text_bubble_v;
+
+    sfSprite *sprite_bubble_v1;
+    sfTexture *text_bubble_v1;
 }s_object_t;
 
 typedef struct s_perso {
@@ -164,6 +167,14 @@ typedef struct s_villager {
     sfClock *clock_achievement;
 }s_villager_t;
 
+typedef struct s_villager1 {
+    sfVector2f pos_villager;
+    sfIntRect rect_villager;
+    sfClock *clock_villager;
+    sfSprite *sprite_villager;
+    sfTexture *text_villager;
+}s_villager1_t;
+
 
 typedef struct s_my_game {
     sfEvent event_g;
@@ -223,6 +234,7 @@ typedef struct s_button {
     sfVector2f pos_button_h;
     sfVector2f pos_button2;
     sfVector2f pos_button3;
+    sfVector2f pos_button3_h;
     sfSprite *sprite_button;
     sfSprite *sprite_button2;
     sfSprite *sprite_button3;
