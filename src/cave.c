@@ -215,6 +215,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
     int supp = 0;
+
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
         while (sfRenderWindow_pollEvent(window, &struct_cave->event_gc)) {
