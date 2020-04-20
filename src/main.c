@@ -109,6 +109,18 @@ s_set_panel_t *init_panel(void)
     setpanel->pos_close.y = 560;
     setpanel->pos_but_howtoplay_close.x = 1700;
     setpanel->pos_but_howtoplay_close.y = 40;
+    setpanel->pos_button_h.x = 20;
+    setpanel->pos_button_h.y = 470;
+    setpanel->pos_button2_h.x = 20;
+    setpanel->pos_button2_h.y = 680;
+    setpanel->pos_button3_h.x = 20;
+    setpanel->pos_button3_h.y = 885;
+    setpanel->pos_audio_h.x = 1432;
+    setpanel->pos_audio_h.y = 145;
+    setpanel->pos_but_howtoplay_h.x = 1430;
+    setpanel->pos_but_howtoplay_h.y = 360;
+    setpanel->pos_close_h.x = 1430;
+    setpanel->pos_close_h.y = 570;
     sfSprite_setTexture(setpanel->sprite_panel, setpanel->text_panel, sfTrue);
     sfSprite_setPosition(setpanel->sprite_panel, setpanel->pos_panel);
     sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
@@ -124,8 +136,31 @@ s_set_panel_t *init_panel(void)
     return setpanel;
 }
 
+int read_file(FILE *fp2)
+{
+    int on = 0, off = 0;
+    char *tmp = malloc(sizeof(char) * 100);
+    char *str_on = "on";
+    char *str_off = "off";
+
+    fread(tmp, sizeof(tmp), 1, fp2);
+
+    printf("le tmp:%s\n", tmp);
+    if (tmp[0] == 'o' && tmp[1] == 'n') {
+        on++;
+    printf("on\n");
+    }
+    if (tmp[0] == 'o' && tmp[1] == 'f' && tmp[2] == 'f') {
+        off++;
+    printf("off\n");
+    }
+}
+
 int menu_game(sfRenderWindow* window)
 {
+    FILE *fp2 = fopen("settings.txt", "r");
+    if (fp2 == NULL) return 84;
+    int readret = read_file(fp2);
     s_menu_game_t *struct_mg = init_mg_struct();
     s_cursor_t *cursor = init_cursor();
     s_button_t *button = init_button();
@@ -134,21 +169,8 @@ int menu_game(sfRenderWindow* window)
     sfMusic_setLoop(struct_mg->music, sfTrue);
     sfMusic_play(struct_mg->music);
     sfMusic_setVolume(struct_mg->music, 20);
-    // sfVideoMode mode = {1920, 1080, 32};
     int launch_game = 0;
     struct_mg->music_state = 1;
-    setpanel->pos_button_h.x = 20;
-    setpanel->pos_button_h.y = 470;
-    setpanel->pos_button2_h.x = 20;
-    setpanel->pos_button2_h.y = 680;
-    setpanel->pos_button3_h.x = 20;
-    setpanel->pos_button3_h.y = 885;
-    setpanel->pos_audio_h.x = 1432;
-    setpanel->pos_audio_h.y = 145;
-    setpanel->pos_but_howtoplay_h.x = 1430;
-    setpanel->pos_but_howtoplay_h.y = 360;
-    setpanel->pos_close_h.x = 1430;
-    setpanel->pos_close_h.y = 570;
     window = sfRenderWindow_create((sfVideoMode) {1920, 1080, 32}, "Error_404", 7 | sfClose, NULL);
     sfRenderWindow_setIcon(window, 61, 46, sfImage_getPixelsPtr(sfImage_createFromFile("Image/icon.png")));
     sfWindow_setMouseCursorVisible((sfWindow *) window, sfFalse);
@@ -302,9 +324,9 @@ int menu_game(sfRenderWindow* window)
                 sfRenderWindow_clear(window, sfBlack);
                 sfRenderWindow_drawSprite(window, struct_mg->sprite_bg, NULL);
 
-                    sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
-                    sfSprite_setPosition(struct_mg->sprite_perso ,struct_mg->pos_perso);
-                    sfRenderWindow_drawSprite(window, struct_mg->sprite_perso, NULL);
+                sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
+                sfSprite_setPosition(struct_mg->sprite_perso ,struct_mg->pos_perso);
+                sfRenderWindow_drawSprite(window, struct_mg->sprite_perso, NULL);
             }
             if (sfTime_asSeconds(sfClock_getElapsedTime(struct_mg->horloge)) >= 1) {
                 sfMusic_stop(struct_mg->music);
@@ -322,17 +344,17 @@ int menu_game(sfRenderWindow* window)
         //     sfSprite_setPosition(button->sprite_button, pos_howtoplay_open);
         //     sfSprite_setPosition(button->sprite_button2, pos_howtoplay_open);
         //     sfSprite_setPosition(button->sprite_button3, pos_howtoplay_open);
-        sfRenderWindow_drawSprite(window, setpanel->sprite_howtoplay, NULL);
-        sfRenderWindow_drawSprite(window, setpanel->sprite_but_howtoplay_close, NULL);
+            sfRenderWindow_drawSprite(window, setpanel->sprite_howtoplay, NULL);
+            sfRenderWindow_drawSprite(window, setpanel->sprite_but_howtoplay_close, NULL);
         }
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, struct_mg->sprite_bg, NULL);
         if (setpanel->how_var == 0) {
-        sfRenderWindow_drawSprite(window, button->sprite_button, NULL);
-        sfRenderWindow_drawSprite(window, button->sprite_button2, NULL);
-        sfRenderWindow_drawSprite(window, button->sprite_button3, NULL);
+            sfRenderWindow_drawSprite(window, button->sprite_button, NULL);
+            sfRenderWindow_drawSprite(window, button->sprite_button2, NULL);
+            sfRenderWindow_drawSprite(window, button->sprite_button3, NULL);
         }
 
         sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
