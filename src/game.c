@@ -320,40 +320,17 @@ s_perso_t *movement_perso(s_perso_t *perso)
 
 void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct_villager, sfRenderWindow* window)
 {
-    int i = 0;
-    int l = 0;
-    int m = 0;
-    int n = 0;
-
-    if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350) {
-        i = 1;
-    } else {
-        i = 0;
-    }
-    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && struct_villager->quest_accepted != 1) {
-        l = 1;
-    } else {
-        l = 0;
-    }
-    if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300) {
-        m = 1;
-    } else {
-        m = 0;
-    }
-    if (s_perso->pos_perso.x >= 100 && s_perso->pos_perso.x <= 300 && s_perso->pos_perso.y <= 400 && s_perso->pos_perso.y >= 300) {
-        n = 1;
-    } else {
-        n = 0;
-    }
-    if (i == 1) {
+    if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble, NULL);
-    } else if (l == 1) {
+
+    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && struct_villager->quest_accepted != 1)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v, NULL);
-    } else if (m == 1) {
+
+    if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v1, NULL);
-    } else if (n == 1) {
+
+    if (s_perso->pos_perso.x >= 100 && s_perso->pos_perso.x <= 300 && s_perso->pos_perso.y <= 400 && s_perso->pos_perso.y >= 300)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v2, NULL);
-    }
 }
 
 s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s_perso_t *s_perso, s_cursor_t *cursor, s_object_t *s_object, s_button_t *struct_buttons)
