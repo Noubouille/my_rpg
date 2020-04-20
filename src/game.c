@@ -89,11 +89,11 @@ s_villager2_t *init_villager2(void)
 {
     s_villager2_t *struct_villager2 = malloc(sizeof(s_villager2_t));
     struct_villager2->sprite_villager = sfSprite_create();
-    struct_villager2->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
+    struct_villager2->text_villager = sfTexture_createFromFile("Image/villager2.png", NULL);
     struct_villager2->clock_villager = sfClock_create();
     sfSprite_setTexture(struct_villager2->sprite_villager, struct_villager2->text_villager, sfTrue);
-    struct_villager2->rect_villager.height = 64;
-    struct_villager2->rect_villager.width = 64;
+    struct_villager2->rect_villager.height = 76;
+    struct_villager2->rect_villager.width = 137;
     sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
     struct_villager2->pos_villager.x = 200;
     struct_villager2->pos_villager.y = 350;
@@ -406,7 +406,7 @@ s_my_game_t *print_inventory(sfRenderWindow* window, s_my_game_t *struct_game, s
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
         sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_object->horloge_tree)) > 200) {
-            s_object->tree_rect.left += (1024 / 8);
+            s_object->tree_rect.left += (102 / 8);
             if (s_object->tree_rect.left >= 1024) s_object->tree_rect.left = 0;
             sfClock_restart(s_object->horloge_tree);
         }
@@ -541,7 +541,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(struct_villager1->clock_villager);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager2->clock_villager)) > 150) {
-            struct_villager2->rect_villager.left += (192 / 3);
+            struct_villager2->rect_villager.left += (2300 / 30);
             if (struct_villager2->rect_villager.left >= 192) struct_villager2->rect_villager.left = 0;
             sfClock_restart(struct_villager2->clock_villager);
         }
