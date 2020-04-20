@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** my_putstr
 ** File description:
-** 
+** my putstr ofc
 */
 
 #include "my.h"
