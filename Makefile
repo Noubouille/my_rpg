@@ -7,7 +7,9 @@ RM	= rm -f
 SRCS	= ./src/main.c	\
 		  ./src/game.c \
 		  ./src/cave.c \
-		  ./src/nb_tochar.c
+		  ./src/nb_tochar.c	\
+		  ./src/my_putstr.c	\
+		  ./src/my_putchar.c
 
 OBJS	= $(SRCS:.c=.o)
 

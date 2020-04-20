@@ -352,7 +352,12 @@ int menu_game(sfRenderWindow* window)
 int main(int ac, char **av)
 {
     if (ac == 2 && av[1][0] == '-' && av[1][1] == 'h') {
-        // my_putstr("Usage: ./my_rpg [-p]\n");
+        my_putstr("\n- Azazyel's Adventure -\n\n");
+        my_putstr("-  Keybinds \n\n");
+        my_putstr("   Press F to fight\n");
+        my_putstr("   Press directional arrows to move in the map\n");
+        my_putstr("   Press E to interact with NPC\n\n");
+        my_putstr("   Good luck and have fun :)\n\n");
         return (0);
     }
 
