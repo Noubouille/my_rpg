@@ -14,11 +14,18 @@
 #include <SFML/Window/Export.h>
 #include <stdio.h>
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdlib.h>
+
 sfVector2f sourissprite(sfVector2i vect2i);
 char *nb_tochar(int i);
 
 typedef struct s_menu_game {
     int music_state;
+    int music_onoff;
     sfEvent event;
     sfMusic *click;
     sfSprite *sprite_bg;

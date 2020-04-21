@@ -5,10 +5,10 @@
 ** main
 */
 
-#include <SFML/Audio.h>
-#include <SFML/Graphics.h>
-#include <stdlib.h>
-#include <SFML/Window/Export.h>
+// #include <SFML/Audio.h>
+// #include <SFML/Graphics.h>
+// #include <stdlib.h>
+// #include <SFML/Window/Export.h>
 #include "../my.h"
 
 sfVector2f sourissprite(sfVector2i vect2i)
@@ -27,7 +27,7 @@ s_menu_game_t *init_mg_struct(void)
     sfSprite_setTexture(struct_mg->sprite_bg, struct_mg->text_bg, sfTrue);
     struct_mg->click = sfMusic_createFromFile("Music/click_music.ogg");
     struct_mg->horloge = sfClock_create();
-
+    struct_mg->music_onoff = 0;
     struct_mg->pos_perso.x = 1110;
     struct_mg->pos_perso.y = 815;
     struct_mg->player_clock = sfClock_create();
@@ -138,37 +138,47 @@ s_set_panel_t *init_panel(void)
 
 int read_file(FILE *fp2)
 {
-    int on = 0, off = 0;
-    char *tmp = malloc(sizeof(char) * 100);
-    char *str_on = "on";
-    char *str_off = "off";
+    struct stat oct;
+    stat("settings.txt", &oct);
+    int size = oct.st_size;
+    char *tmp = malloc(sizeof(char) * size);
+    int i;
+    int egal = 0;
+    fread(tmp, size, 1, fp2);
+        printf("le tmpavantboucle:%s\n", tmp);
+    for (int i = 0; tmp[i]; i++)
+        if (tmp[i] == '=') egal++;
+    if (egal == 0) return 0;
 
-    fread(tmp, sizeof(tmp), 1, fp2);
-
-    printf("le tmp:%s\n", tmp);
-    if (tmp[0] == 'o' && tmp[1] == 'n') {
-        on++;
-    printf("on\n");
-    }
-    if (tmp[0] == 'o' && tmp[1] == 'f' && tmp[2] == 'f') {
-        off++;
-    printf("off\n");
-    }
+    for (i = 0; tmp[i] != '=' && (tmp[i] != '\0' || tmp[i] != '\n'); i++);
+    i++;
+    for (; (tmp[i] < 'a' || tmp[i] > 'z'); i++);
+        if (tmp[i] == 'o' && tmp[i+1] == 'n') {
+            return 0;
+        printf("on\n");
+        }
+        if (tmp[i] == 'o' && tmp[i+1] == 'f' && tmp[i+2] == 'f') {
+            return 2;
+        printf("off\n");
+        }
+    return 0;
 }
 
 int menu_game(sfRenderWindow* window)
 {
     FILE *fp2 = fopen("settings.txt", "r");
     if (fp2 == NULL) return 84;
-    int readret = read_file(fp2);
     s_menu_game_t *struct_mg = init_mg_struct();
     s_cursor_t *cursor = init_cursor();
     s_button_t *button = init_button();
     s_set_panel_t *setpanel = init_panel();
+    struct_mg->music_onoff = read_file(fp2);
     struct_mg->music = sfMusic_createFromFile("Music/menu_music.ogg");
-    sfMusic_setLoop(struct_mg->music, sfTrue);
-    sfMusic_play(struct_mg->music);
-    sfMusic_setVolume(struct_mg->music, 20);
+    if (struct_mg->music_onoff == 0) {
+        sfMusic_setLoop(struct_mg->music, sfTrue);
+        sfMusic_play(struct_mg->music);
+        sfMusic_setVolume(struct_mg->music, 20);
+    }
     int launch_game = 0;
     struct_mg->music_state = 1;
     window = sfRenderWindow_create((sfVideoMode) {1920, 1080, 32}, "Error_404", 7 | sfClose, NULL);

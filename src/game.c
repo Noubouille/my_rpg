@@ -92,8 +92,8 @@ s_villager2_t *init_villager2(void)
     struct_villager2->text_villager = sfTexture_createFromFile("Image/villager2.png", NULL);
     struct_villager2->clock_villager = sfClock_create();
     sfSprite_setTexture(struct_villager2->sprite_villager, struct_villager2->text_villager, sfTrue);
-    struct_villager2->rect_villager.height = 76;
-    struct_villager2->rect_villager.width = 137;
+    struct_villager2->rect_villager.height = 74;
+    struct_villager2->rect_villager.width = (2250 / 30);
     sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
     struct_villager2->pos_villager.x = 200;
     struct_villager2->pos_villager.y = 350;
@@ -408,11 +408,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager1_t *struct_villager1 = init_villager1();
     s_villager2_t *struct_villager2 = init_villager2();
     // s_pause_game_t *struct_pause = init_pause();
-    if (struct_menu->music_state == 1) {
-    struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
-    sfMusic_setLoop(struct_game->music, sfTrue);
-    sfMusic_play(struct_game->music);
-    sfMusic_setVolume(struct_game->music, 20);
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
+        struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
+        sfMusic_setLoop(struct_game->music, sfTrue);
+        sfMusic_play(struct_game->music);
+        sfMusic_setVolume(struct_game->music, 20);
     }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
@@ -518,8 +518,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(struct_villager1->clock_villager);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager2->clock_villager)) > 150) {
-            struct_villager2->rect_villager.left += (2300 / 30);
-            if (struct_villager2->rect_villager.left >= 192) struct_villager2->rect_villager.left = 0;
+            struct_villager2->rect_villager.left += (2250 / 30);
+            if (struct_villager2->rect_villager.left >= 2250) struct_villager2->rect_villager.left = 0;
             sfClock_restart(struct_villager2->clock_villager);
         }
         //if (struct_game->pause != 1) {

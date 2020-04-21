@@ -207,7 +207,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
     sfClock *red = sfClock_create();
-    if (struct_menu->music_state == 1) {
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         sfMusic_setLoop(struct_cave->music, sfTrue);
         sfMusic_play(struct_cave->music);
         sfMusic_setVolume(struct_cave->music, 20);
