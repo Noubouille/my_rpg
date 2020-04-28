@@ -81,6 +81,9 @@ s_button_t *init_button(void)
 s_set_panel_t *init_panel(void)
 {
     s_set_panel_t *setpanel = malloc(sizeof(s_set_panel_t));
+    FILE *fp2 = fopen("settings.txt", "r");
+    s_menu_game_t *struct_mg = init_mg_struct();
+    struct_mg->music_onoff = read_file(fp2);
     setpanel->i = 0;
     setpanel->k = 0;
     setpanel->how_var = 0;
@@ -123,7 +126,11 @@ s_set_panel_t *init_panel(void)
     setpanel->pos_close_h.y = 570;
     sfSprite_setTexture(setpanel->sprite_panel, setpanel->text_panel, sfTrue);
     sfSprite_setPosition(setpanel->sprite_panel, setpanel->pos_panel);
-    sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
+    if (struct_mg->music_onoff == 0) {
+        sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
+    } else if (struct_mg->music_onoff == 2) {
+        sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_off, sfTrue);
+    }
     sfSprite_setPosition(setpanel->sprite_audio, setpanel->pos_audio);
     sfSprite_setTexture(setpanel->sprite_close, setpanel->text_close, sfTrue);
     sfSprite_setPosition(setpanel->sprite_close, setpanel->pos_close);
