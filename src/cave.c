@@ -10,7 +10,7 @@
 s_mob_t *init_mob()
 {
     s_mob_t *s_mob = malloc(sizeof(s_mob_t));
-    s_mob->pos_mob.x = 1400;
+    s_mob->pos_mob.x = 1600;
     s_mob->pos_mob.y = 500;
     s_mob->clock_heal = sfClock_create();
     s_mob->clock_mob = sfClock_create();
@@ -283,7 +283,6 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             sfRenderWindow_close(window);
             return s_perso;
         }
-        //lemob
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);

@@ -193,6 +193,12 @@ typedef struct s_villager2 {
     sfTexture *text_villager;
 }s_villager2_t;
 
+typedef struct s_chest {
+    sfIntRect rect_chest;
+    sfClock *clock_chest;
+    sfSprite *sprite_chest;
+    sfTexture *text_chest;
+}s_chest_t;
 
 typedef struct s_my_game {
     sfEvent event_g;
@@ -207,6 +213,7 @@ typedef struct s_inventory {
     sfSprite *sprite_invent;
     sfTexture *text_invent;
     sfTexture *text_invent_key;
+    sfTexture *text_invent_2key;
 }s_inventory_t;
 
 
