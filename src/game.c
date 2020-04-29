@@ -611,7 +611,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
-<<<<<<< HEAD
 
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
@@ -642,18 +641,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
-=======
-        sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
-        sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
-        sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
-        sfSprite_setTextureRect(struct_villager1->sprite_villager, struct_villager1->rect_villager);
-        sfSprite_setPosition(struct_villager1->sprite_villager, struct_villager1->pos_villager);
-        sfRenderWindow_drawSprite(window, struct_villager1->sprite_villager, NULL);
-        sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
-        sfSprite_setPosition(struct_villager2->sprite_villager, struct_villager2->pos_villager);
-        sfRenderWindow_drawSprite(window, struct_villager2->sprite_villager, NULL);
-        // }
->>>>>>> 17effba441f7ec6eb71762085486728dcf393268
     }
     //les destroys
     sfSprite_destroy(cursor->cursorsprite);
