@@ -199,6 +199,7 @@ typedef struct s_chest {
     sfClock *clock_chest;
     sfSprite *sprite_chest;
     sfTexture *text_chest;
+    struct s_chest *next;
 }s_chest_t;
 
 typedef struct s_my_game {

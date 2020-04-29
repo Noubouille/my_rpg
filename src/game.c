@@ -228,7 +228,7 @@ s_chest_t *init_chest()
     s_chest_t *s_chest = malloc(sizeof(s_chest_t));
 
     s_chest->clock_chest = sfClock_create();
-    s_chest->text_chest = sfTexture_createFromFile("Image/chest.png", NULL);
+    s_chest->text_chest = sfTexture_createFromFile("Image/chest1.png", NULL);
 
     s_chest->sprite_chest = sfSprite_create();
     sfSprite_setTexture(s_chest->sprite_chest, s_chest->text_chest, sfTrue);
@@ -236,6 +236,18 @@ s_chest_t *init_chest()
     s_chest->rect_chest.width = 432 / 9;
     sfSprite_setTextureRect(s_chest->sprite_chest, s_chest->rect_chest);
     sfSprite_setPosition(s_chest->sprite_chest, (sfVector2f) {185, 328});
+    s_chest->next = NULL;
+    // s_chest->next = malloc(sizeof(s_chest_t));
+    // s_chest->next->clock_chest = sfClock_create();
+    // s_chest->next->text_chest = sfTexture_createFromFile("Image/chest1.png", NULL);
+
+    // s_chest->next->sprite_chest = sfSprite_create();
+    // sfSprite_setTexture(s_chest->next->sprite_chest, s_chest->next->text_chest, sfTrue);
+    // s_chest->next->rect_chest.height = 44;
+    // s_chest->next->rect_chest.width = 432 / 9;
+    // sfSprite_setTextureRect(s_chest->next->sprite_chest, s_chest->next->rect_chest);
+    // sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {1505, 700});
+    // s_chest->next->next = NULL;
     return s_chest;
 }
 
@@ -586,6 +598,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->sprite_chest, NULL);
+        // sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
         if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && int_chest == 1 && s_perso->object == 1) {
             sfSprite_setTextureRect(struct_chest->sprite_chest, struct_chest->rect_chest);
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
@@ -601,7 +614,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
         sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
         //l'arbre en rect
-        // if (struct_game->pause != 1) {
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_object->horloge_tree)) > 200) {
             s_object->tree_rect.left += (1024 / 8);
             if (s_object->tree_rect.left >= 1024) s_object->tree_rect.left = 0;
@@ -611,14 +623,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, s_object->sprite_tree, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
-<<<<<<< HEAD
 
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
                 if (s_perso->next->player_rect.left >= 855)
@@ -642,7 +653,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
-=======
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
@@ -652,8 +662,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
         sfSprite_setPosition(struct_villager2->sprite_villager, struct_villager2->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager2->sprite_villager, NULL);
-        // }
->>>>>>> 17effba441f7ec6eb71762085486728dcf393268
     }
     //les destroys
     sfSprite_destroy(cursor->cursorsprite);
