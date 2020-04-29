@@ -615,9 +615,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
                 if (s_perso->next->player_rect.left >= 855)
