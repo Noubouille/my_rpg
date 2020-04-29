@@ -228,7 +228,7 @@ s_chest_t *init_chest()
     s_chest_t *s_chest = malloc(sizeof(s_chest_t));
 
     s_chest->clock_chest = sfClock_create();
-    s_chest->text_chest = sfTexture_createFromFile("Image/chest1.png", NULL);
+    s_chest->text_chest = sfTexture_createFromFile("Image/chest.png", NULL);
 
     s_chest->sprite_chest = sfSprite_create();
     sfSprite_setTexture(s_chest->sprite_chest, s_chest->text_chest, sfTrue);
@@ -236,18 +236,19 @@ s_chest_t *init_chest()
     s_chest->rect_chest.width = 432 / 9;
     sfSprite_setTextureRect(s_chest->sprite_chest, s_chest->rect_chest);
     sfSprite_setPosition(s_chest->sprite_chest, (sfVector2f) {185, 328});
-    s_chest->next = NULL;
-    // s_chest->next = malloc(sizeof(s_chest_t));
-    // s_chest->next->clock_chest = sfClock_create();
-    // s_chest->next->text_chest = sfTexture_createFromFile("Image/chest1.png", NULL);
 
-    // s_chest->next->sprite_chest = sfSprite_create();
-    // sfSprite_setTexture(s_chest->next->sprite_chest, s_chest->next->text_chest, sfTrue);
-    // s_chest->next->rect_chest.height = 44;
-    // s_chest->next->rect_chest.width = 432 / 9;
-    // sfSprite_setTextureRect(s_chest->next->sprite_chest, s_chest->next->rect_chest);
-    // sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {1505, 700});
-    // s_chest->next->next = NULL;
+    // s_chest->next = NULL;
+    s_chest->next = malloc(sizeof(s_chest_t));
+    s_chest->next->clock_chest = sfClock_create();
+    s_chest->next->text_chest = sfTexture_createFromFile("Image/chest.png", NULL);
+
+    s_chest->next->sprite_chest = sfSprite_create();
+    sfSprite_setTexture(s_chest->next->sprite_chest, s_chest->next->text_chest, sfTrue);
+    s_chest->next->rect_chest.height = 44;
+    s_chest->next->rect_chest.width = 432 / 9;
+    sfSprite_setTextureRect(s_chest->next->sprite_chest, s_chest->next->rect_chest);
+    sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {1505, 700});
+    s_chest->next->next = NULL;
     return s_chest;
 }
 
@@ -598,7 +599,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->sprite_chest, NULL);
-        // sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
+        sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
         if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && int_chest == 1 && s_perso->object == 1) {
             sfSprite_setTextureRect(struct_chest->sprite_chest, struct_chest->rect_chest);
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
