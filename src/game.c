@@ -245,9 +245,17 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
     s_invent->text_invent = sfTexture_createFromFile("Image/invent.png", NULL);
     s_invent->text_invent_key = sfTexture_createFromFile("Image/invent_key.png", NULL);
     s_invent->text_invent_2key = sfTexture_createFromFile("Image/invent_2key.png", NULL);
+    s_invent->text_invent_sword = sfTexture_createFromFile("Image/sword.png", NULL);
+    s_invent->text_invent_potion = sfTexture_createFromFile("Image/potion.png", NULL);
     s_invent->sprite_invent = sfSprite_create();
+    s_invent->sprite_sword = sfSprite_create();
+    s_invent->sprite_potion = sfSprite_create();
     sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
+    sfSprite_setTexture(s_invent->sprite_sword, s_invent->text_invent_sword, sfTrue);
+    sfSprite_setTexture(s_invent->sprite_potion, s_invent->text_invent_potion, sfTrue);
     sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {70, 40});
+    sfSprite_setPosition(s_invent->sprite_sword, (sfVector2f) {235, 645});
+    sfSprite_setPosition(s_invent->sprite_potion, (sfVector2f) {290, 645});
     return s_invent;
 }
 
@@ -467,6 +475,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE)) {
                 struct_villager->quest_state = 1;
             }
+
+            if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
+                sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+                sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+                sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+            }
+
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
                 struct_game->pause = 1;
             }
@@ -590,7 +605,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            // sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
                 if (s_perso->next->player_rect.left >= 855)
