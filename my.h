@@ -104,7 +104,8 @@ typedef struct s_my_cave {
     sfClock *tap;
     sfSprite *sprite_bubble_gc;
     sfTexture *text_bubble_gc;
-
+    sfSprite *sprite_bu;
+    sfTexture *text_bu;
     int fig_int;
     int healb;
     int go_in;
