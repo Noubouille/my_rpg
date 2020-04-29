@@ -47,6 +47,11 @@ s_my_cave_t *init_cave()
     sfSprite_setPosition(struct_cave->sprite_bubble_gc , (sfVector2f) {1590, 590});
     struct_cave->music = sfMusic_createFromFile("Music/cave_water.ogg");
 
+    struct_cave->sprite_bu = sfSprite_create();
+    struct_cave->text_bu = sfTexture_createFromFile("Image/sp_owto.png", NULL);
+    sfSprite_setTexture(struct_cave->sprite_bu, struct_cave->text_bu, sfTrue);
+    sfSprite_setPosition(struct_cave->sprite_bu , (sfVector2f) {0, 0});
+
     struct_cave->healb = 0;
     struct_cave->go_in = 0;
     struct_cave->nb_touch = 0;
@@ -214,7 +219,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     }
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
-    int supp = 0;
+    int supp = 0, bubble = 0;
 
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
@@ -237,6 +242,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 sfClock_restart(red);
                 sfClock_restart(struct_cave->tap);
             }
+            if (sfKeyboard_isKeyPressed(sfKeyEnter)) bubble++;
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso, sfTrue);
                 struct_cave->right = 1;
@@ -283,6 +289,9 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             sfRenderWindow_close(window);
             return s_perso;
         }
+        if (struct_cave->pos_cave.y >= 400 && bubble == 0 && struct_cave->pos_cave.y <= 500) {
+            sfRenderWindow_drawSprite(window, struct_cave->sprite_bu, NULL);
+        }
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);
@@ -302,7 +311,9 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         sfText_setString(s_font->texte_fight_nb, nb_tochar(s_font->nb));
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
-    if (struct_menu->music_state == 1) sfMusic_destroy(struct_cave->music);
+    sfMusic_pause(struct_cave->music);
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
+        sfMusic_destroy(struct_cave->music);
 
     return s_perso;
 }
