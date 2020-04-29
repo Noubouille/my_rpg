@@ -242,7 +242,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 sfClock_restart(red);
                 sfClock_restart(struct_cave->tap);
             }
-            if (sfKeyboard_isKeyPressed(sfKeyEnter)) bubble++;
+            if (sfKeyboard_isKeyPressed(sfKeyReturn)) bubble++;
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso, sfTrue);
                 struct_cave->right = 1;
