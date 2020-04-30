@@ -226,13 +226,16 @@ typedef struct s_inventory {
     sfSprite *sprite_sword;
     sfSprite *sprite_potion;
     sfSprite *sprite_sword_fx;
+    sfSprite *sprite_sword_fx2;
     sfTexture *text_invent;
     sfTexture *text_invent_key;
     sfTexture *text_invent_2key;
     sfTexture *text_invent_sword;
     sfTexture *text_swordlvl_fx;
+    sfTexture *text_swordlvl_fx2;
     sfTexture *text_invent_potion;
     sfVector2f pos_sword_fx;
+    sfClock *clock_fx;
 }s_inventory_t;
 
 
