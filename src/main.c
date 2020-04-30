@@ -37,6 +37,8 @@ s_menu_game_t *init_mg_struct(void)
 
     struct_mg->player_rect.height = 48;
     struct_mg->player_rect.width = 288 / 3;
+    struct_mg->player_rect.top = 0;
+    struct_mg->player_rect.left = 0;
     sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
     sfSprite_setPosition(struct_mg->sprite_perso ,struct_mg->pos_perso);
     return struct_mg;

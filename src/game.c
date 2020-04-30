@@ -34,6 +34,8 @@ s_villager_t *init_villager(void)
     struct_villager->sprite_villager = sfSprite_create();
     struct_villager->rect_villager.height = 74;
     struct_villager->rect_villager.width = 518 / 7;
+    struct_villager->rect_villager.top = 0;
+    struct_villager->rect_villager.left = 0;
     sfSprite_setTexture(struct_villager->sprite_villager, struct_villager->text_villager, sfTrue);
     sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
     struct_villager->pos_villager.x = 1180;
@@ -78,6 +80,8 @@ s_villager1_t *init_villager1(void)
     sfSprite_setTexture(struct_villager1->sprite_villager, struct_villager1->text_villager, sfTrue);
     struct_villager1->rect_villager.height = 64;
     struct_villager1->rect_villager.width = 64;
+    struct_villager1->rect_villager.top = 0;
+    struct_villager1->rect_villager.left = 0;
     sfSprite_setTextureRect(struct_villager1->sprite_villager, struct_villager1->rect_villager);
     struct_villager1->pos_villager.x = 1400;
     struct_villager1->pos_villager.y = 350;
@@ -94,6 +98,8 @@ s_villager2_t *init_villager2(void)
     sfSprite_setTexture(struct_villager2->sprite_villager, struct_villager2->text_villager, sfTrue);
     struct_villager2->rect_villager.height = 85;
     struct_villager2->rect_villager.width = (340 / 4);
+    struct_villager2->rect_villager.top = 0;
+    struct_villager2->rect_villager.left = 0;
     sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
     struct_villager2->pos_villager.x = 200;
     struct_villager2->pos_villager.y = 350;
@@ -132,6 +138,8 @@ s_object_t *init_objects(void)
     struct_object->sprite_tree = sfSprite_create();
     struct_object->tree_rect.height = 128;
     struct_object->tree_rect.width = 1024 / 8;
+    struct_object->tree_rect.left = 0;
+    struct_object->tree_rect.top = 0;
     sfSprite_setTexture(struct_object->sprite_tree, struct_object->text_tree, sfTrue);
     sfSprite_setTextureRect(struct_object->sprite_tree, struct_object->tree_rect);
     sfSprite_setPosition(struct_object->sprite_tree ,(sfVector2f) {920, 895});
@@ -179,6 +187,8 @@ s_perso_t *init_perso(void)
     sfSprite_setTexture(struct_perso->sprite_perso, struct_perso->text_perso, sfTrue);
     struct_perso->player_rect.height = 48;
     struct_perso->player_rect.width = 288 / 3;
+    struct_perso->player_rect.top = 0;
+    struct_perso->player_rect.left = 0;
     sfSprite_setTextureRect(struct_perso->sprite_perso, struct_perso->player_rect);
     sfSprite_setPosition(struct_perso->sprite_perso ,struct_perso->pos_perso);
     //la maison
@@ -219,6 +229,8 @@ void init_perso2(s_perso_t *s_perso, sfRenderWindow* window)
     sfSprite_setTexture(struct_perso2->next->sprite_perso, struct_perso2->next->text_perso, sfTrue);
     struct_perso2->next->player_rect.height = 143;
     struct_perso2->next->player_rect.width = 855 / 3;
+    struct_perso2->next->player_rect.left = 0;
+    struct_perso2->next->player_rect.top = 0;
     sfSprite_setTextureRect(struct_perso2->next->sprite_perso, struct_perso2->next->player_rect);
     sfSprite_setPosition(struct_perso2->next->sprite_perso ,struct_perso2->next->pos_perso);
     struct_perso2->next->next = NULL;
@@ -234,10 +246,11 @@ s_chest_t *init_chest()
     s_chest->sprite_chest = sfSprite_create();
     sfSprite_setTexture(s_chest->sprite_chest, s_chest->text_chest, sfTrue);
     s_chest->rect_chest.height = 44;
-    s_chest->rect_chest.width = 432 / 9;
+    s_chest->rect_chest.width = 48;
+    s_chest->rect_chest.left = 0;
+    s_chest->rect_chest.top = 0;
     sfSprite_setTextureRect(s_chest->sprite_chest, s_chest->rect_chest);
     sfSprite_setPosition(s_chest->sprite_chest, (sfVector2f) {185, 328});
-
     // s_chest->next = NULL;
     s_chest->next = malloc(sizeof(s_chest_t));
     s_chest->next->clock_chest = sfClock_create();
@@ -246,7 +259,9 @@ s_chest_t *init_chest()
     s_chest->next->sprite_chest = sfSprite_create();
     sfSprite_setTexture(s_chest->next->sprite_chest, s_chest->next->text_chest, sfTrue);
     s_chest->next->rect_chest.height = 44;
-    s_chest->next->rect_chest.width = 432 / 9;
+    s_chest->next->rect_chest.width = 48;
+    s_chest->next->rect_chest.left = 0;
+    s_chest->next->rect_chest.top = 0;
     sfSprite_setTextureRect(s_chest->next->sprite_chest, s_chest->next->rect_chest);
     sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {1505, 700});
     s_chest->next->next = NULL;
@@ -279,8 +294,13 @@ s_life_t *init_life()
     s_life->sprite_life = sfSprite_create();
     s_life->text_life = sfTexture_createFromFile("Image/barhealus.png", NULL);
     sfSprite_setTexture(s_life->sprite_life, s_life->text_life, sfTrue);
-    sfSprite_setPosition(s_life->sprite_life, (sfVector2f) {250, 540});
-
+    s_life->rect.height = 112;
+    s_life->rect.width = 584;
+    s_life->rect.top = 0;
+    s_life->rect.left = 0;
+    sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+    sfSprite_setPosition(s_life->sprite_life, (sfVector2f) {110, 500});
+    sfSprite_setScale(s_life->sprite_life, (sfVector2f) {0.8, 1});
     return s_life;
 }
 
@@ -452,6 +472,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager1_t *struct_villager1 = init_villager1();
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
+    // for (; struct_chest->next != NULL; struct_chest = struct_chest->next)
+    //     printf("la\n");
     // s_pause_game_t *struct_pause = init_pause();
     if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
@@ -557,6 +579,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
                 s_perso->next->player_rect.left += (855 / 3);
                 if (s_perso->next->player_rect.left >= 855)

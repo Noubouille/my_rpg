@@ -98,6 +98,8 @@ typedef struct s_perso {
 typedef struct s_life {
     sfSprite *sprite_life;
     sfTexture *text_life;
+    sfIntRect rect;
+
 }s_life_t;
 
 typedef struct s_my_cave {

@@ -21,6 +21,8 @@ s_mob_t *init_mob()
     sfSprite_setPosition(s_mob->sprite_mob , s_mob->pos_mob);
     s_mob->rect_mob.height = 41;
     s_mob->rect_mob.width = 50;
+    s_mob->rect_mob.top = 0;
+    s_mob->rect_mob.left = 0;
     sfSprite_setTexture(s_mob->sprite_mob, s_mob->text_mob_l, sfTrue);
     sfSprite_setTextureRect(s_mob->sprite_mob, s_mob->rect_mob);
     s_mob->mov_mob = 1;
@@ -108,6 +110,8 @@ s_cave_font_t *init_font()
     struct_cave_2->sprite_l = sfSprite_create();
     struct_cave_2->rect_l.height = 112;
     struct_cave_2->rect_l.width = 584;
+    struct_cave_2->rect_l.top = 0;
+    struct_cave_2->rect_l.left = 0;
     sfSprite_setTexture(struct_cave_2->sprite_l, struct_cave_2->text_l, sfTrue);
     sfSprite_setTextureRect(struct_cave_2->sprite_l, struct_cave_2->rect_l);
     struct_cave_2->pos_l.x = 50;
@@ -118,6 +122,8 @@ s_cave_font_t *init_font()
     struct_cave_2->sprite_l2 = sfSprite_create();
     struct_cave_2->rect_l2.height = 112;
     struct_cave_2->rect_l2.width = 584;
+    struct_cave_2->rect_l2.top = 0;
+    struct_cave_2->rect_l2.left = 0;
     sfSprite_setTexture(struct_cave_2->sprite_l2, struct_cave_2->text_l2, sfTrue);
     sfSprite_setTextureRect(struct_cave_2->sprite_l2, struct_cave_2->rect_l2);
     struct_cave_2->pos_l2.x = 800;
