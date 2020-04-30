@@ -483,7 +483,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
 
             if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
-                sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+                // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+                // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+                //sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
                 sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
                 sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             }
@@ -563,6 +565,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
             sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
+            // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
@@ -625,34 +629,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
 
-        if (invent_int == 1) {
-            if (s_perso->object == 1 && int_chest == 0)
-                sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-            if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
-                s_perso->next->player_rect.left += (855 / 3);
-                if (s_perso->next->player_rect.left >= 855)
-                    s_perso->next->player_rect.left = 0;
-                sfClock_restart(s_perso->next->player_clock);
-            }
-            if (s_perso->left == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_l, sfTrue);
-            }
-            if (s_perso->right == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso, sfTrue);
-            }
-            if (s_perso->up == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_do, sfTrue);
-            }
-            if (s_perso->down == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_up, sfTrue);
-            }
-            sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
-            sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
-            sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
-        }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
