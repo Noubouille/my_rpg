@@ -75,11 +75,11 @@ s_villager1_t *init_villager1(void)
 {
     s_villager1_t *struct_villager1 = malloc(sizeof(s_villager1_t));
     struct_villager1->sprite_villager = sfSprite_create();
-    struct_villager1->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
+    struct_villager1->text_villager = sfTexture_createFromFile("Image/man_idle.png", NULL);
     struct_villager1->clock_villager = sfClock_create();
     sfSprite_setTexture(struct_villager1->sprite_villager, struct_villager1->text_villager, sfTrue);
-    struct_villager1->rect_villager.height = 64;
-    struct_villager1->rect_villager.width = 64;
+    struct_villager1->rect_villager.height = 100;
+    struct_villager1->rect_villager.width = 100;
     struct_villager1->rect_villager.top = 0;
     struct_villager1->rect_villager.left = 0;
     sfSprite_setTextureRect(struct_villager1->sprite_villager, struct_villager1->rect_villager);
@@ -621,9 +621,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
             sfSprite_setPosition(s_invent->sprite_sword_fx ,s_invent->pos_sword_fx);
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword_fx, NULL);
-            if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_invent->clock_fx)) < 3)) {
+            if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_invent->clock_fx)) < 3))
                 sfRenderWindow_drawSprite(window, s_invent->sprite_sword_fx2, NULL);
-            }
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
@@ -644,8 +643,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(struct_villager->clock_villager);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager1->clock_villager)) > 150) {
-            struct_villager1->rect_villager.left += (192 / 3);
-            if (struct_villager1->rect_villager.left >= 192) struct_villager1->rect_villager.left = 0;
+            struct_villager1->rect_villager.left += (100);
+            if (struct_villager1->rect_villager.left >= 1600) struct_villager1->rect_villager.left = 0;
             sfClock_restart(struct_villager1->clock_villager);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager2->clock_villager)) > 400) {
