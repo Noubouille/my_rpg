@@ -30,10 +30,10 @@ s_button_t *init_buttons(void)
 s_villager_t *init_villager(void)
 {
     s_villager_t *struct_villager = malloc(sizeof(s_villager_t));
-    struct_villager->text_villager = sfTexture_createFromFile("Image/villager_l.png", NULL);
+    struct_villager->text_villager = sfTexture_createFromFile("Image/vil2.png", NULL);
     struct_villager->sprite_villager = sfSprite_create();
-    struct_villager->rect_villager.height = 64;
-    struct_villager->rect_villager.width = 64;
+    struct_villager->rect_villager.height = 74;
+    struct_villager->rect_villager.width = 518 / 7;
     sfSprite_setTexture(struct_villager->sprite_villager, struct_villager->text_villager, sfTrue);
     sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
     struct_villager->pos_villager.x = 1180;
@@ -167,6 +167,7 @@ s_perso_t *init_perso(void)
     struct_perso->down = 0;
     struct_perso->left = 0;
     struct_perso->right = 0;
+    struct_perso->our_life = 0;
     struct_perso->pos_perso.x = 20;
     struct_perso->pos_perso.y = 815;
     struct_perso->player_clock = sfClock_create();
@@ -270,6 +271,17 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
     sfSprite_setPosition(s_invent->sprite_sword, (sfVector2f) {235, 645});
     sfSprite_setPosition(s_invent->sprite_potion, (sfVector2f) {290, 645});
     return s_invent;
+}
+
+s_life_t *init_life()
+{
+    s_life_t *s_life = malloc(sizeof(s_life_t));
+    s_life->sprite_life = sfSprite_create();
+    s_life->text_life = sfTexture_createFromFile("Image/barhealus.png", NULL);
+    sfSprite_setTexture(s_life->sprite_life, s_life->text_life, sfTrue);
+    sfSprite_setPosition(s_life->sprite_life, (sfVector2f) {250, 540});
+
+    return s_life;
 }
 
 s_perso_t *poss_movement1(s_perso_t *perso)
@@ -433,6 +445,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_cursor_t *cursor = init_cursor();
     s_perso_t *s_perso = init_perso();
     s_object_t *s_object = init_objects();
+    s_life_t *s_life = init_life();
     s_inventory_t *s_invent = init_invent(s_perso);
     s_villager_t *struct_villager = init_villager();
     s_button_t *struct_buttons = init_buttons();
@@ -578,8 +591,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(s_perso->player_clock);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager->clock_villager)) > 150) {
-            struct_villager->rect_villager.left += (192 / 3);
-            if (struct_villager->rect_villager.left >= 192) struct_villager->rect_villager.left = 0;
+            struct_villager->rect_villager.left += (518 / 7);
+            if (struct_villager->rect_villager.left >= 518) struct_villager->rect_villager.left = 0;
             sfClock_restart(struct_villager->clock_villager);
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_villager1->clock_villager)) > 150) {

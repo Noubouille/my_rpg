@@ -237,6 +237,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 if (s_font->nb % 5 == 0 && supp < 8) {
                     s_font->rect_l.width -= 73;
                     supp++;
+                    s_perso->our_life = supp;
                     sfSprite_setTextureRect(s_font->sprite_l, s_font->rect_l);
                 }
                 sfClock_restart(red);

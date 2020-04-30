@@ -90,8 +90,15 @@ typedef struct s_perso {
     int right;
     int left;
     int object;
+    int our_life;
     struct s_perso *next;
 }s_perso_t;
+
+
+typedef struct s_life {
+    sfSprite *sprite_life;
+    sfTexture *text_life;
+}s_life_t;
 
 typedef struct s_my_cave {
     sfVector2f pos_cave;
