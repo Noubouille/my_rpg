@@ -155,15 +155,15 @@ s_object_t *init_objects(void)
     sfSprite_setTexture(struct_object->sprite_bubble_v, struct_object->text_bubble_v, sfTrue);
     sfSprite_setPosition(struct_object->sprite_bubble_v, (sfVector2f) {1180, 700});
 
-    struct_object->text_bubble_v1 = sfTexture_createFromFile("Image/wtf.png", NULL);
+    struct_object->text_bubble_v1 = sfTexture_createFromFile("Image/dialogue_sword.png", NULL);
     struct_object->sprite_bubble_v1 = sfSprite_create();
     sfSprite_setTexture(struct_object->sprite_bubble_v1, struct_object->text_bubble_v1, sfTrue);
-    sfSprite_setPosition(struct_object->sprite_bubble_v1, (sfVector2f) {1400, 300});
+    sfSprite_setPosition(struct_object->sprite_bubble_v1, (sfVector2f) {1250, 220});
 
-    struct_object->text_bubble_v2 = sfTexture_createFromFile("Image/howareyou.png", NULL);
+    struct_object->text_bubble_v2 = sfTexture_createFromFile("Image/strange.png", NULL);
     struct_object->sprite_bubble_v2 = sfSprite_create();
     sfSprite_setTexture(struct_object->sprite_bubble_v2, struct_object->text_bubble_v2, sfTrue);
-    sfSprite_setPosition(struct_object->sprite_bubble_v2, (sfVector2f) {200, 300});
+    sfSprite_setPosition(struct_object->sprite_bubble_v2, (sfVector2f) {70, 230});
 
     return struct_object;
 }
