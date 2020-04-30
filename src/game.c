@@ -275,16 +275,22 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
     s_invent->text_invent_key = sfTexture_createFromFile("Image/invent_key.png", NULL);
     s_invent->text_invent_2key = sfTexture_createFromFile("Image/invent_2key.png", NULL);
     s_invent->text_invent_sword = sfTexture_createFromFile("Image/sword.png", NULL);
+    s_invent->text_swordlvl_fx = sfTexture_createFromFile("Image/Sword+lvl.png", NULL);
     s_invent->text_invent_potion = sfTexture_createFromFile("Image/potion.png", NULL);
     s_invent->sprite_invent = sfSprite_create();
     s_invent->sprite_sword = sfSprite_create();
     s_invent->sprite_potion = sfSprite_create();
+    s_invent->sprite_sword_fx = sfSprite_create();
     sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
     sfSprite_setTexture(s_invent->sprite_sword, s_invent->text_invent_sword, sfTrue);
     sfSprite_setTexture(s_invent->sprite_potion, s_invent->text_invent_potion, sfTrue);
+    sfSprite_setTexture(s_invent->sprite_sword_fx, s_invent->text_swordlvl_fx, sfTrue);
     sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {70, 40});
     sfSprite_setPosition(s_invent->sprite_sword, (sfVector2f) {235, 645});
     sfSprite_setPosition(s_invent->sprite_potion, (sfVector2f) {290, 645});
+    s_invent->pos_sword_fx.x = 1420;
+    s_invent->pos_sword_fx.y = 300;
+    sfSprite_setPosition(s_invent->sprite_sword_fx, s_invent->pos_sword_fx);
     return s_invent;
 }
 
@@ -520,9 +526,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 
             if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
                 s_perso->state_kit = 1;
-                // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-                // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-                // sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             }
 
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
@@ -601,12 +604,16 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
             sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-            // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
         if (s_perso->state_kit == 1 && invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+        }
+        if (s_perso->state_kit == 1) {
+            if (s_invent->pos_sword_fx.y > - 100)
+                s_invent->pos_sword_fx.y -= 0.8;
+            sfSprite_setPosition(s_invent->sprite_sword_fx ,s_invent->pos_sword_fx);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword_fx, NULL);
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
@@ -636,8 +643,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_villager2->rect_villager.left >= 340) struct_villager2->rect_villager.left = 0;
             sfClock_restart(struct_villager2->clock_villager);
         }
-        //fin du rect du perso
-        //tous les draws
+
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);
@@ -669,7 +675,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
 
-        s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
+        s_perso = movement_perso(s_perso);
         sfSprite_setTextureRect(struct_villager->sprite_villager, struct_villager->rect_villager);
         sfSprite_setPosition(struct_villager->sprite_villager, struct_villager->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager->sprite_villager, NULL);
