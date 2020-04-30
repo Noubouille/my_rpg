@@ -486,6 +486,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     int invent_int = 0, quest_cave = 0, int_chest = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
+    s_perso->state_kit = 0;
     init_perso2(s_perso, window);
 
     while (sfRenderWindow_isOpen(window)) {
@@ -518,11 +519,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
 
             if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
+                s_perso->state_kit = 1;
                 // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
                 // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
                 //sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-                sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-                sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             }
 
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
@@ -574,6 +574,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_quest, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
+        }
+        if (s_perso->state_kit == 1 && invent_int == 1) {
+            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)

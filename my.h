@@ -91,6 +91,7 @@ typedef struct s_perso {
     int left;
     int object;
     int our_life;
+    int state_kit;
     struct s_perso *next;
 }s_perso_t;
 
