@@ -409,7 +409,7 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v2, NULL);
 }
 
-s_my_game_t *print_pause(sfRenderWindow* window, s_my_game_t *struct_game, s_perso_t *s_perso, s_cursor_t *cursor, s_button_t *struct_buttons)
+s_my_game_t *print_pause(sfRenderWindow* window, s_my_game_t *struct_game, s_perso_t *s_perso, s_cursor_t *cursor, s_button_t *struct_buttons, s_menu_game_t *struct_menu)
 {
     s_pause_game_t *s_pause = init_pause();
     s_button_t *s_buttons = init_buttons();
@@ -436,7 +436,9 @@ s_my_game_t *print_pause(sfRenderWindow* window, s_my_game_t *struct_game, s_per
                 if ((mouse.x > sfSprite_getPosition(s_buttons->sprite_button4).x && mouse.x <= sfSprite_getPosition(s_buttons->sprite_button4).x + 512) &&
                 (mouse.y > sfSprite_getPosition(s_buttons->sprite_button4).y && mouse.y <= sfSprite_getPosition(s_buttons->sprite_button4).y + 127)) {
                     sfRenderWindow_close(window);
+                    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
                     sfMusic_stop(struct_game->music);
+                    }
                     menu_game(window);
                 }
             }
@@ -559,7 +561,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
         }
         if (struct_game->pause == 1) {
-            struct_game = print_pause(window, struct_game, s_perso, cursor, struct_buttons);
+            struct_game = print_pause(window, struct_game, s_perso, cursor, struct_buttons, struct_menu);
             sfClock_restart(pause_clock);
         }
 
