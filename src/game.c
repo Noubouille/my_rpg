@@ -613,7 +613,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
         }
         if (s_perso->state_kit == 1 && invent_int == 1) {
-            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
         if (s_perso->state_kit == 1) {
