@@ -522,7 +522,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 s_perso->state_kit = 1;
                 // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
                 // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-                //sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+                // sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             }
 
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
@@ -575,11 +575,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
         }
-        if (s_perso->state_kit == 1 && invent_int == 1) {
-            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-        }
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
@@ -608,6 +603,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
             // sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
             // sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+        }
+        if (s_perso->state_kit == 1 && invent_int == 1) {
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {

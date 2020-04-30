@@ -209,11 +209,6 @@ typedef struct s_chest {
     sfClock *clock_chest;
     sfSprite *sprite_chest;
     sfTexture *text_chest;
-
-    // sfIntRect rect_chest1;
-    // sfClock *clock_chest1;
-    // sfSprite *sprite_chest1;
-    // sfTexture *text_chest1;
     struct s_chest *next;
 }s_chest_t;
 
