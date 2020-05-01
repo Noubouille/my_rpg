@@ -92,6 +92,7 @@ typedef struct s_perso {
     int object;
     int our_life;
     int state_kit;
+    int int_chest;
     struct s_perso *next;
 }s_perso_t;
 
@@ -307,4 +308,3 @@ int menu_game(sfRenderWindow* window);
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent);
 
 #endif /* !MY_H_ */
-

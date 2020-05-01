@@ -255,33 +255,32 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
 
 void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inventory_t *s_invent)
 {
-        if (invent_int == 1) {
-            // if (s_perso->object == 1 && int_chest == 0)
-                // sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-            sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
-            // sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
-            if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
-                s_perso->next->player_rect.left += (855 / 3);
-                if (s_perso->next->player_rect.left >= 855)
-                    s_perso->next->player_rect.left = 0;
-                sfClock_restart(s_perso->next->player_clock);
-            }
-            if (s_perso->left == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_l, sfTrue);
-            }
-            if (s_perso->right == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso, sfTrue);
-            }
-            if (s_perso->up == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_do, sfTrue);
-            }
-            if (s_perso->down == 1) {
-                sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_up, sfTrue);
-            }
-            sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
-            sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
-            sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
+    if (invent_int == 1) {
+        if (s_perso->object == 1 && s_perso->int_chest == 0)
+            sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
+
+        sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+        if (s_perso->state_kit == 1)
+            sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+        // sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
+            s_perso->next->player_rect.left += (855 / 3);
+            if (s_perso->next->player_rect.left >= 855)
+                s_perso->next->player_rect.left = 0;
+            sfClock_restart(s_perso->next->player_clock);
         }
+        if (s_perso->left == 1)
+            sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_l, sfTrue);
+        if (s_perso->right == 1)
+            sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso, sfTrue);
+        if (s_perso->up == 1)
+            sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_do, sfTrue);
+        if (s_perso->down == 1)
+            sfSprite_setTexture(s_perso->next->sprite_perso, s_perso->next->text_perso_up, sfTrue);
+        sfSprite_setTextureRect(s_perso->next->sprite_perso, s_perso->next->player_rect);
+        sfSprite_setPosition(s_perso->next->sprite_perso ,s_perso->next->pos_perso);
+        sfRenderWindow_drawSprite(window, s_perso->next->sprite_perso, NULL);
+    }
     s_perso->up = 0;
     s_perso->right = 0;
     s_perso->left = 0;

@@ -175,6 +175,7 @@ s_perso_t *init_perso(void)
     struct_perso->down = 0;
     struct_perso->left = 0;
     struct_perso->right = 0;
+    struct_perso->int_chest = 0;
     struct_perso->our_life = 0;
     struct_perso->pos_perso.x = 20;
     struct_perso->pos_perso.y = 815;
@@ -251,7 +252,6 @@ s_chest_t *init_chest()
     s_chest->rect_chest.top = 0;
     sfSprite_setTextureRect(s_chest->sprite_chest, s_chest->rect_chest);
     sfSprite_setPosition(s_chest->sprite_chest, (sfVector2f) {185, 328});
-    // s_chest->next = NULL;
     s_chest->next = malloc(sizeof(s_chest_t));
     s_chest->next->clock_chest = sfClock_create();
     s_chest->next->text_chest = sfTexture_createFromFile("Image/chest.png", NULL);
@@ -495,7 +495,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
-    int invent_int = 0, quest_cave = 0, int_chest = 0;
+    int invent_int = 0, quest_cave = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
     s_perso->state_kit = 0;
@@ -523,17 +523,16 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 }
             }
             if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
-                int_chest = 1;
+                s_perso->int_chest = 1;
+
             }
 
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE)) {
                 struct_villager->quest_state = 1;
             }
 
-            if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
+            if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE))
                 s_perso->state_kit = 1;
-            }
-
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
                 struct_game->pause = 1;
             }
@@ -582,7 +581,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
         }
         if (invent_int == 1) {
-            if (s_perso->object == 1 && int_chest == 0)
+            if (s_perso->object == 1 && s_perso->int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
@@ -656,7 +655,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->sprite_chest, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
-        if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && int_chest == 1 && s_perso->object == 1) {
+        if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && s_perso->int_chest == 1 && s_perso->object == 1) {
             sfSprite_setTextureRect(struct_chest->sprite_chest, struct_chest->rect_chest);
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
             if ((sfTime_asMilliseconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 150) && struct_chest->rect_chest.left < 300) {
@@ -664,7 +663,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 sfClock_restart(struct_chest->clock_chest);
             }
         }
-        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 1) && int_chest == 1) {
+        if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 1) && s_perso->int_chest == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_2key, sfTrue);
         }
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
