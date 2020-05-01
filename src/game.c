@@ -499,7 +499,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     int invent_int = 0, quest_cave = 0, int_chest = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
+    struct_villager->wrong_key = 0;
     s_perso->state_kit = 0;
+    struct_villager->good_key = 0;
+    struct_villager->end_game = 0;
     init_perso2(s_perso, window);
 
     while (sfRenderWindow_isOpen(window)) {
@@ -527,8 +530,18 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 int_chest = 1;
             }
 
-            if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE)) {
+            if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 0 && struct_villager->quest_accepted == 0) {
                 struct_villager->quest_state = 1;
+            }
+
+            if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
+                struct_villager->wrong_key = 1;
+            }
+
+            printf("key: %d\n", struct_villager->good_key);
+            if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && struct_villager->good_key == 1 && s_perso->object == 0) {
+                struct_villager->end_game = 1;
+                printf("end game:%d\n", struct_villager->end_game);
             }
 
             if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
@@ -585,6 +598,17 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
         }
+
+        if (struct_villager->wrong_key == 1) {
+            printf("c'est pas la bonne clé fréro\n");
+            struct_villager->wrong_key == 0;
+            // print la bulle
+        }
+
+        if (struct_villager->end_game == 1) {
+            printf("et merci fréro heiiiinnn\n");
+        }
+
         if (invent_int == 1) {
             if (s_perso->object == 1 && int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
@@ -670,6 +694,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 1) && int_chest == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_2key, sfTrue);
+            s_perso->object == 0;
+            struct_villager->good_key == 1;
+            struct_villager->wrong_key == 0;
+            printf("chest opened\n");
         }
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
