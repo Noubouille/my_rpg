@@ -263,7 +263,7 @@ s_chest_t *init_chest()
     s_chest->next->rect_chest.left = 0;
     s_chest->next->rect_chest.top = 0;
     sfSprite_setTextureRect(s_chest->next->sprite_chest, s_chest->next->rect_chest);
-    sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {1505, 700});
+    sfSprite_setPosition(s_chest->next->sprite_chest, (sfVector2f) {725, 328});
     s_chest->next->next = NULL;
     return s_chest;
 }
