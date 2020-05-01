@@ -525,8 +525,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                     struct_villager->quest_state = 0;
                 }
             }
-            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
+            if ((s_perso->pos_perso.x < 250 && s_perso->pos_perso.x > 100 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
                 s_perso->int_chest = 1;
+
+            }
+
+            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
+                s_perso->next->int_chest = 1;
 
             }
 
