@@ -172,6 +172,10 @@ typedef struct s_villager {
     int quest_state;
     int quest_accepted;
     int yannis;
+    int wrong_key;
+    int good_key;
+    int end_game;
+
     sfVector2f pos_villager;
     sfIntRect rect_villager;
     sfClock *clock_villager;
