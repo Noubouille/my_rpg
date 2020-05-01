@@ -485,8 +485,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager1_t *struct_villager1 = init_villager1();
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
-    // for (; struct_chest->next != NULL; struct_chest = struct_chest->next)
-    //     printf("la\n");
+
     // s_pause_game_t *struct_pause = init_pause();
     if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
@@ -554,8 +553,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if ((sfKeyboard_isKeyPressed(sfKeyTab) && invent_int == 1) && sfTime_asMilliseconds(sfClock_getElapsedTime(invent_clock)) > 50) {
                 invent_int = 0;
                 sfClock_restart(invent_clock);
-            }
-            else if ((sfKeyboard_isKeyPressed(sfKeyTab) && invent_int == 0) && sfTime_asMilliseconds(sfClock_getElapsedTime(invent_clock)) > 50) {
+            } else if ((sfKeyboard_isKeyPressed(sfKeyTab) && invent_int == 0) && sfTime_asMilliseconds(sfClock_getElapsedTime(invent_clock)) > 50) {
                 invent_int = 1;
                 sfClock_restart(invent_clock);
             }
@@ -564,16 +562,14 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso, sfTrue);
                 s_perso->right = 1;
-            }
-            else if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
+            } else if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_l, sfTrue);
                 s_perso->left = 1;
             }
             if (sfKeyboard_isKeyPressed(sfKeyUp)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_do, sfTrue);
                 s_perso->up = 1;
-            }
-            else if (sfKeyboard_isKeyPressed(sfKeyDown)) {
+            } else if (sfKeyboard_isKeyPressed(sfKeyDown)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso_up, sfTrue);
                 s_perso->down = 1;
             }
@@ -585,7 +581,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
-            s_perso = cave(window, s_perso, struct_menu);
+            s_perso = cave(window, s_perso, struct_menu, s_invent);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
                 s_perso->pos_perso.y = 300;

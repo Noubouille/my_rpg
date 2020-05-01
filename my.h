@@ -127,10 +127,6 @@ typedef struct s_my_cave {
 }s_my_cave_t;
 
 typedef struct s_cave_font {
-    sfFont* font_fight;
-    sfText* texte_fight;
-    sfText* texte_fight_nb;
-    int nb;
 
     sfSprite *sprite_l;//la heal bar
     sfTexture *text_l;
@@ -146,8 +142,17 @@ typedef struct s_cave_font {
     sfTexture *text_vs;
     sfTexture *text_vs_red;
     sfVector2f pos_vs;
+    int nb;
 
 }s_cave_font_t;
+
+typedef struct s_fcave {
+    sfFont* font_fight;
+    sfText* texte_fight;
+    sfText* texte_fight_nb;
+    sfVector2f pos_f;
+    struct s_fcave *next;
+}s_fcave_t;
 
 typedef struct s_mob {
     sfVector2f pos_mob;
@@ -303,7 +308,7 @@ s_perso_t *init_perso(void);
 
 int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window);
 int menu_game(sfRenderWindow* window);
-s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu);
+s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent);
 
 #endif /* !MY_H_ */
 
