@@ -143,6 +143,10 @@ typedef struct s_cave_font {
     sfTexture *text_vs;
     sfTexture *text_vs_red;
     sfVector2f pos_vs;
+
+    sfSprite *sprite_1c;
+    sfTexture *text_1c;
+    sfVector2f pos_1c;
     int nb;
 
 }s_cave_font_t;

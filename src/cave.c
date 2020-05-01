@@ -133,26 +133,29 @@ s_cave_font_t *init_font()
     sfSprite_setTexture(s_cav2->sprite_vs, s_cav2->text_vs, sfTrue);
     sfSprite_setPosition(s_cav2->sprite_vs , s_cav2->pos_vs);
     s_cav2->nb = 0;
+
+    s_cav2->pos_1c.x = 1600;
+    s_cav2->pos_1c.y = 800;
+    s_cav2->text_1c = sfTexture_createFromFile("Image/+1key.png", NULL);
+    s_cav2->sprite_1c = sfSprite_create();
+    sfSprite_setTexture(s_cav2->sprite_1c, s_cav2->text_1c, sfTrue);
+    sfSprite_setPosition(s_cav2->sprite_1c , s_cav2->pos_1c);
     return s_cav2;
 }
 
 s_fcave_t *init_fcave()
 {
     s_fcave_t *s_cave = malloc(sizeof(s_fcave_t));
-    // s_cave->texte_fight_nb = sfText_create();
-    // sfText_setString(s_cave->texte_fight_nb, nb_tochar(s_cave->nb));
-    // sfText_setFont(s_cave->texte_fight_nb, s_cave->font_fight);
-    s_cave->pos_f.x = 100;
-    s_cave->pos_f.y = 100;
+
+    s_cave->pos_f.x = - 100;
+    s_cave->pos_f.y = - 100;
     s_cave->font_fight = sfFont_createFromFile("Font/destroy.ttf");
     s_cave->texte_fight = sfText_create();
-    sfText_setString(s_cave->texte_fight, "K");
+    sfText_setString(s_cave->texte_fight, "F");
     sfText_setFont(s_cave->texte_fight, s_cave->font_fight);
     sfText_setCharacterSize(s_cave->texte_fight, 50);
     sfText_setPosition(s_cave->texte_fight, s_cave->pos_f);
     s_cave->next = NULL;
-    // sfText_setCharacterSize(s_cave->texte_fight_nb, 50);
-    // sfText_setPosition(s_cave->texte_fight_nb, (sfVector2f) {650, 0});
     return s_cave;
 }
 
@@ -408,11 +411,11 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         sfText_setString(s_perso->texte_int, nb_tochar(s_perso->object));
         print_thef(s_fcave, window);
         print_inv(window, s_perso, invent_int, s_invent);
-        // sfRenderWindow_drawText(window, s_fcave->texte_fight, NULL);
-        // sfRenderWindow_drawText(window, s_fcave->next->texte_fight, NULL);
-        // sfRenderWindow_drawText(window, s_fcave->next->next->texte_fight, NULL);
-        // sfRenderWindow_drawText(window, s_font->texte_fight_nb, NULL);
-        // sfText_setString(s_font->texte_fight_nb, nb_tochar(s_font->nb));
+        if (s_font->pos_1c.y > - 100 && s_perso->object == 1) {
+            sfRenderWindow_drawSprite(window, s_font->sprite_1c, NULL);
+            sfSprite_setPosition(s_font->sprite_1c ,s_font->pos_1c);
+            s_font->pos_1c.y -= 1;
+        }
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
     sfMusic_pause(struct_cave->music);
