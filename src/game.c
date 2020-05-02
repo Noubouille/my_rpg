@@ -66,6 +66,14 @@ s_villager_t *init_villager(void)
     struct_villager->pos_achievement.x = 1600;
     struct_villager->pos_achievement.y = 0;
     sfSprite_setPosition(struct_villager->sprite_achievement, struct_villager->pos_achievement);
+    struct_villager->text_endquest = sfTexture_createFromFile("Image/end_quest.png", NULL);
+    struct_villager->sprite_endquest = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_endquest, struct_villager->text_endquest, sfTrue);
+    sfSprite_setPosition(struct_villager->sprite_endquest, (sfVector2f) {1180, 700});
+    struct_villager->text_thanks = sfTexture_createFromFile("Image/thanks.png", NULL);
+    struct_villager->sprite_thanks = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_thanks, struct_villager->text_thanks, sfTrue);
+    sfSprite_setPosition(struct_villager->sprite_thanks, (sfVector2f) {1180, 700});
     struct_villager->clock_achievement = sfClock_create();
     struct_villager->yannis = 0;
     return struct_villager;

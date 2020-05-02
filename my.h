@@ -200,6 +200,10 @@ typedef struct s_villager {
     sfVector2f pos_achievement;
     sfSprite *sprite_achievement;
     sfTexture *text_achievement;
+    sfSprite *sprite_endquest;
+    sfTexture *text_endquest;
+    sfSprite *sprite_thanks;
+    sfTexture *text_thanks;
     sfClock *clock_achievement;
 }s_villager_t;
 
