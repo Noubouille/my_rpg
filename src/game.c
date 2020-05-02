@@ -530,9 +530,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 
             }
 
-            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
+            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.x > 600 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
+                printf("wesh?\n");
                 s_perso->next->int_chest = 1;
-
             }
 
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 0 && struct_villager->quest_accepted == 0) {
@@ -639,6 +639,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (s_perso->state_kit == 1 && invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         }
+        if (invent_int == 1 && s_perso->next->int_chest == 1) {
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+        }
         if (s_perso->state_kit == 1) {
             if (s_invent->pos_sword_fx.y > - 100) {
                 s_invent->pos_sword_fx.y -= 0.8;
@@ -681,7 +684,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);
-        sfRenderWindow_drawSprite(window , struct_game->sprite_bg_g, NULL);
+        sfRenderWindow_drawSprite(window, struct_game->sprite_bg_g, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->sprite_chest, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
         if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && s_perso->int_chest == 1 && s_perso->object == 1) {
@@ -691,6 +694,16 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 struct_chest->rect_chest.left += (432 / 9);
                 sfClock_restart(struct_chest->clock_chest);
             }
+        }
+
+        if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && s_perso->next->int_chest == 1) {
+            sfSprite_setTextureRect(struct_chest->next->sprite_chest, struct_chest->next->rect_chest);
+            sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
+            if ((sfTime_asMilliseconds(sfClock_getElapsedTime(struct_chest->next->clock_chest)) > 150) && struct_chest->next->rect_chest.left < 300) {
+                struct_chest->next->rect_chest.left += (432 / 9);
+                sfClock_restart(struct_chest->next->clock_chest);
+            }
+
         }
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 1) && s_perso->int_chest == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_2key, sfTrue);
