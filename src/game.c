@@ -134,6 +134,10 @@ s_my_game_t *init_g_struct(void)
     struct_game->sprite_bg_g = sfSprite_create();
     sfSprite_setTexture(struct_game->sprite_bg_g, struct_game->text_bg_g, sfTrue);
     struct_game->click_g = sfMusic_createFromFile("Music/click_music.ogg");
+    struct_game->text_endscreen = sfTexture_createFromFile("Image/end_screen.png", NULL);
+    struct_game->sprite_endscreen = sfSprite_create();
+    sfSprite_setTexture(struct_game->sprite_endscreen, struct_game->text_endscreen, sfTrue);
+    sfSprite_setPosition(struct_game->sprite_endscreen, (sfVector2f) {0, -40});
     struct_game->pause = 0;
     return struct_game;
 }
@@ -641,6 +645,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (struct_villager->end_game == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_thanks, NULL);
+            sfRenderWindow_drawSprite(window, struct_game->sprite_endscreen, NULL);
         }
 
         if (invent_int == 1) {
