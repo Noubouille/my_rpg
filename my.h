@@ -93,6 +93,7 @@ typedef struct s_perso {
     int our_life;
     int state_kit;
     int int_chest;
+    // int int_chest;
     struct s_perso *next;
 }s_perso_t;
 

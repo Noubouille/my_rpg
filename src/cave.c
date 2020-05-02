@@ -261,8 +261,10 @@ void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inv
     if (invent_int == 1) {
         if (s_perso->object == 1 && s_perso->int_chest == 0)
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-
         sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+        if (s_perso->next->int_chest == 1) {
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+        }
         if (s_perso->state_kit == 1)
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         // sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
