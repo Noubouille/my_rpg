@@ -421,8 +421,8 @@ s_perso_t *movement_perso(s_perso_t *perso)
 
 void less_hp_fct(s_perso_t *s_perso, s_life_t *s_life)
 {
-        s_life->rect.width -= (73 * s_perso->less_hp);
-        sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+    s_life->rect.width -= (73 * s_perso->less_hp);
+    sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
 }
 
 void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct_villager, sfRenderWindow* window)
@@ -607,7 +607,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             struct_game = print_pause(window, struct_game, s_perso, cursor, struct_buttons, struct_menu);
             sfClock_restart(pause_clock);
         }
-
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) {
+            s_life->rect.width = 584;
+            sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+        }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
             s_perso = cave(window, s_perso, struct_menu, s_invent);

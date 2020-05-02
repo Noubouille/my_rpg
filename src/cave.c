@@ -439,6 +439,10 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             sfMusic_pause(struct_cave->music);
             return s_perso;
         }
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) {
+            s_life->rect.width = 584;
+            sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+        }
         if (struct_cave->pos_cave.y >= 350 && bubble == 0 && struct_cave->pos_cave.y <= 480)
             sfRenderWindow_drawSprite(window, struct_cave->sprite_bu, NULL);
         if (struct_cave->pos_cave.y >= 550 && goin == 0) {
