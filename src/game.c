@@ -185,6 +185,7 @@ s_perso_t *init_perso(void)
     struct_perso->right = 0;
     struct_perso->int_chest = 0;
     struct_perso->our_life = 0;
+    struct_perso->less_hp = 0;
     struct_perso->pos_perso.x = 20;
     struct_perso->pos_perso.y = 815;
     struct_perso->player_clock = sfClock_create();
@@ -415,6 +416,12 @@ s_perso_t *movement_perso(s_perso_t *perso)
     return perso;
 }
 
+void less_hp_fct(s_perso_t *s_perso, s_life_t *s_life)
+{
+        s_life->rect.width -= (73 * s_perso->less_hp);
+        sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+}
+
 void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct_villager, sfRenderWindow* window)
 {
     if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350)
@@ -601,6 +608,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
             s_perso = cave(window, s_perso, struct_menu, s_invent);
+            less_hp_fct(s_perso, s_life);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
                 s_perso->pos_perso.y = 300;
@@ -653,7 +661,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         if (s_perso->state_kit == 1 && invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-            s_perso->sword_yes = 1;
         }
         if (invent_int == 1 && s_perso->next->int_chest == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);

@@ -94,6 +94,7 @@ typedef struct s_perso {
     int state_kit;
     int int_chest;
     int sword_yes;
+    int less_hp;
     struct s_perso *next;
 }s_perso_t;
 
@@ -326,5 +327,5 @@ s_perso_t *init_perso(void);
 int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window);
 int menu_game(sfRenderWindow* window);
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent);
-
+s_life_t *init_life();
 #endif /* !MY_H_ */

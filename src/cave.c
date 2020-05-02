@@ -49,7 +49,6 @@ s_my_cave_t *init_cave()
     struct_cave->cave_horloge = sfClock_create();
     struct_cave->fight_clock = sfClock_create();
     struct_cave->tap = sfClock_create();
-
     struct_cave->text_bubble_gc = sfTexture_createFromFile("Image/bubble_c.png", NULL);
     struct_cave->sprite_bubble_gc = sfSprite_create();
     sfSprite_setTexture(struct_cave->sprite_bubble_gc, struct_cave->text_bubble_gc, sfTrue);
@@ -223,7 +222,7 @@ s_my_cave_t *movement_perso_cc(s_my_cave_t *struct_cave, s_mob_t *s_mob)
     return struct_cave;
 }
 
-int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, s_menu_game_t *struct_menu, int supp)
+int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_cave_font_t *s_font, s_menu_game_t *struct_menu, int supp, s_perso_t *s_perso, s_life_t *s_life)
 {
     if (struct_cave->pos_cave.y >= 730 && struct_cave->go_in == 0) {
         struct_cave->fig_int = 1;
@@ -238,11 +237,14 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
         sfRenderWindow_drawSprite(window, s_font->sprite_l2, NULL);
         sfRenderWindow_drawSprite(window, s_font->sprite_vs, NULL);
     }
-    if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_heal)) >= 1000) && struct_cave->go_in == 1) {
+    if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_mob->clock_heal)) >= 1000) && struct_cave->go_in == 1 && supp < 8) {
         sfSprite_setTexture(s_font->sprite_vs, s_font->text_vs, sfTrue);
         s_font->rect_l2.width -= 73;
         sfSprite_setTextureRect(s_font->sprite_l2, s_font->rect_l2);
         sfClock_restart(s_mob->clock_heal);
+        s_perso->less_hp++;
+        s_life->rect.width -= 73;
+        sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
     }
 
     if (struct_cave->fig_int == 1) {
@@ -265,7 +267,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     return 0;
 }
 
-void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inventory_t *s_invent)
+void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inventory_t *s_invent, s_life_t *s_life)
 {
     if (invent_int == 1) {
         if (s_perso->object == 1 && s_perso->int_chest == 0)
@@ -276,7 +278,7 @@ void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inv
         }
         if (s_perso->state_kit == 1)
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
-        // sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
+        sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
             s_perso->next->player_rect.left += (855 / 3);
             if (s_perso->next->player_rect.left >= 855)
@@ -340,6 +342,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     s_cave_font_t *s_font = init_font();
     s_fcave_t *s_fcave = init_fcave();
     s_leave_t *s_leave = init_leave();
+    s_life_t *s_life = init_life();
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
     sfClock *red = sfClock_create();
@@ -352,8 +355,8 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     }
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
-    int supp = 0, bubble = 0, fight_go = 0, invent_int = 0, goin = 0;
-
+    int supp = 0, bubble = 0, fight_go = 0, invent_int = 0, goin = 0, attak = 6;
+    if (s_perso->state_kit == 1) attak = 4;
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
         while (sfRenderWindow_pollEvent(window, &struct_cave->event_gc)) {
@@ -363,11 +366,10 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 sfVector2f cursor1 = sourissprite(sfMouse_getPositionRenderWindow(window));
                 sfSprite_setPosition(cursor->cursorsprite, cursor1);
             }
-            if ((sfKeyboard_isKeyPressed(sfKeyF) && sfTime_asMilliseconds(sfClock_getElapsedTime(struct_cave->tap)) > 80) && fight_go != 0) {
+            if ((sfKeyboard_isKeyPressed(sfKeyF) && sfTime_asMilliseconds(sfClock_getElapsedTime(struct_cave->tap)) > 80) && fight_go != 0 && supp < 8) {
                 struct_cave->nb_touch++;
-                printf("je fight la %d\n", struct_cave->nb_touch);
                 s_font->nb++;
-                if (s_font->nb % 5 == 0 && supp < 8) {
+                if (s_font->nb % attak == 0 && supp < 8) {
                     s_font->rect_l.width -= 73;
                     supp++;
                     s_perso->our_life = supp;
@@ -431,7 +433,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             sfClock_restart(s_perso->player_clock);
         }
         s_mob = movement_mob(s_mob, window);
-        if (fight(window, struct_cave, s_mob, s_font, struct_menu, supp) == 12) {
+        if (fight(window, struct_cave, s_mob, s_font, struct_menu, supp, s_perso, s_life) == 12) {
             sfSprite_destroy(struct_cave->sprite_bg_gc);
             sfRenderWindow_close(window);
             sfMusic_pause(struct_cave->music);
@@ -446,8 +448,10 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 s_perso->ret = 1;
                 return s_perso;
             }
-            else if (fct_leave(window, s_leave, struct_cave, cursor) == 12)
-                return 84;
+            else if (fct_leave(window, s_leave, struct_cave, cursor) == 12) {
+                sfRenderWindow_close(window);
+                return s_perso;
+            }
             else continue;
         }
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
@@ -462,7 +466,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
         sfText_setString(s_perso->texte_int, nb_tochar(s_perso->object));
         print_thef(s_fcave, window);
-        print_inv(window, s_perso, invent_int, s_invent);
+        print_inv(window, s_perso, invent_int, s_invent, s_life);
         if (s_font->pos_1c.y > - 100 && s_perso->object == 1) {
             sfRenderWindow_drawSprite(window, s_font->sprite_1c, NULL);
             sfSprite_setPosition(s_font->sprite_1c ,s_font->pos_1c);
