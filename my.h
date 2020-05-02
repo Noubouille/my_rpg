@@ -93,6 +93,7 @@ typedef struct s_perso {
     int our_life;
     int state_kit;
     int int_chest;
+    int sword_yes;
     struct s_perso *next;
 }s_perso_t;
 
@@ -241,14 +242,17 @@ typedef struct s_inventory {
     sfSprite *sprite_potion;
     sfSprite *sprite_sword_fx;
     sfSprite *sprite_sword_fx2;
+    sfSprite *sprite_potion_fx;
     sfTexture *text_invent;
     sfTexture *text_invent_key;
     sfTexture *text_invent_2key;
     sfTexture *text_invent_sword;
     sfTexture *text_swordlvl_fx;
     sfTexture *text_swordlvl_fx2;
+    sfTexture *text_potionlvl_fx;
     sfTexture *text_invent_potion;
     sfVector2f pos_sword_fx;
+    sfVector2f pos_potion_fx;
     sfClock *clock_fx;
 }s_inventory_t;
 

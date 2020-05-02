@@ -276,26 +276,34 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
     s_invent->text_invent_2key = sfTexture_createFromFile("Image/invent_2key.png", NULL);
     s_invent->text_invent_sword = sfTexture_createFromFile("Image/sword.png", NULL);
     s_invent->text_swordlvl_fx = sfTexture_createFromFile("Image/+1.png", NULL);
+    s_invent->text_potionlvl_fx = sfTexture_createFromFile("Image/+1_potion.png", NULL);
     s_invent->text_swordlvl_fx2 = sfTexture_createFromFile("Image/Sword+lvl.png", NULL);
     s_invent->text_invent_potion = sfTexture_createFromFile("Image/potion.png", NULL);
     s_invent->sprite_invent = sfSprite_create();
     s_invent->sprite_sword = sfSprite_create();
     s_invent->sprite_potion = sfSprite_create();
+    s_invent->sprite_potion_fx = sfSprite_create();
     s_invent->sprite_sword_fx = sfSprite_create();
+    s_invent->sprite_sword_fx2 = sfSprite_create();
     s_invent->sprite_sword_fx2 = sfSprite_create();
     sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
     sfSprite_setTexture(s_invent->sprite_sword, s_invent->text_invent_sword, sfTrue);
     sfSprite_setTexture(s_invent->sprite_potion, s_invent->text_invent_potion, sfTrue);
+    sfSprite_setTexture(s_invent->sprite_potion_fx, s_invent->text_potionlvl_fx, sfTrue);
     sfSprite_setTexture(s_invent->sprite_sword_fx, s_invent->text_swordlvl_fx, sfTrue);
     sfSprite_setTexture(s_invent->sprite_sword_fx2, s_invent->text_swordlvl_fx2, sfTrue);
     sfSprite_setPosition(s_invent->sprite_invent, (sfVector2f) {70, 40});
     sfSprite_setPosition(s_invent->sprite_sword, (sfVector2f) {235, 645});
     sfSprite_setPosition(s_invent->sprite_potion, (sfVector2f) {290, 645});
     sfSprite_setPosition(s_invent->sprite_sword_fx2, (sfVector2f) {1600, 0});
+    sfSprite_setPosition(s_invent->sprite_potion_fx, (sfVector2f) {500, 0});
     s_invent->pos_sword_fx.x = 1420;
     s_invent->pos_sword_fx.y = 300;
+    s_invent->pos_potion_fx.x = 750;
+    s_invent->pos_potion_fx.y = 250;
     s_invent->clock_fx = sfClock_create();
     sfSprite_setPosition(s_invent->sprite_sword_fx, s_invent->pos_sword_fx);
+    sfSprite_setPosition(s_invent->sprite_potion_fx, s_invent->pos_potion_fx);
     return s_invent;
 }
 
@@ -404,7 +412,7 @@ void print_bubble(s_object_t *s_object, s_perso_t *s_perso, s_villager_t *struct
     if (s_perso->pos_perso.x >= 1600 && s_perso->pos_perso.y <= 350)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble, NULL);
 
-    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && struct_villager->quest_accepted != 1)
+    if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && struct_villager->quest_accepted == 0)
         sfRenderWindow_drawSprite(window, s_object->sprite_bubble_v, NULL);
 
     if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300)
@@ -638,6 +646,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         if (s_perso->state_kit == 1 && invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
+            s_perso->sword_yes = 1;
+            //s_perso->state_kit = 0;
         }
         if (invent_int == 1 && s_perso->next->int_chest == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
@@ -652,6 +662,18 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_invent->clock_fx)) < 3))
                 sfRenderWindow_drawSprite(window, s_invent->sprite_sword_fx2, NULL);
         }
+
+        if (s_perso->next->int_chest == 1) {
+            if (s_invent->pos_potion_fx.y > - 100) {
+                s_invent->pos_potion_fx.y -= 0.8;
+                sfClock_restart(s_invent->clock_fx);
+            }
+            sfSprite_setPosition(s_invent->sprite_potion_fx , s_invent->pos_potion_fx);
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion_fx, NULL);
+            // if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_invent->clock_fx)) < 3))
+            //     sfRenderWindow_drawSprite(window, s_invent->sprite_potion_fx2, NULL);
+        }
+
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
             sfClock_restart(struct_villager->clock_achievement);
