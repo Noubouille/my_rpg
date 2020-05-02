@@ -316,7 +316,7 @@ int menu_game(sfRenderWindow* window)
         }
 
         if (launch_game == 1) {
-            while (sfRenderWindow_isOpen(window) && sfTime_asSeconds(sfClock_getElapsedTime(struct_mg->horloge)) <= 1) {
+            while (sfRenderWindow_isOpen(window) && sfTime_asSeconds(sfClock_getElapsedTime(struct_mg->horloge)) <= 2) {
                 sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
                 while (sfRenderWindow_pollEvent(window, &struct_mg->event)) {
                     if (struct_mg->event.type == sfEvtClosed)
@@ -326,7 +326,6 @@ int menu_game(sfRenderWindow* window)
                         sfSprite_setPosition(cursor->cursorsprite, cursor1);
                     }
                 }
-                //fin des events
                 if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_mg->player_clock)) > 200) {
                     struct_mg->player_rect.left += (288 / 3);
                     if (struct_mg->player_rect.left == 288)
@@ -336,7 +335,7 @@ int menu_game(sfRenderWindow* window)
                 sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
                 sfSprite_setPosition(struct_mg->sprite_perso ,struct_mg->pos_perso);
                 sfRenderWindow_drawSprite(window, struct_mg->sprite_perso, NULL);
-                if (struct_mg->pos_perso.x < 2000) struct_mg->pos_perso.x += 1;
+                if (struct_mg->pos_perso.x < 2000) struct_mg->pos_perso.x += 2;
 
                 sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
                 sfRenderWindow_display(window);

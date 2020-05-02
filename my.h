@@ -97,7 +97,6 @@ typedef struct s_perso {
     struct s_perso *next;
 }s_perso_t;
 
-
 typedef struct s_life {
     sfSprite *sprite_life;
     sfTexture *text_life;
@@ -127,6 +126,11 @@ typedef struct s_my_cave {
     int right;
     int left;
 }s_my_cave_t;
+
+typedef struct s_leave {
+    sfSprite *sprite_leave;
+    sfTexture *text_leave;
+}s_leave_t;
 
 typedef struct s_cave_font {
 
