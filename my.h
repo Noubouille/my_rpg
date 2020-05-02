@@ -326,5 +326,6 @@ s_perso_t *init_perso(void);
 int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window);
 int menu_game(sfRenderWindow* window);
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent);
+void my_putchar(char c);
 
 #endif /* !MY_H_ */
