@@ -631,13 +631,17 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             // print la bulle
         }
 
+        if (struct_villager->good_key == 1) {
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_endquest, NULL);
+        }
+
         if (struct_villager->end_game == 1) {
-            printf("et merci fréro heiiiinnn\n");
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_thanks, NULL);
         }
 
         if (invent_int == 1) {
             if (s_perso->object == 1 && s_perso->int_chest == 0)
-                sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
+                sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
             sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
             sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
             if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->next->player_clock)) > 200) {
