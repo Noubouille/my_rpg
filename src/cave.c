@@ -159,6 +159,16 @@ s_fcave_t *init_fcave()
     return s_cave;
 }
 
+s_leave_t *init_leave()
+{
+    s_leave_t *s_leave = malloc(sizeof(s_leave_t));
+    s_leave->text_leave = sfTexture_createFromFile("Image/leavefight.png", NULL);
+    s_leave->sprite_leave = sfSprite_create();
+    sfSprite_setTexture(s_leave->sprite_leave, s_leave->text_leave, sfTrue);
+    sfSprite_setPosition(s_leave->sprite_leave , (sfVector2f) {0, 0});
+    return s_leave;
+}
+
 void add_nodes_cave(s_fcave_t *s_cave, sfRenderWindow* window)
 {
     s_fcave_t *tmp = s_cave;
@@ -237,8 +247,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
 
     if (struct_cave->fig_int == 1) {
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp < 8) {
-            printf("you lose\n");
-            if (struct_menu->music_state == 1)
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
                 sfMusic_destroy(struct_cave->music);
             my_game(struct_menu, window);
             return 12;
@@ -261,8 +270,10 @@ void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inv
     if (invent_int == 1) {
         if (s_perso->object == 1 && s_perso->int_chest == 0)
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
-
         sfRenderWindow_drawSprite(window, s_invent->sprite_invent, NULL);
+        if (s_perso->next->int_chest == 1) {
+            sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
+        }
         if (s_perso->state_kit == 1)
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
         // sfRenderWindow_drawSprite(window, s_life->sprite_life, NULL);
@@ -290,6 +301,37 @@ void print_inv(sfRenderWindow* window, s_perso_t *s_perso, int invent_int, s_inv
     s_perso->down = 0;
 }
 
+int fct_leave(sfRenderWindow* window, s_leave_t *s_leave, s_my_cave_t *s_cave, s_cursor_t *cursor)
+{
+    int ret = 0;
+    while (sfRenderWindow_isOpen(window)) {
+        sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
+        while (sfRenderWindow_pollEvent(window, &s_cave->event_gc)) {
+            if (s_cave->event_gc.type == sfEvtClosed) {
+                sfRenderWindow_close(window);
+                return 12;
+            }
+            if (s_cave->event_gc.type == sfEvtMouseMoved) {
+                sfVector2f cursor1 = sourissprite(sfMouse_getPositionRenderWindow(window));
+                sfSprite_setPosition(cursor->cursorsprite, cursor1);
+            }
+            if ((sfMouse_isButtonPressed(sfMouseLeft)) && mouse.x > 1120 && mouse.x < 1380 && mouse.y > 860 && mouse.y < 990) {
+                ret = 1;
+                return ret;
+            }
+            if ((sfMouse_isButtonPressed(sfMouseLeft)) && mouse.x > 1320 && mouse.x < 1680 && mouse.y > 860 && mouse.y < 990) {
+                ret = 0;
+                return ret;
+            }
+        }
+        sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
+        sfRenderWindow_display(window);
+        sfRenderWindow_clear(window, sfBlack);
+        sfRenderWindow_drawSprite(window, s_leave->sprite_leave, NULL);
+    }
+    return 12;
+}
+
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent)
 {
     s_my_cave_t *struct_cave = init_cave();
@@ -297,6 +339,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     s_mob_t *s_mob = init_mob();
     s_cave_font_t *s_font = init_font();
     s_fcave_t *s_fcave = init_fcave();
+    s_leave_t *s_leave = init_leave();
     s_perso->pos_perso.x = 1555;
     s_perso->pos_perso.y = 900;
     sfClock *red = sfClock_create();
@@ -309,7 +352,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     }
     sfClock_restart(s_mob->clock_mov);
     sfClock_restart(struct_cave->cave_horloge);
-    int supp = 0, bubble = 0, fight_go = 0, invent_int = 0;
+    int supp = 0, bubble = 0, fight_go = 0, invent_int = 0, goin = 0;
 
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
@@ -372,14 +415,14 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
 
         if (struct_cave->pos_cave.y >= 700 && struct_cave->pos_cave.y <= 800)
             sfRenderWindow_drawSprite(window, struct_cave->sprite_bubble_gc, NULL);
-        if ((struct_cave->pos_cave.y >= 790)) {
-            s_perso->object = 1;
-        }
+        if ((struct_cave->pos_cave.y >= 790)) s_perso->object = 1;
         if (struct_cave->pos_cave.y >= 680) fight_go = 1;
+        if (struct_cave->pos_cave.y >= 480) bubble = 1;
         struct_cave = movement_perso_cc(struct_cave, s_mob);
         if (((struct_cave->pos_cave.y <= 300) && struct_cave->pos_cave.x >= 1000 && struct_cave->pos_cave.x <= 1100) && sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->cave_horloge)) > 1) {
             sfSprite_destroy(struct_cave->sprite_bg_gc);
             s_perso->ret = 1;
+            sfMusic_pause(struct_cave->music);
             return s_perso;
         }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->player_clock)) > 200) {
@@ -391,21 +434,30 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
         if (fight(window, struct_cave, s_mob, s_font, struct_menu, supp) == 12) {
             sfSprite_destroy(struct_cave->sprite_bg_gc);
             sfRenderWindow_close(window);
+            sfMusic_pause(struct_cave->music);
             return s_perso;
         }
-        if (struct_cave->pos_cave.y >= 400 && bubble == 0 && struct_cave->pos_cave.y <= 500) {
+        if (struct_cave->pos_cave.y >= 350 && bubble == 0 && struct_cave->pos_cave.y <= 480)
             sfRenderWindow_drawSprite(window, struct_cave->sprite_bu, NULL);
+        if (struct_cave->pos_cave.y >= 550 && goin == 0) {
+            goin++;
+            if (fct_leave(window, s_leave, struct_cave, cursor) == 0) {
+                sfSprite_destroy(struct_cave->sprite_bg_gc);
+                s_perso->ret = 1;
+                return s_perso;
+            }
+            else if (fct_leave(window, s_leave, struct_cave, cursor) == 12)
+                return 84;
+            else continue;
         }
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);
         sfRenderWindow_clear(window, sfBlack);
         sfRenderWindow_drawSprite(window, struct_cave->sprite_bg_gc, NULL);
-
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
         sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
         sfSprite_setPosition(struct_cave->sprite_bg_gc ,struct_cave->pos_cave);
-
         sfRenderWindow_drawText(window, s_perso->texte_obj, NULL);
         sfRenderWindow_drawText(window, s_perso->texte_int, NULL);
         sfText_setString(s_perso->texte_int, nb_tochar(s_perso->object));

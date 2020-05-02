@@ -543,7 +543,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
             if ((s_perso->pos_perso.x < 250 && s_perso->pos_perso.x > 100 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
                 s_perso->int_chest = 1;
-
             }
 
             if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.x > 600 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
@@ -559,7 +558,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 struct_villager->wrong_key = 1;
             }
 
-            printf("key: %d\n", struct_villager->good_key);
+            // printf("key: %d\n", struct_villager->good_key);
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && struct_villager->good_key == 1 && s_perso->object == 0) {
                 struct_villager->end_game = 1;
                 printf("end game:%d\n", struct_villager->end_game);
@@ -655,7 +654,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (s_perso->state_kit == 1 && invent_int == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_sword, NULL);
             s_perso->sword_yes = 1;
-            //s_perso->state_kit = 0;
         }
         if (invent_int == 1 && s_perso->next->int_chest == 1) {
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion, NULL);
@@ -672,14 +670,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
 
         if (s_perso->next->int_chest == 1) {
+            sfSprite_setPosition(s_invent->sprite_sword_fx2, (sfVector2f) {1600, -100});
             if (s_invent->pos_potion_fx.y > - 100) {
                 s_invent->pos_potion_fx.y -= 0.8;
                 sfClock_restart(s_invent->clock_fx);
             }
             sfSprite_setPosition(s_invent->sprite_potion_fx , s_invent->pos_potion_fx);
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion_fx, NULL);
-            // if ((sfTime_asMilliseconds(sfClock_getElapsedTime(s_invent->clock_fx)) < 3))
-            //     sfRenderWindow_drawSprite(window, s_invent->sprite_potion_fx2, NULL);
         }
 
         s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
@@ -737,10 +734,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_chest->clock_chest)) > 1) && s_perso->int_chest == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_2key, sfTrue);
-            s_perso->object == 0;
-            struct_villager->good_key == 1;
-            struct_villager->wrong_key == 0;
-            printf("chest opened\n");
+            s_perso->object = 0;
+            struct_villager->good_key = 1;
+            struct_villager->wrong_key = 0;
         }
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
