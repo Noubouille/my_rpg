@@ -606,7 +606,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
-    int invent_int = 0, quest_cave = 0;
+    int invent_int = 0, quest_cave = 0, popo = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
     struct_villager->wrong_key = 0;
@@ -648,7 +648,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 s_perso->int_chest = 1;
             }
 
-            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.x > 600 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
+            if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.x > 600 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && popo == 0) {
+                popo = 1;
                 s_perso->next->int_chest = 1;
             }
 
@@ -665,11 +666,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
                 sfClock_restart(struct_game->clock_end_game);
                 s_perso->object = 0;
-            printf("key:\n");
             }
 
-            if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE))
+            if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE)) {
                 s_perso->state_kit = 1;
+            }
             if (sfKeyboard_isKeyPressed(sfKeyEscape) && sfTime_asMilliseconds(sfClock_getElapsedTime(pause_clock)) > 100) {
                 struct_game->pause = 1;
             }
