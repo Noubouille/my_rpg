@@ -187,7 +187,7 @@ int menu_game(sfRenderWindow* window)
     }
     int launch_game = 0;
     struct_mg->music_state = 1;
-    window = sfRenderWindow_create((sfVideoMode) {1920, 1080, 32}, "Error_404", 7 | sfClose, NULL);
+    window = sfRenderWindow_create((sfVideoMode) {1920, 1080, 32}, "Azazyel's Adventure", 19 | sfClose, NULL);
     sfRenderWindow_setIcon(window, 61, 46, sfImage_getPixelsPtr(sfImage_createFromFile("Image/icon.png")));
     sfWindow_setMouseCursorVisible((sfWindow *) window, sfFalse);
     while (sfRenderWindow_isOpen(window)) {

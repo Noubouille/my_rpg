@@ -406,6 +406,9 @@ s_perso_t *poss_movement1(s_perso_t *perso)
     }
     else if ((perso->pos_perso.y >= 300 - 55 && perso->pos_perso.y <= 260) && (perso->pos_perso.x <= 1700) && (perso->pos_perso.x >= 1100)) {
         perso->pos_perso.y += 15;
+    }
+    else if ((perso->pos_perso.y >= 450 && perso->pos_perso.y <= 470) && (perso->pos_perso.x > -100) && (perso->pos_perso.x <= 800)) {
+        perso->pos_perso.y += 15;
     } else {
         perso->pos_perso.y -= 15;
     }
@@ -425,6 +428,9 @@ s_perso_t *poss_movement2(s_perso_t *perso)
     else if ((perso->pos_perso.y >= 675 - 100 && perso->pos_perso.y <= 590) && (perso->pos_perso.x >= 1400)) {
         perso->pos_perso.y -= 15;
     }
+    else if ((perso->pos_perso.y >= 420 && perso->pos_perso.y <= 440) && (perso->pos_perso.x > -100) && (perso->pos_perso.x <= 800)) {
+        perso->pos_perso.y -= 15;
+    }
     else
         perso->pos_perso.y += 15;
     return perso;
@@ -437,7 +443,10 @@ s_perso_t *poss_movement3(s_perso_t *perso)
         perso->pos_perso.y = 800;
         perso->pos_perso.x = 1370;
     }
-    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 490) && (perso->pos_perso.x >= 1050 && perso->pos_perso.x <= 1200)) {
+    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 460) && (perso->pos_perso.x >= 1050 && perso->pos_perso.x <= 1109)) {
+        perso->pos_perso.x -= 30;
+    }
+    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 490) && (perso->pos_perso.x >= 1780 && perso->pos_perso.x <= 1920)) {
         perso->pos_perso.x -= 30;
     }
     else
@@ -451,6 +460,9 @@ s_perso_t *poss_movement4(s_perso_t *perso)
         (perso->pos_perso.x >= sfSprite_getPosition(perso->sprite_house1).x && perso->pos_perso.x < sfSprite_getPosition(perso->sprite_house1).x + 170))) {
             perso->pos_perso.y = 800;
             perso->pos_perso.x = 1370;
+    }
+    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 460) && (perso->pos_perso.x >= 1110 && perso->pos_perso.x <= 1120)) {
+        perso->pos_perso.x += 20;
     }
     else
         perso->pos_perso.x -= 15;
@@ -587,7 +599,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
 
-    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 1) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
         sfMusic_setLoop(struct_game->music, sfTrue);
         sfMusic_play(struct_game->music);
@@ -698,16 +710,19 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(s_perso->clock_popo);
             s_perso->next->int_chest = 0;
             s_perso->rect_popo.left = 0;
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
             sfMusic_stop(s_perso->music_popo);
             sfMusic_play(s_perso->music_popo);
+            }
         }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
             if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
             sfMusic_stop(struct_game->music);
             s_perso = cave(window, s_perso, struct_menu, s_invent);
-            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
                 sfMusic_play(struct_game->music);
+            }
             less_hp_fct(s_perso, s_life);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
