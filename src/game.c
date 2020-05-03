@@ -598,7 +598,12 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager1_t *struct_villager1 = init_villager1();
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
+<<<<<<< HEAD
 
+=======
+    printf("music state%d\n", struct_menu->music_state);
+    printf("music onoff%d\n", struct_menu->music_onoff);
+>>>>>>> 8d5ac1f7f3b49d5f48235d4239611bb9ff3ab60d
     if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
         sfMusic_setLoop(struct_game->music, sfTrue);

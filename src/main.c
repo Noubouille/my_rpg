@@ -295,6 +295,7 @@ int menu_game(sfRenderWindow* window)
                     sfMusic_play(struct_mg->click);
                     sfSprite_setTexture(setpanel->sprite_audio, setpanel->text_audio_on, sfTrue);
                     struct_mg->music_state = 1;
+                    struct_mg->music_onoff = 0;
                     setpanel->k = 0;
                     sfMusic_play(struct_mg->music);
                 }
