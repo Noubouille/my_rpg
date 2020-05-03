@@ -599,7 +599,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
 
-    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 1) {
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
         sfMusic_setLoop(struct_game->music, sfTrue);
         sfMusic_play(struct_game->music);
@@ -914,8 +914,10 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     sfSprite_destroy(struct_game->sprite_bg_g);
     sfSprite_destroy(s_perso->sprite_perso);
     sfMusic_destroy(struct_game->click_g);
-    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
+    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
+        printf("heziufoizfpzf\n");
         sfMusic_destroy(struct_game->music);
+    }
 
     return (0);
 }
