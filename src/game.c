@@ -24,6 +24,12 @@ s_button_t *init_buttons(void)
     struct_buttons->pos_button4.x = 710;
     struct_buttons->pos_button4.y = 400;
     sfSprite_setPosition(struct_buttons->sprite_button4, struct_buttons->pos_button4);
+    struct_buttons->sprite_menu_end = sfSprite_create();
+    struct_buttons->text_menu_end = sfTexture_createFromFile("Image/but_menu_end.png", NULL);
+    sfSprite_setTexture(struct_buttons->sprite_menu_end, struct_buttons->text_menu_end, sfTrue);
+    struct_buttons->pos_button_menu_end.x = 705;
+    struct_buttons->pos_button_menu_end.y = 885;
+    sfSprite_setPosition(struct_buttons->sprite_menu_end, struct_buttons->pos_button_menu_end);
     return struct_buttons;
 }
 
@@ -584,6 +590,14 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_no_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_no_button).y + 58) && struct_villager->quest_state == 1) {
                     struct_villager->quest_state = 0;
                 }
+                if ((mouse.x >= sfSprite_getPosition(struct_buttons->sprite_menu_end).x && mouse.x <= sfSprite_getPosition(struct_buttons->sprite_menu_end).x + 512) &&
+                (mouse.y > sfSprite_getPosition(struct_buttons->sprite_menu_end).y && mouse.y <= sfSprite_getPosition(struct_buttons->sprite_menu_end).y + 127) && struct_villager->end_game == 1 ) {
+                    sfRenderWindow_close(window);
+                    if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
+                    sfMusic_stop(struct_game->music);
+                    }
+                    menu_game(window);
+                }
             }
             if ((s_perso->pos_perso.x < 250 && s_perso->pos_perso.x > 100 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE) && s_perso->object == 1) {
                 s_perso->int_chest = 1;
@@ -685,6 +699,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 
         if (struct_villager->end_game == 1 && sfTime_asMilliseconds(sfClock_getElapsedTime(struct_game->clock_end_game)) > 3000) {
             sfRenderWindow_drawSprite(window, struct_game->sprite_endscreen, NULL);
+            sfRenderWindow_drawSprite(window, struct_buttons->sprite_menu_end, NULL);
         }
 
         if (invent_int == 1) {
