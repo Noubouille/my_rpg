@@ -227,6 +227,8 @@ typedef struct s_villager {
     sfTexture *text_endquest;
     sfSprite *sprite_thanks;
     sfTexture *text_thanks;
+    sfSprite *sprite_wrong_key;
+    sfTexture *text_wrong_key;
     sfClock *clock_achievement;
 }s_villager_t;
 

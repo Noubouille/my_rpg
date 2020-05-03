@@ -80,6 +80,10 @@ s_villager_t *init_villager(void)
     struct_villager->sprite_thanks = sfSprite_create();
     sfSprite_setTexture(struct_villager->sprite_thanks, struct_villager->text_thanks, sfTrue);
     sfSprite_setPosition(struct_villager->sprite_thanks, (sfVector2f) {1180, 700});
+    struct_villager->text_wrong_key = sfTexture_createFromFile("Image/wrong_key.png", NULL);
+    struct_villager->sprite_wrong_key = sfSprite_create();
+    sfSprite_setTexture(struct_villager->sprite_wrong_key, struct_villager->text_wrong_key, sfTrue);
+    sfSprite_setPosition(struct_villager->sprite_wrong_key, (sfVector2f) {1180, 700});
     struct_villager->clock_achievement = sfClock_create();
     struct_villager->yannis = 0;
     return struct_villager;
@@ -873,6 +877,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfSprite_setPosition(s_invent->sprite_fx_blue , s_invent->pos_blue);
             sfRenderWindow_drawSprite(window, s_invent->sprite_fx_blue, NULL);
         }
+        if (struct_villager->wrong_key == 1) {
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_wrong_key, NULL);
+        }
         sfSprite_setTextureRect(s_perso->sprite_perso, s_perso->player_rect);
         sfSprite_setPosition(s_perso->sprite_perso ,s_perso->pos_perso);
         sfRenderWindow_drawSprite(window, s_perso->sprite_perso, NULL);
@@ -908,7 +915,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     sfSprite_destroy(s_perso->sprite_perso);
     sfMusic_destroy(struct_game->click_g);
     if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
-        printf("heziufoizfpzf\n");
         sfMusic_destroy(struct_game->music);
     }
 
