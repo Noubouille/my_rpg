@@ -373,9 +373,16 @@ int menu_game(sfRenderWindow* window)
     }
     sfSprite_destroy(cursor->cursorsprite);
     sfSprite_destroy(struct_mg->sprite_bg);
+    sfSprite_destroy(struct_mg->sprite_perso);
     sfSprite_destroy(button->sprite_button);
     sfSprite_destroy(button->sprite_button2);
     sfSprite_destroy(button->sprite_button3);
+    sfSprite_destroy(setpanel->sprite_panel);
+    sfSprite_destroy(setpanel->sprite_audio);
+    sfSprite_destroy(setpanel->sprite_but_howtoplay);
+    sfSprite_destroy(setpanel->sprite_howtoplay);
+    sfSprite_destroy(setpanel->sprite_but_howtoplay_close);
+    sfSprite_destroy(setpanel->sprite_close);
     sfMusic_destroy(struct_mg->click);
     sfMusic_destroy(struct_mg->music);
     return (0);
