@@ -341,7 +341,7 @@ s_inventory_t *init_invent(s_perso_t *s_perso)
     s_invent->clock_fx = sfClock_create();
     sfSprite_setPosition(s_invent->sprite_sword_fx, s_invent->pos_sword_fx);
     sfSprite_setPosition(s_invent->sprite_potion_fx, s_invent->pos_potion_fx);
-    s_invent->pos_blue.x = 200;
+    s_invent->pos_blue.x = 100;
     s_invent->pos_blue.y = 250;
     sfSprite_setPosition(s_invent->sprite_fx_blue, s_invent->pos_blue);
     return s_invent;
@@ -721,14 +721,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(s_wind->clock_w);
         }
         sfSprite_setTextureRect(s_wind->sprite_wind, s_wind->rect_w);
-        sfRenderWindow_drawSprite(window, s_wind->sprite_wind, NULL);
+
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_wind->next->clock_w)) > 250) {
             s_wind->next->rect_w.left += (1500 / 15);
             if (s_wind->next->rect_w.left >= 1500) s_wind->next->rect_w.left = 0;
             sfClock_restart(s_wind->next->clock_w);
         }
         sfSprite_setTextureRect(s_wind->next->sprite_wind, s_wind->next->rect_w);
-        sfRenderWindow_drawSprite(window, s_wind->next->sprite_wind, NULL);
         if (struct_villager->quest_state == 1) {
             sfRenderWindow_drawSprite(window, struct_villager->sprite_quest, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
@@ -837,6 +836,8 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, struct_game->sprite_bg_g, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->sprite_chest, NULL);
         sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
+        sfRenderWindow_drawSprite(window, s_wind->sprite_wind, NULL);
+        sfRenderWindow_drawSprite(window, s_wind->next->sprite_wind, NULL);
         if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && s_perso->int_chest == 1 && s_perso->object == 1) {
             sfSprite_setTextureRect(struct_chest->sprite_chest, struct_chest->rect_chest);
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
