@@ -422,7 +422,7 @@ s_perso_t *poss_movement3(s_perso_t *perso)
         perso->pos_perso.y = 800;
         perso->pos_perso.x = 1370;
     }
-    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 490) && (perso->pos_perso.x >= 1050 && perso->pos_perso.x <= 1200)) {
+    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 460) && (perso->pos_perso.x >= 1050 && perso->pos_perso.x <= 1109)) {
         perso->pos_perso.x -= 30;
     }
     else
@@ -436,6 +436,9 @@ s_perso_t *poss_movement4(s_perso_t *perso)
         (perso->pos_perso.x >= sfSprite_getPosition(perso->sprite_house1).x && perso->pos_perso.x < sfSprite_getPosition(perso->sprite_house1).x + 170))) {
             perso->pos_perso.y = 800;
             perso->pos_perso.x = 1370;
+    }
+    else if ((perso->pos_perso.y >= 200 && perso->pos_perso.y <= 460) && (perso->pos_perso.x >= 1110 && perso->pos_perso.x <= 1120)) {
+        perso->pos_perso.x += 20;
     }
     else
         perso->pos_perso.x -= 15;
