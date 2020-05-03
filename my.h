@@ -143,6 +143,7 @@ typedef struct s_my_cave {
     int down;
     int right;
     int left;
+    int need2fight;
 }s_my_cave_t;
 
 typedef struct s_leave {

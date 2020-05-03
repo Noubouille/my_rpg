@@ -115,8 +115,8 @@ s_villager2_t *init_villager2(void)
     struct_villager2->rect_villager.top = 0;
     struct_villager2->rect_villager.left = 0;
     sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
-    struct_villager2->pos_villager.x = 200;
-    struct_villager2->pos_villager.y = 350;
+    struct_villager2->pos_villager.x = 230;
+    struct_villager2->pos_villager.y = 300;
     sfSprite_setPosition(struct_villager2->sprite_villager, struct_villager2->pos_villager);
     return struct_villager2;
 }
@@ -182,7 +182,7 @@ s_object_t *init_objects(void)
     struct_object->text_bubble_v2 = sfTexture_createFromFile("Image/strange.png", NULL);
     struct_object->sprite_bubble_v2 = sfSprite_create();
     sfSprite_setTexture(struct_object->sprite_bubble_v2, struct_object->text_bubble_v2, sfTrue);
-    sfSprite_setPosition(struct_object->sprite_bubble_v2, (sfVector2f) {70, 230});
+    sfSprite_setPosition(struct_object->sprite_bubble_v2, (sfVector2f) {70, 210});
 
     return struct_object;
 }
@@ -606,7 +606,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
-    int invent_int = 0;
+    int invent_int = 0, quest_cave = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
     struct_villager->wrong_key = 0;
@@ -629,6 +629,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_yes_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_yes_button).y + 58) && struct_villager->quest_state == 1) {
                     struct_villager->quest_state = 0;
                     struct_villager->quest_accepted = 1;
+                    quest_cave = 1;
                 }
                 if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_no_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_no_button).x + 142) &&
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_no_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_no_button).y + 58) && struct_villager->quest_state == 1) {
@@ -659,11 +660,12 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 struct_villager->wrong_key = 1;
             }
 
-            // printf("key: %d\n", struct_villager->good_key);
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && struct_villager->good_key == 1 && s_perso->object == 0) {
                 struct_villager->end_game = 1;
+                sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
                 sfClock_restart(struct_game->clock_end_game);
-                printf("end game:%d\n", struct_villager->end_game);
+                s_perso->object = 0;
+            printf("key:\n");
             }
 
             if (s_perso->pos_perso.x >= 1300 && s_perso->pos_perso.x <= 1500 && s_perso->pos_perso.y <= 450 && s_perso->pos_perso.y >= 300 && sfKeyboard_isKeyPressed(sfKeyE))
@@ -678,8 +680,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 invent_int = 1;
                 sfClock_restart(invent_clock);
             }
-            if (sfMouse_isButtonPressed(sfMouseLeft))
-                printf("x:%d\n, y:%d\n", mouse.x, mouse.y);
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {
                 sfSprite_setTexture(s_perso->sprite_perso, s_perso->text_perso, sfTrue);
                 s_perso->right = 1;
@@ -699,7 +699,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             struct_game = print_pause(window, struct_game, s_perso, cursor, struct_buttons, struct_menu);
             sfClock_restart(pause_clock);
         }
-        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) { // event popo
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) {
             s_life->rect.width = 584;
             sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
             s_perso->pos_popo.x = s_perso->pos_perso.x;
@@ -714,7 +714,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
         }
         print_bubble(s_object, s_perso, struct_villager, window);
-        if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
+        if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) && quest_cave == 1) {
             if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
             sfMusic_stop(struct_game->music);
             s_perso = cave(window, s_perso, struct_menu, s_invent);
@@ -746,20 +746,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, struct_villager->sprite_yes_button, NULL);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_no_button, NULL);
         }
-
-        if (struct_villager->wrong_key == 1) {
-            printf("c'est pas la bonne clé fréro\n");
-            //struct_villager->wrong_key == 0;
-            // print la bulle
-        }
-        if (struct_villager->good_key == 1) {
-            sfRenderWindow_drawSprite(window, struct_villager->sprite_endquest, NULL);
-        }
-        if (struct_villager->end_game == 1) {
-            sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
-            sfRenderWindow_drawSprite(window, struct_villager->sprite_thanks, NULL);
-        }
-
         if (invent_int == 1) {
             if (s_perso->object == 1 && s_perso->int_chest == 0)
                 sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent_key, sfTrue);
@@ -851,6 +837,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, struct_chest->next->sprite_chest, NULL);
         sfRenderWindow_drawSprite(window, s_wind->sprite_wind, NULL);
         sfRenderWindow_drawSprite(window, s_wind->next->sprite_wind, NULL);
+        if (struct_villager->good_key == 1)
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_endquest, NULL);
+        if (struct_villager->end_game == 1) {
+            sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
+            sfRenderWindow_drawSprite(window, struct_villager->sprite_thanks, NULL);
+        }
+
         if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.y < 400) && s_perso->int_chest == 1 && s_perso->object == 1) {
             sfSprite_setTextureRect(struct_chest->sprite_chest, struct_chest->rect_chest);
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);

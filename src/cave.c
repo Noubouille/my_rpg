@@ -69,6 +69,7 @@ s_my_cave_t *init_cave()
     struct_cave->down = 0;
     struct_cave->right = 0;
     struct_cave->left = 0;
+    struct_cave->need2fight = 0;
     return struct_cave;
 }
 
@@ -251,18 +252,15 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
     if (struct_cave->fig_int == 1) {
         if ((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp < 8) {
             if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
-            sfMusic_stop(struct_cave->music_fight);
-            }
-            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
+                sfMusic_stop(struct_cave->music_fight);
                 sfMusic_destroy(struct_cave->music);
             }
             my_game(struct_menu, window);
             return 12;
         }
         if (((sfTime_asSeconds(sfClock_getElapsedTime(struct_cave->fight_clock)) > 8) && supp >= 8)) {
-            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
-            sfMusic_stop(struct_cave->music_fight);
-            }
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
+                sfMusic_stop(struct_cave->music_fight);
             s_mob->pos_mob.y = - 1000;
             s_font->pos_l2.y = - 1000;
             s_font->pos_l.y = - 1000;
@@ -270,6 +268,7 @@ int fight(sfRenderWindow* window, s_my_cave_t *struct_cave, s_mob_t *s_mob, s_ca
             sfSprite_setPosition(s_font->sprite_vs , s_font->pos_vs);
             sfSprite_setPosition(s_font->sprite_l2 , s_font->pos_l2);
             sfSprite_setPosition(s_font->sprite_l , s_font->pos_l);
+            struct_cave->need2fight = 1;
         }
     }
     return 0;
@@ -435,7 +434,8 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
 
         if (struct_cave->pos_cave.y >= 700 && struct_cave->pos_cave.y <= 800)
             sfRenderWindow_drawSprite(window, struct_cave->sprite_bubble_gc, NULL);
-        if ((struct_cave->pos_cave.y >= 790)) s_perso->object = 1;
+        if ((struct_cave->pos_cave.y >= 790) && struct_cave->need2fight == 1)
+            s_perso->object = 1;
         if (struct_cave->pos_cave.y >= 680) fight_go = 1;
         if (struct_cave->pos_cave.y >= 480) bubble = 1;
         struct_cave = movement_perso_cc(struct_cave, s_mob);
