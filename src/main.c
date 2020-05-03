@@ -389,6 +389,7 @@ int main(int ac, char **av)
         my_putstr("   Press F to fight\n");
         my_putstr("   Press directional arrows to move in the map\n");
         my_putstr("   Press E to interact with NPC\n\n");
+        my_putstr("   Press R to interact with the potion\n\n");
         my_putstr("   Good luck and have fun :)\n\n");
         return (0);
     }
