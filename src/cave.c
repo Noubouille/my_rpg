@@ -169,7 +169,7 @@ s_leave_t *init_leave()
     return s_leave;
 }
 
-void add_nodes_cave(s_fcave_t *s_cave, sfRenderWindow* window)
+void add_nodes_cave(s_fcave_t *s_cave)
 {
     s_fcave_t *tmp = s_cave;
     for (; tmp->next != NULL; tmp = tmp->next);
@@ -366,7 +366,6 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
     int supp = 0, bubble = 0, fight_go = 0, invent_int = 0, goin = 0, attak = 6;
     if (s_perso->state_kit == 1) attak = 4;
     while (sfRenderWindow_isOpen(window)) {
-        sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
         while (sfRenderWindow_pollEvent(window, &struct_cave->event_gc)) {
             if (struct_cave->event_gc.type == sfEvtClosed)
                 sfRenderWindow_close(window);
@@ -385,7 +384,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 }
                 sfClock_restart(red);
                 sfClock_restart(struct_cave->tap);
-                add_nodes_cave(s_fcave, window);
+                add_nodes_cave(s_fcave);
             }
             if (sfKeyboard_isKeyPressed(sfKeyReturn)) bubble++;
             if (sfKeyboard_isKeyPressed(sfKeyRight)) {

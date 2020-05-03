@@ -247,7 +247,7 @@ s_perso_t *init_perso(void)
     return struct_perso;
 }
 
-void init_perso2(s_perso_t *s_perso, sfRenderWindow* window)
+void init_perso2(s_perso_t *s_perso)
 {
     s_perso_t *struct_perso2 = s_perso;
     for(; struct_perso2->next != NULL; struct_perso2 = struct_perso2->next);
@@ -302,7 +302,7 @@ s_chest_t *init_chest()
     return s_chest;
 }
 
-s_inventory_t *init_invent(s_perso_t *s_perso)
+s_inventory_t *init_invent(void)
 {
     s_inventory_t *s_invent = malloc(sizeof(s_inventory_t));
     s_invent->text_invent = sfTexture_createFromFile("Image/invent.png", NULL);
@@ -592,7 +592,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_object_t *s_object = init_objects();
     s_life_t *s_life = init_life();
     s_wind_t *s_wind = init_wind();
-    s_inventory_t *s_invent = init_invent(s_perso);
+    s_inventory_t *s_invent = init_invent();
     s_villager_t *struct_villager = init_villager();
     s_button_t *struct_buttons = init_buttons();
     s_villager1_t *struct_villager1 = init_villager1();
@@ -607,14 +607,14 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     }
     sfClock *pause_clock = sfClock_create();
     sfClock *invent_clock = sfClock_create();
-    int invent_int = 0, quest_cave = 0;
+    int invent_int = 0;
     struct_villager->quest_state = 0;
     struct_villager->quest_accepted = 0;
     struct_villager->wrong_key = 0;
     s_perso->state_kit = 0;
     struct_villager->good_key = 0;
     struct_villager->end_game = 0;
-    init_perso2(s_perso, window);
+    init_perso2(s_perso);
 
     while (sfRenderWindow_isOpen(window)) {
         sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
@@ -630,7 +630,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_yes_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_yes_button).y + 58) && struct_villager->quest_state == 1) {
                     struct_villager->quest_state = 0;
                     struct_villager->quest_accepted = 1;
-                    quest_cave = 1;
                 }
                 if ((mouse.x > sfSprite_getPosition(struct_villager->sprite_no_button).x && mouse.x <= sfSprite_getPosition(struct_villager->sprite_no_button).x + 142) &&
                 (mouse.y > sfSprite_getPosition(struct_villager->sprite_no_button).y && mouse.y <= sfSprite_getPosition(struct_villager->sprite_no_button).y + 58) && struct_villager->quest_state == 1) {
