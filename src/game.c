@@ -352,6 +352,24 @@ s_life_t *init_life()
     return s_life;
 }
 
+s_wind_t *init_wind()
+{
+    s_wind_t *s_wind = malloc(sizeof(s_wind_t));
+    s_wind->sprite_wind = sfSprite_create();
+    s_wind->text_wind = sfTexture_createFromFile("Image/wind.png", NULL);
+    sfSprite_setTexture(s_wind->sprite_wind, s_wind->text_wind, sfTrue);
+    s_wind->rect_w.height = 98;
+    s_wind->rect_w.width = 1500 / 15;
+    s_wind->rect_w.top = 0;
+    s_wind->rect_w.left = 0;
+    sfSprite_setTextureRect(s_wind->sprite_wind, s_wind->rect_w);
+    sfSprite_setPosition(s_wind->sprite_wind, (sfVector2f) {500, 500});
+    // sfSprite_setScale(s_wind->sprite_wind, (sfVector2f) {0.8, 1});
+    s_wind->clock_w = sfClock_create();
+
+    return s_wind;
+}
+
 s_perso_t *poss_movement1(s_perso_t *perso)
 {
     if (((perso->pos_perso.y >= sfSprite_getPosition(perso->sprite_house1).y && perso->pos_perso.y <= sfSprite_getPosition(perso->sprite_house1).y + 120) &&
@@ -540,6 +558,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_perso_t *s_perso = init_perso();
     s_object_t *s_object = init_objects();
     s_life_t *s_life = init_life();
+    s_wind_t *s_wind = init_wind();
     s_inventory_t *s_invent = init_invent(s_perso);
     s_villager_t *struct_villager = init_villager();
     s_button_t *struct_buttons = init_buttons();
@@ -745,7 +764,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, s_invent->sprite_potion_fx, NULL);
         }
 
-        s_perso = movement_perso(s_perso);// fait bouger le sprite du perso
+        s_perso = movement_perso(s_perso);
         if (struct_villager->quest_accepted == 1 && (struct_villager->yannis == 0)) {
             sfClock_restart(struct_villager->clock_achievement);
             struct_villager->yannis = 1;
@@ -773,6 +792,13 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             if (struct_villager2->rect_villager.left >= 340) struct_villager2->rect_villager.left = 0;
             sfClock_restart(struct_villager2->clock_villager);
         }
+        if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_wind->clock_w)) > 250) { // pour le vent
+            s_wind->rect_w.left += (1500 / 15);
+            if (s_wind->rect_w.left >= 1500) s_wind->rect_w.left = 0;
+            sfClock_restart(s_wind->clock_w);
+        }
+        sfSprite_setTextureRect(s_wind->sprite_wind, s_wind->rect_w);
+        sfRenderWindow_drawSprite(window, s_wind->sprite_wind, NULL);
 
         sfRenderWindow_drawSprite(window, cursor->cursorsprite, NULL);
         sfRenderWindow_display(window);

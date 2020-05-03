@@ -113,10 +113,18 @@ typedef struct s_life {
 
 }s_life_t;
 
+typedef struct s_wind {
+    sfSprite *sprite_wind;
+    sfTexture *text_wind;
+    sfIntRect rect_w;
+    sfClock *clock_w;
+}s_wind_t;
+
 typedef struct s_my_cave {
     sfVector2f pos_cave;
     sfEvent event_gc;
     sfMusic *music;
+    sfMusic *music_fight;
     sfSprite *sprite_bg_gc;
     sfTexture *text_bg_gc;
     sfClock *cave_horloge;
