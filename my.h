@@ -356,5 +356,8 @@ int menu_game(sfRenderWindow* window);
 s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struct_menu, s_inventory_t *s_invent);
 s_life_t *init_life();
 void my_putchar(char c);
+void my_putstr(char const *str);
+int read_file(FILE *fp);
+void draw_popo(sfRenderWindow* window, s_perso_t *s_perso);
 
 #endif /* !MY_H_ */

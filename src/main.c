@@ -160,7 +160,7 @@ int read_file(FILE *fp2)
 
     for (i = 0; tmp[i] != '=' && (tmp[i] != '\0' || tmp[i] != '\n'); i++);
     i++;
-    for (; (tmp[i] < 'a' || tmp[i] > 'z'); i++);
+    for (; (tmp[i] < 'a' || tmp[i] > 'z'); i++) {}
         if (tmp[i] == 'o' && tmp[i+1] == 'n') {
             return 0;
         }
@@ -315,7 +315,6 @@ int menu_game(sfRenderWindow* window)
 
         if (launch_game == 1) {
             while (sfRenderWindow_isOpen(window) && sfTime_asSeconds(sfClock_getElapsedTime(struct_mg->horloge)) <= 2) {
-                sfVector2i mouse = sfMouse_getPositionRenderWindow(window);
                 while (sfRenderWindow_pollEvent(window, &struct_mg->event)) {
                     if (struct_mg->event.type == sfEvtClosed)
                         sfRenderWindow_close(window);
@@ -394,7 +393,7 @@ int main(int ac, char **av)
         return (0);
     }
 
-    sfRenderWindow* window;
+    sfRenderWindow* window = NULL;
     menu_game(window);
     return 0;
 }
