@@ -372,11 +372,11 @@ int menu_game(sfRenderWindow* window)
         sfRenderWindow_drawSprite(window, struct_mg->sprite_perso, NULL);
     }
     sfSprite_destroy(cursor->cursorsprite);
-    sfMusic_destroy(struct_mg->click);
     sfSprite_destroy(struct_mg->sprite_bg);
     sfSprite_destroy(button->sprite_button);
     sfSprite_destroy(button->sprite_button2);
     sfSprite_destroy(button->sprite_button3);
+    sfMusic_destroy(struct_mg->click);
     sfMusic_destroy(struct_mg->music);
     return (0);
 }
