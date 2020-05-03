@@ -406,6 +406,9 @@ s_perso_t *poss_movement1(s_perso_t *perso)
     }
     else if ((perso->pos_perso.y >= 300 - 55 && perso->pos_perso.y <= 260) && (perso->pos_perso.x <= 1700) && (perso->pos_perso.x >= 1100)) {
         perso->pos_perso.y += 15;
+    }
+    else if ((perso->pos_perso.y >= 450 && perso->pos_perso.y <= 470) && (perso->pos_perso.x > -100) && (perso->pos_perso.x <= 800)) {
+        perso->pos_perso.y += 15;
     } else {
         perso->pos_perso.y -= 15;
     }
