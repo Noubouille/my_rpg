@@ -89,6 +89,8 @@ typedef struct s_perso {
     sfVector2f pos_popo;
     sfIntRect rect_popo;
     sfClock *clock_popo;
+    sfMusic *music_popo;
+
     int item;
     int ret;
     int up;

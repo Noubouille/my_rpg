@@ -406,7 +406,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 sfClock_restart(invent_clock);
             }
         }
-        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) { // event popo
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) {
             s_life->rect.width = 584;
             sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
             s_perso->pos_popo.x = s_perso->pos_perso.x;

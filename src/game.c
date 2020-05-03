@@ -243,7 +243,7 @@ s_perso_t *init_perso(void)
     struct_perso->pos_popo.x = -100;
     struct_perso->pos_popo.y = -100;
     sfSprite_setPosition(struct_perso->sprite_popo , struct_perso->pos_popo);
-
+    struct_perso->music_popo = sfMusic_createFromFile("Music/glass_s.ogg");
     struct_perso->next = NULL;
     return struct_perso;
 }
@@ -664,10 +664,14 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             sfClock_restart(s_perso->clock_popo);
             s_perso->next->int_chest = 0;
             s_perso->rect_popo.left = 0;
+            sfMusic_stop(s_perso->music_popo);
+            sfMusic_play(s_perso->music_popo);
         }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
+            sfMusic_stop(struct_game->music);
             s_perso = cave(window, s_perso, struct_menu, s_invent);
+            sfMusic_play(struct_game->music);
             less_hp_fct(s_perso, s_life);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
