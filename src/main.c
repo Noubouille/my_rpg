@@ -154,7 +154,6 @@ int read_file(FILE *fp2)
     int i;
     int egal = 0;
     fread(tmp, size, 1, fp2);
-        printf("le tmpavantboucle:%s\n", tmp);
     for (int i = 0; tmp[i]; i++)
         if (tmp[i] == '=') egal++;
     if (egal == 0) return 0;
@@ -164,11 +163,9 @@ int read_file(FILE *fp2)
     for (; (tmp[i] < 'a' || tmp[i] > 'z'); i++) {}
         if (tmp[i] == 'o' && tmp[i+1] == 'n') {
             return 0;
-        printf("on\n");
         }
         if (tmp[i] == 'o' && tmp[i+1] == 'f' && tmp[i+2] == 'f') {
             return 2;
-        printf("off\n");
         }
     return 0;
 }
@@ -350,7 +347,6 @@ int menu_game(sfRenderWindow* window)
                 my_game(struct_mg, window);
             }
         }
-        // main draw (ou on drop tout)
         if (setpanel->i == 1) {
             sfRenderWindow_drawSprite(window, setpanel->sprite_panel, NULL);
             sfRenderWindow_drawSprite(window, setpanel->sprite_audio, NULL);
@@ -358,9 +354,6 @@ int menu_game(sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, setpanel->sprite_close, NULL);
         }
         if (setpanel->how_var == 1) {
-        //     sfSprite_setPosition(button->sprite_button, pos_howtoplay_open);
-        //     sfSprite_setPosition(button->sprite_button2, pos_howtoplay_open);
-        //     sfSprite_setPosition(button->sprite_button3, pos_howtoplay_open);
             sfRenderWindow_drawSprite(window, setpanel->sprite_howtoplay, NULL);
             sfRenderWindow_drawSprite(window, setpanel->sprite_but_howtoplay_close, NULL);
         }
@@ -373,7 +366,6 @@ int menu_game(sfRenderWindow* window)
             sfRenderWindow_drawSprite(window, button->sprite_button2, NULL);
             sfRenderWindow_drawSprite(window, button->sprite_button3, NULL);
         }
-
         sfSprite_setTextureRect(struct_mg->sprite_perso, struct_mg->player_rect);
         sfSprite_setPosition(struct_mg->sprite_perso ,struct_mg->pos_perso);
         sfRenderWindow_drawSprite(window, struct_mg->sprite_perso, NULL);
