@@ -688,9 +688,11 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
             sfMusic_stop(struct_game->music);
             s_perso = cave(window, s_perso, struct_menu, s_invent);
-            sfMusic_play(struct_game->music);
+            if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0)
+                sfMusic_play(struct_game->music);
             less_hp_fct(s_perso, s_life);
             if (s_perso->ret == 1) {
                 s_perso->pos_perso.x = 1715;
