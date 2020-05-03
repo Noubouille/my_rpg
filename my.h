@@ -118,6 +118,7 @@ typedef struct s_wind {
     sfTexture *text_wind;
     sfIntRect rect_w;
     sfClock *clock_w;
+    struct s_wind *next;
 }s_wind_t;
 
 typedef struct s_my_cave {
@@ -282,6 +283,10 @@ typedef struct s_inventory {
     sfVector2f pos_sword_fx;
     sfVector2f pos_potion_fx;
     sfClock *clock_fx;
+    sfTexture *text_fx_blue;
+    sfSprite *sprite_fx_blue;
+    sfVector2f pos_blue;
+
 }s_inventory_t;
 
 
