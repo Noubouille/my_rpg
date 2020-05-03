@@ -244,6 +244,7 @@ typedef struct s_my_game {
     sfTexture *text_bg_g;
     sfSprite *sprite_endscreen;
     sfTexture *text_endscreen;
+    sfClock *clock_end_game;
     int pause;
 }s_my_game_t;
 

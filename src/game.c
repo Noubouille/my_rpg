@@ -133,6 +133,7 @@ s_my_game_t *init_g_struct(void)
     struct_game->text_bg_g = sfTexture_createFromFile("Image/map.png", NULL);
     struct_game->sprite_bg_g = sfSprite_create();
     sfSprite_setTexture(struct_game->sprite_bg_g, struct_game->text_bg_g, sfTrue);
+    struct_game->clock_end_game = sfClock_create();
     struct_game->click_g = sfMusic_createFromFile("Music/click_music.ogg");
     struct_game->text_endscreen = sfTexture_createFromFile("Image/end_screen.png", NULL);
     struct_game->sprite_endscreen = sfSprite_create();
@@ -560,7 +561,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             }
 
             if ((s_perso->pos_perso.x < 800 && s_perso->pos_perso.x > 600 && s_perso->pos_perso.y < 400) && sfKeyboard_isKeyPressed(sfKeyE)) {
-                printf("wesh?\n");
                 s_perso->next->int_chest = 1;
             }
 
@@ -575,6 +575,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             // printf("key: %d\n", struct_villager->good_key);
             if (s_perso->pos_perso.x >= 1000 && s_perso->pos_perso.x <= 1320 && s_perso->pos_perso.y >= 720 && sfKeyboard_isKeyPressed(sfKeyE) && struct_villager->good_key == 1 && s_perso->object == 0) {
                 struct_villager->end_game = 1;
+                sfClock_restart(struct_game->clock_end_game);
                 printf("end game:%d\n", struct_villager->end_game);
             }
 
@@ -645,6 +646,9 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         if (struct_villager->end_game == 1) {
             sfSprite_setTexture(s_invent->sprite_invent, s_invent->text_invent, sfTrue);
             sfRenderWindow_drawSprite(window, struct_villager->sprite_thanks, NULL);
+        }
+
+        if (struct_villager->end_game == 1 && sfTime_asMilliseconds(sfClock_getElapsedTime(struct_game->clock_end_game)) > 3000) {
             sfRenderWindow_drawSprite(window, struct_game->sprite_endscreen, NULL);
         }
 
