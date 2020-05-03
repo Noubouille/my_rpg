@@ -83,6 +83,12 @@ typedef struct s_perso {
     sfFont* font_obj;
     sfText* texte_obj;
     sfText* texte_int;
+    //pour la popo
+    sfTexture *text_popo;
+    sfSprite *sprite_popo;
+    sfVector2f pos_popo;
+    sfIntRect rect_popo;
+    sfClock *clock_popo;
     int item;
     int ret;
     int up;

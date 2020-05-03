@@ -406,6 +406,16 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
                 sfClock_restart(invent_clock);
             }
         }
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) { // event popo
+            s_life->rect.width = 584;
+            sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+            s_perso->pos_popo.x = s_perso->pos_perso.x;
+            s_perso->pos_popo.y = s_perso->pos_perso.y - 10;
+            sfSprite_setPosition(s_perso->sprite_popo , s_perso->pos_popo);
+            sfClock_restart(s_perso->clock_popo);
+            s_perso->next->int_chest = 0;
+            s_perso->rect_popo.left = 0;
+        }
         if (sfTime_asMilliseconds(sfClock_getElapsedTime(struct_cave->tap)) < 80) {
             sfSprite_setTexture(s_font->sprite_vs, s_font->text_vs_red, sfTrue);
             s_font->pos_l.y = 495;
@@ -476,6 +486,7 @@ s_perso_t *cave(sfRenderWindow* window, s_perso_t *s_perso, s_menu_game_t *struc
             sfSprite_setPosition(s_font->sprite_1c ,s_font->pos_1c);
             s_font->pos_1c.y -= 1;
         }
+        draw_popo(window, s_perso);
     }
     sfSprite_destroy(struct_cave->sprite_bg_gc);
     sfMusic_pause(struct_cave->music);

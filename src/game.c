@@ -223,6 +223,21 @@ s_perso_t *init_perso(void)
     sfText_setCharacterSize(struct_perso->texte_int, 20);
     sfText_setPosition(struct_perso->texte_obj, (sfVector2f) {10, 0});
     sfText_setPosition(struct_perso->texte_int, (sfVector2f) {140, 0});
+
+    struct_perso->clock_popo = sfClock_create();
+    struct_perso->rect_popo.height = 96;
+    struct_perso->rect_popo.width = 768 / 8;
+    struct_perso->rect_popo.top = 0;
+    struct_perso->rect_popo.left = 0;
+    struct_perso->sprite_popo = sfSprite_create();
+    struct_perso->text_popo = sfTexture_createFromFile("Image/fx.png", NULL);
+    sfSprite_setTexture(struct_perso->sprite_popo, struct_perso->text_popo, sfTrue);
+    sfSprite_setTextureRect(struct_perso->sprite_popo, struct_perso->rect_popo);
+
+    struct_perso->pos_popo.x = -100;
+    struct_perso->pos_popo.y = -100;
+    sfSprite_setPosition(struct_perso->sprite_popo , struct_perso->pos_popo);
+
     struct_perso->next = NULL;
     return struct_perso;
 }
@@ -503,6 +518,21 @@ s_my_game_t *print_pause(sfRenderWindow* window, s_my_game_t *struct_game, s_per
     return struct_game;
 }
 
+void draw_popo(sfRenderWindow* window, s_perso_t *s_perso)
+{
+    if (sfTime_asMilliseconds(sfClock_getElapsedTime(s_perso->clock_popo)) > 150) {
+        s_perso->rect_popo.left += (768 / 8);
+        if (s_perso->rect_popo.left >= 768) {
+            s_perso->rect_popo.left = 0;
+            s_perso->pos_popo.y = - 100;
+            sfSprite_setPosition(s_perso->sprite_popo ,s_perso->pos_popo);
+        }
+        sfClock_restart(s_perso->clock_popo);
+    }
+    sfSprite_setTextureRect(s_perso->sprite_popo, s_perso->rect_popo);
+    sfRenderWindow_drawSprite(window, s_perso->sprite_popo, NULL);
+}
+
 int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
 {
     s_my_game_t *struct_game = init_g_struct();
@@ -517,7 +547,6 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
     s_villager2_t *struct_villager2 = init_villager2();
     s_chest_t *struct_chest = init_chest();
 
-    // s_pause_game_t *struct_pause = init_pause();
     if (struct_menu->music_state == 1 && struct_menu->music_onoff == 0) {
         struct_game->music = sfMusic_createFromFile("Music/game_music.ogg");
         sfMusic_setLoop(struct_game->music, sfTrue);
@@ -612,9 +641,15 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
             struct_game = print_pause(window, struct_game, s_perso, cursor, struct_buttons, struct_menu);
             sfClock_restart(pause_clock);
         }
-        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) {
+        if (sfKeyboard_isKeyPressed(sfKeyR) && invent_int == 1 && s_perso->next->int_chest == 1) { // event popo
             s_life->rect.width = 584;
             sfSprite_setTextureRect(s_life->sprite_life, s_life->rect);
+            s_perso->pos_popo.x = s_perso->pos_perso.x;
+            s_perso->pos_popo.y = s_perso->pos_perso.y - 10;
+            sfSprite_setPosition(s_perso->sprite_popo , s_perso->pos_popo);
+            sfClock_restart(s_perso->clock_popo);
+            s_perso->next->int_chest = 0;
+            s_perso->rect_popo.left = 0;
         }
         print_bubble(s_object, s_perso, struct_villager, window);
         if ((s_perso->pos_perso.x >= 1720 && s_perso->pos_perso.y <= 230) ){//&& quest_cave == 1) {
@@ -789,6 +824,7 @@ int my_game(s_menu_game_t *struct_menu, sfRenderWindow* window)
         sfSprite_setTextureRect(struct_villager2->sprite_villager, struct_villager2->rect_villager);
         sfSprite_setPosition(struct_villager2->sprite_villager, struct_villager2->pos_villager);
         sfRenderWindow_drawSprite(window, struct_villager2->sprite_villager, NULL);
+        draw_popo(window, s_perso);
     }
     //les destroys
     sfSprite_destroy(cursor->cursorsprite);
