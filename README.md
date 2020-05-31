@@ -18,3 +18,9 @@ Replace the default value with ``off`` to disable or ``on`` to enable.
 - Execute the ``make`` command
 - Launch the game with ``./my_rpg``
 - Have fun!
+
+## Contributors
+
+- [Romain Flori-Cantrelle](https://github.com/RomainFlori)
+- [Sheldon Rupp](https://github.com/NurdTurd)
+- Yannis Valente
